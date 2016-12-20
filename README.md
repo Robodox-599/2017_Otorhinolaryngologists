@@ -3,12 +3,12 @@
 # 2017_Otorhinolaryngologists
 The 2017 code for the Otorhinolaryngeologist
 
-**Name** : Otorhinolaryngologists
-**Nickname** : Otto
-**Doctor Description** : Ears, Nose, Throat
-**Year** : 2017
-**Game** : FRC Steamworks
-**Kick off Date** : January 7, 2017
+**Name** : Otorhinolaryngologists  
+**Nickname** : Otto  
+**Doctor Description** : Ears, Nose, Throat  
+**Year** : 2017  
+**Game** : FRC Steamworks  
+**Kick off Date** : January 7, 2017  
 
 ## Sensors Potentially Being Used
 * Pixy      (Image Recognition)
