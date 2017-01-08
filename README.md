@@ -4,8 +4,8 @@
 The 2017 code for the Rheumatologist
 
 **Name** : Rheumatologist  
-**Nickname** : Ruby
-**Doctor Description** : 
+**Nickname** : Ruby  
+**Doctor Description** :  
 **Year** : 2017  
 **Game** : FRC Steamworks  
 **Kick off Date** : January 7, 2017  
