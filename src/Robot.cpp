@@ -48,7 +48,8 @@ private:
 
 	void TeleopPeriodic()
 	{
-
+		pixy->getStart();
+		pixy->getBlocks(1);
 
 		SmartDashboard::PutNumber("Pixy Output 1", pixy->getByte());
 		SmartDashboard::PutNumber("Pixy Output 2", pixy->getByte());
@@ -57,7 +58,7 @@ private:
 		SmartDashboard::PutNumber("Pixy Output 5", pixy->getByte());
 		SmartDashboard::PutNumber("Pixy Output 6", pixy->getByte());
 		SmartDashboard::PutNumber("Pixy Output 7", pixy->getByte());
-		SmartDashboard::PutNumber("Pixy Output 8", pixy->getByte());
+		SmartDashboard::PutNumber("Test", 5);
 
 
 		/*
