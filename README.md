@@ -1,11 +1,11 @@
 ![alt text](http://www.firstinspires.org/sites/default/files/uploads/frc/2017-teaser-hero-image.jpg "First Steamworks")
 
-# 2017_Otorhinolaryngologists
-The 2017 code for the Otorhinolaryngeologist
+# 2017_Rheumatologist
+The 2017 code for the Rheumatologist
 
-**Name** : Otorhinolaryngologists  
-**Nickname** : Otto  
-**Doctor Description** : Ears, Nose, Throat  
+**Name** : Rheumatologist  
+**Nickname** : Ruby
+**Doctor Description** : 
 **Year** : 2017  
 **Game** : FRC Steamworks  
 **Kick off Date** : January 7, 2017  
