@@ -18,7 +18,15 @@ The 2017 code for the Rheumatologist
 * Encoders  (Position / Speed Control)
 
 ## Game Description
-To Be Announced ...
+FIRST® STEAMWORKSSM, the 2017 FIRST® Robotics Competition game, invites two adventurers’ clubs,
+in an era where steam power reigns, to prepare their airships for a long distance race.
+
+Each three-team alliance prepares in three ways:
+
+1. **Build steam pressure** Robots collect fuel (balls) and score it in their boiler via high and low efficiency goals. Boilers turn fuel into steam pressure which is stored in the steam tank on their airship – but it takes more fuel in the low efficiency goal to build steam than the high efficiency goal.
+2. **Start rotors** Robots deliver gears to pilots on their airship for installation. Once the gear train is complete, they turn the crank to start the rotor.
+3. **Prepare for flight** Robots must latch on to their airship before launch (the end of the match) by ascending their ropes to signal that they’re ready for takeoff.
+
 
 ## Robot Subsystems
 >*Drive*
