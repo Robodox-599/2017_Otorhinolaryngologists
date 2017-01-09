@@ -48,18 +48,20 @@ private:
 
 	void TeleopPeriodic()
 	{
-		pixy->getStart();
-		pixy->getBlocks(1);
 
-		SmartDashboard::PutNumber("Pixy Output 1", pixy->getByte());
-		SmartDashboard::PutNumber("Pixy Output 2", pixy->getByte());
-		SmartDashboard::PutNumber("Pixy Output 3", pixy->getByte());
-		SmartDashboard::PutNumber("Pixy Output 4", pixy->getByte());
-		SmartDashboard::PutNumber("Pixy Output 5", pixy->getByte());
-		SmartDashboard::PutNumber("Pixy Output 6", pixy->getByte());
-		SmartDashboard::PutNumber("Pixy Output 7", pixy->getByte());
-		SmartDashboard::PutNumber("Test", 5);
 
+		SmartDashboard::PutBoolean("Pixy Detected",pixy->Sensor->AddressOnly());
+		SmartDashboard::PutBoolean("buffer",pixy->updateBuffer());
+		//convert(2, 3) + convert(4, 5) + convert(6, 7) + convert(8, 9) + convert(10, 11)
+
+		SmartDashboard::PutNumber("Check Sum", pixy->buffer[0]);
+		SmartDashboard::PutNumber("Signature", pixy->convert(2, 3));
+		SmartDashboard::PutNumber("X Center", pixy->convert(4, 5));
+		SmartDashboard::PutNumber("Y Center", pixy->convert(6, 7));
+		SmartDashboard::PutNumber("Width", pixy->convert(8, 9));
+		SmartDashboard::PutNumber("Height", pixy->convert(10, 11));
+
+		SmartDashboard::PutNumber("Test", 0x55);
 
 		/*
 		drive->drive(xbox->GetRawAxis(4), xbox->GetRawAxis(1));
@@ -82,6 +84,7 @@ private:
 		SmartDashboard::PutNumber("Yaw from Gyro", drive->navX->GetYaw());
 		SmartDashboard::PutNumber("Error", drive->error);
 		*/
+
 	}
 
 	void TestPeriodic()
