@@ -5,10 +5,7 @@ class Robot: public IterativeRobot
 {
 private:
 	LiveWindow *lw = LiveWindow::GetInstance();
-	SendableChooser *chooser;
-	const std::string autoNameDefault = "Default";
-	const std::string autoNameCustom = "My Auto";
-	std::string autoSelected;
+
 	Drive* drive;
 	Pixy* pixy;
 	Joystick* xbox;
@@ -49,21 +46,26 @@ private:
 	void TeleopPeriodic()
 	{
 
-
-		SmartDashboard::PutBoolean("Pixy Detected",pixy->Sensor->AddressOnly());
-		SmartDashboard::PutBoolean("buffer",pixy->updateBuffer());
-		//convert(2, 3) + convert(4, 5) + convert(6, 7) + convert(8, 9) + convert(10, 11)
-
-		SmartDashboard::PutNumber("Check Sum", pixy->buffer[0]);
-		SmartDashboard::PutNumber("Signature", pixy->convert(2, 3));
-		SmartDashboard::PutNumber("X Center", pixy->convert(4, 5));
-		SmartDashboard::PutNumber("Y Center", pixy->convert(6, 7));
-		SmartDashboard::PutNumber("Width", pixy->convert(8, 9));
-		SmartDashboard::PutNumber("Height", pixy->convert(10, 11));
-
-		SmartDashboard::PutNumber("Test", 0x55);
-
 		/*
+		SmartDashboard::PutBoolean("Pixy Detected",pixy->Sensor->AddressOnly());
+
+		SmartDashboard::PutNumber("Buffer",pixy->get());
+
+		SmartDashboard::PutBoolean("buffer",);
+		//convert(2, 3) + convert(4, 5) + convert(6, 7) + convert(8, 9) + convert(10, 11)
+		if(pixy->updateBuffer()){
+
+			SmartDashboard::PutNumber("Check Sum", pixy->get());
+			SmartDashboard::PutNumber("Signature", pixy->get());
+			SmartDashboard::PutNumber("X Center", pixy->get());
+			SmartDashboard::PutNumber("Y Center", pixy->get());
+			SmartDashboard::PutNumber("Width", pixy->get());
+			SmartDashboard::PutNumber("Height", pixy->get());
+
+		}
+		SmartDashboard::PutNumber("Test", 0x55);*/
+
+
 		drive->drive(xbox->GetRawAxis(4), xbox->GetRawAxis(1));
 		if(xbox->GetRawButton(1))
 		{
@@ -83,7 +85,7 @@ private:
 
 		SmartDashboard::PutNumber("Yaw from Gyro", drive->navX->GetYaw());
 		SmartDashboard::PutNumber("Error", drive->error);
-		*/
+
 
 	}
 

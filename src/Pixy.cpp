@@ -9,7 +9,8 @@
 Pixy::Pixy()
 {
 	Sensor = new I2C(I2C::Port::kMXP, 0x54);
-	buffer[12] = {};
+	high[1] = {};
+	low[1] = {};
 	sync[1] = {0};
 }
 
@@ -19,30 +20,43 @@ Pixy::~Pixy()
 	Sensor = nullptr;
 }
 
-uint8_t Pixy::convert(int index1, int index2)
+uint16_t Pixy::convert()
 {
-	return buffer[index1] | (buffer[index2] << 8);
+	return high[0] | (low[0] << 8);
+}
+
+uint16_t Pixy::get()
+{
+	Sensor->ReadOnly(1, low);
+	//Sensor->ReadOnly(1, high);
+	return low[0];//convert();
 }
 
 bool Pixy::updateBuffer()
 {
+	/*
 	Sensor->ReadOnly(12, buffer);
 	return true;
-
-	/*Sensor->ReadOnly(1, sync);
-	if(sync[0] == 0x55)
-	{
-		Sensor->ReadOnly(1, sync);
-		if(sync[0] == 0xaa)
-		{
-			Sensor->ReadOnly(12, buffer);
+	Sensor->ReadOnly(12, buffer);
 			if(convert(0, 1) == convert(2, 3) + convert(4, 5) + convert(6, 7) + convert(8, 9) + convert(10, 11))
 			{
 				return true;
 			}
 			//return true;
+	*/
+	high[0] = 0;
+	low[0] = 0;
+	sync[0] = 0;
+
+	Sensor->ReadOnly(1, sync);
+	if(sync[0] == 0x55)
+	{
+		Sensor->ReadOnly(1, sync);
+		if(sync[0] == 0xaa)
+		{
+			return true;
 		}
 		//return true;
 	}
-	return false;*/
+	return false;
 }

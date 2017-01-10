@@ -30,21 +30,25 @@ public:
 	void resetGyro(float offSet = 0);
 
 	AHRS* navX;
-
-private:
 	
 	Talon* frontLeftDrive;
 	Talon* backLeftDrive;
 	Talon* frontRightDrive;
 	Talon* backRightDrive;
 	
+	float error;
+
+private:
+
+
+
 	float forwardSpeed;
 	float turnSpeed;
 
 	//Straight Drive Variables
 	float gyroValue;
 	float refAngle;
-	float error;
+
 	float const kp = 0.01;
 	
 	//Auto Turning Variables
