@@ -83,11 +83,11 @@ void Drive::setForwardSpeed(float forward)
 {
 	if(forward >= .3)
 	{
-		forwardSpeed = forward*forward;
+		forwardSpeed = 2 * (forward - .3) * (forward - .3);
 	}
 	else if(forward <= -.3)
 	{
-		forwardSpeed = -forward*forward;
+		forwardSpeed = 2 * (-forward - .3) * (-forward - .3);
 	}
 	else
 	{
@@ -104,12 +104,12 @@ void Drive::setTurnSpeed(float turn)//continuous turning problem
 	if(turn >= .3)
 	{
 		resetGyro(-5);
-		turnSpeed = turn*turn;
+		turnSpeed = 2 * (turn - .3) * (turn - .3);
 	}
 	else if(turn <= -.3)
 	{
 		resetGyro(5);
-		turnSpeed = -turn*turn;
+		turnSpeed = 2 * (-turn - .3) * (-turn - .3);
 	}
 	else if(error >= .5 || error <= -.5)
 	{

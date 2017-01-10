@@ -1,6 +1,8 @@
 #include "WPILib.h"
 #include "Drive.h"
 #include "Pixy.h"
+#include "PixyLego.h"
+
 class Robot: public IterativeRobot
 {
 private:
@@ -8,6 +10,7 @@ private:
 
 	Drive* drive;
 	Pixy* pixy;
+	PixyLego* pixyLego;
 	Joystick* xbox;
 
 
@@ -15,19 +18,10 @@ private:
 	{
 		drive = new Drive();
 		pixy = new Pixy();
+		pixyLego = new PixyLego();
 		xbox = new Joystick(1);
 	}
 
-
-	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the GetString line to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the if-else structure below with additional strings.
-	 * If using the SendableChooser make sure to add them to the chooser code above as well.
-	 */
 	void AutonomousInit()
 	{
 
@@ -46,13 +40,23 @@ private:
 	void TeleopPeriodic()
 	{
 
+
+		//Pixy lego
+
+		pixyLego->getGeneral();
+
+		SmartDashboard::PutNumber("Signature", pixyLego->combine());
+		SmartDashboard::PutNumber("X Center", pixyLego->general[2]);
+		SmartDashboard::PutNumber("Y Center", pixyLego->general[3]);
+		SmartDashboard::PutNumber("Width", pixyLego->general[4]);
+		SmartDashboard::PutNumber("Height", pixyLego->general[5]);
+
+
 		/*
+		//Pixy Normal
+
 		SmartDashboard::PutBoolean("Pixy Detected",pixy->Sensor->AddressOnly());
 
-		SmartDashboard::PutNumber("Buffer",pixy->get());
-
-		SmartDashboard::PutBoolean("buffer",);
-		//convert(2, 3) + convert(4, 5) + convert(6, 7) + convert(8, 9) + convert(10, 11)
 		if(pixy->updateBuffer()){
 
 			SmartDashboard::PutNumber("Check Sum", pixy->get());
@@ -63,9 +67,11 @@ private:
 			SmartDashboard::PutNumber("Height", pixy->get());
 
 		}
-		SmartDashboard::PutNumber("Test", 0x55);*/
 
+		*/
 
+		/*
+		//Drive code
 		drive->drive(xbox->GetRawAxis(4), xbox->GetRawAxis(1));
 		if(xbox->GetRawButton(1))
 		{
@@ -86,6 +92,7 @@ private:
 		SmartDashboard::PutNumber("Yaw from Gyro", drive->navX->GetYaw());
 		SmartDashboard::PutNumber("Error", drive->error);
 
+		*/
 
 	}
 
