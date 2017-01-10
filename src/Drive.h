@@ -29,18 +29,22 @@ public:
 	void endAutoTurning();
 	void resetGyro(float offSet = 0);
 
+	void globalAutoTurning(float angle);
+
 	AHRS* navX;
 	
-	Talon* frontLeftDrive;
-	Talon* backLeftDrive;
-	Talon* frontRightDrive;
-	Talon* backRightDrive;
+
 	
 	float error;
 
 private:
 
+	float abs(float num);
 
+	Talon* frontLeftDrive;
+	Talon* backLeftDrive;
+	Talon* frontRightDrive;
+	Talon* backRightDrive;
 
 	float forwardSpeed;
 	float turnSpeed;
@@ -54,6 +58,10 @@ private:
 	//Auto Turning Variables
 	bool isAutoTurning;
 	bool needsReset;
+
+
+	//Mic
+	float globalGyro;
 };
 
 

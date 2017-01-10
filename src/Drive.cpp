@@ -21,6 +21,8 @@ Drive::Drive()
 	forwardSpeed = 0;
 	turnSpeed = 0;
 
+	globalGyro = 0;
+
 	navX->ZeroYaw();
 
 	gyroValue = navX->GetYaw();
@@ -104,12 +106,12 @@ void Drive::setTurnSpeed(float turn)//continuous turning problem
 	if(turn >= .3)
 	{
 		resetGyro(-5);
-		turnSpeed = 2 * (turn - .3) * (turn - .3);
+		turnSpeed = 2 * (turn - .3) * (turn - .3) * (1 - abs(forwardSpeed));
 	}
 	else if(turn <= -.3)
 	{
 		resetGyro(5);
-		turnSpeed = 2 * (-turn - .3) * (-turn - .3);
+		turnSpeed = 2 * (-turn - .3) * (-turn - .3) * (1 - abs(forwardSpeed));
 	}
 	else if(error >= .5 || error <= -.5)
 	{
@@ -158,10 +160,34 @@ void Drive::endAutoTurning()
 
 void Drive::resetGyro(float offSet)
 {
+	globalGyro = globalGyro + navX->GetYaw() + offSet;//check if this works
 	navX->ZeroYaw();
 	gyroValue = navX->GetYaw();
 	refAngle = offSet;
 	needsReset = false;
 	isAutoTurning = false;
 }
+
+void Drive::globalAutoTurning(float angle)
+{
+	if(angle - (globalGyro % 360) > (globalGyro % 360) - angle)
+	{
+		setAutoTurning(refAngle + (360 - (globalGyro % 360)));
+	}
+	else
+	{
+		setAutoTurning(refAngle - (globalGyro % 360));
+	}
+}
+
+float Drive::abs(float num)
+{
+	if(num < 0)
+	{
+		return -num;
+	}
+	return num;
+}
+
+
 
