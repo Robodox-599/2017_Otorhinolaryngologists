@@ -1,105 +1,86 @@
 #include "WPILib.h"
-#include "Drive.h"
-#include "Pixy.h"
-#include "PixyLego.h"
+#include "Commands/Command.h"
+#include "Commands/ExampleCommand.h"
+#include "CommandBase.h"
 
 class Robot: public IterativeRobot
 {
 private:
-	LiveWindow *lw = LiveWindow::GetInstance();
-
-	Drive* drive;
-	Pixy* pixy;
-	PixyLego* pixyLego;
-	Joystick* xbox;
-
+	std::unique_ptr<Command> autonomousCommand;
+	SendableChooser *chooser;
 
 	void RobotInit()
 	{
-		drive = new Drive();
-		pixy = new Pixy();
-		pixyLego = new PixyLego();
-		xbox = new Joystick(1);
+		CommandBase::init();
+		chooser = new SendableChooser();
+		chooser->AddDefault("Default Auto", new ExampleCommand());
+		//chooser->AddObject("My Auto", new MyAutoCommand());
+		SmartDashboard::PutData("Auto Modes", chooser);
 	}
 
+	/**
+     * This function is called once each time the robot enters Disabled mode.
+     * You can use it to reset any subsystem information you want to clear when
+	 * the robot is disabled.
+     */
+	void DisabledInit()
+	{
+	}
+
+	void DisabledPeriodic()
+	{
+		Scheduler::GetInstance()->Run();
+	}
+
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
+	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
+	 * Dashboard, remove all of the chooser code and uncomment the GetString code to get the auto name from the text box
+	 * below the Gyro
+	 *
+	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
+	 * or additional comparisons to the if-else structure below with additional strings & commands.
+	 */
 	void AutonomousInit()
 	{
+		/* std::string autoSelected = SmartDashboard::GetString("Auto Selector", "Default");
+		if(autoSelected == "My Auto") {
+			autonomousCommand.reset(new MyAutoCommand());
+		} else {
+			autonomousCommand.reset(new ExampleCommand());
+		} */
 
+		autonomousCommand.reset((Command *)chooser->GetSelected());
+
+		if (autonomousCommand != NULL)
+			autonomousCommand->Start();
 	}
 
 	void AutonomousPeriodic()
 	{
-
+		Scheduler::GetInstance()->Run();
 	}
 
 	void TeleopInit()
 	{
-
+		// This makes sure that the autonomous stops running when
+		// teleop starts running. If you want the autonomous to
+		// continue until interrupted by another command, remove
+		// this line or comment it out.
+		if (autonomousCommand != NULL)
+			autonomousCommand->Cancel();
 	}
 
 	void TeleopPeriodic()
 	{
-
-
-		//Pixy lego
-
-		pixyLego->getGeneral();
-
-		SmartDashboard::PutNumber("Signature", pixyLego->combine());
-		SmartDashboard::PutNumber("X Center", pixyLego->general[2]);
-		SmartDashboard::PutNumber("Y Center", pixyLego->general[3]);
-		SmartDashboard::PutNumber("Width", pixyLego->general[4]);
-		SmartDashboard::PutNumber("Height", pixyLego->general[5]);
-
-
-		/*
-		//Pixy Normal
-
-		SmartDashboard::PutBoolean("Pixy Detected",pixy->Sensor->AddressOnly());
-
-		if(pixy->updateBuffer()){
-
-			SmartDashboard::PutNumber("Check Sum", pixy->get());
-			SmartDashboard::PutNumber("Signature", pixy->get());
-			SmartDashboard::PutNumber("X Center", pixy->get());
-			SmartDashboard::PutNumber("Y Center", pixy->get());
-			SmartDashboard::PutNumber("Width", pixy->get());
-			SmartDashboard::PutNumber("Height", pixy->get());
-
-		}
-
-		*/
-
-		/*
-		//Drive code
-		drive->drive(xbox->GetRawAxis(4), xbox->GetRawAxis(1));
-		if(xbox->GetRawButton(1))
-		{
-			xbox->SetRumble(Joystick::RumbleType::kLeftRumble, .5);
-			xbox->SetRumble(Joystick::RumbleType::kRightRumble, .5);
-		}
-		else
-		{
-			xbox->SetRumble(Joystick::RumbleType::kLeftRumble, 0);
-			xbox->SetRumble(Joystick::RumbleType::kRightRumble, 0);
-		}
-
-		SmartDashboard::PutNumber("Front Right", drive->frontRightDrive->Get());
-		SmartDashboard::PutNumber("Back Right", drive->backRightDrive->Get());
-		SmartDashboard::PutNumber("Front Left", drive->frontLeftDrive->Get());
-		SmartDashboard::PutNumber("Back Left", drive->backLeftDrive->Get());
-
-		SmartDashboard::PutNumber("Yaw from Gyro", drive->navX->GetYaw());
-		SmartDashboard::PutNumber("Error", drive->error);
-
-		*/
-
+		Scheduler::GetInstance()->Run();
 	}
 
 	void TestPeriodic()
 	{
-		lw->Run();
+		LiveWindow::GetInstance()->Run();
 	}
 };
 
 START_ROBOT_CLASS(Robot)
+
