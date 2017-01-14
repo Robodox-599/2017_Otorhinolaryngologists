@@ -10,9 +10,8 @@ The 2017 code for the Rheumatologist
 **Game** : FRC Steamworks  
 **Kick off Date** : January 7, 2017  
 
-## Sensors Potentially Being Used
+## Sensors Being Used
 * Pixy      (Image Recognition)
-* Lidar     (Distance Alignment)
 * Gyro      (Lineraized Drive)
 * Camera    (Driver Sight)
 * Encoders  (Position / Speed Control)
@@ -31,3 +30,4 @@ Each three-team alliance prepares in three ways:
 
 ## Robot Subsystems
 >*Drive*
+
