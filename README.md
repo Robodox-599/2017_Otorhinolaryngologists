@@ -18,6 +18,8 @@ The 2017 code for the Rheumatologist
 * IR Breakbeam (a.k.a Garage Sensor - Rope Detection)
 
 ## Game Description
+![alt text](http://imgsrv.moodyonthemarket.com/image/momprt/UserFiles/Image/FirstSteamworksField.jpg "Game Field Setup")
+
 FIRST® STEAMWORKSSM, the 2017 FIRST® Robotics Competition game, invites two adventurers’ clubs,
 in an era where steam power reigns, to prepare their airships for a long distance race.
 
