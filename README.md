@@ -5,7 +5,7 @@ The 2017 code for the Rheumatologist
 
 **Name** : Rheumatologist  
 **Nickname** : Ruby  
-**Doctor Description** :  
+**Doctor Description** : The study of rheumatism, arthritis, and other disorders of the joints, muscles, and ligaments.
 **Year** : 2017  
 **Game** : FRC Steamworks  
 **Kick off Date** : January 7, 2017  
@@ -16,6 +16,7 @@ The 2017 code for the Rheumatologist
 * Gyro      (Lineraized Drive)
 * Camera    (Driver Sight)
 * Encoders  (Position / Speed Control)
+* IR Breakbeam (a.k.a Garage Sensor - Rope Detection)
 
 ## Game Description
 FIRST® STEAMWORKSSM, the 2017 FIRST® Robotics Competition game, invites two adventurers’ clubs,
