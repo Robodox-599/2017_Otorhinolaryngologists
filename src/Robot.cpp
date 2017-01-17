@@ -75,6 +75,7 @@ public:
 		printf("Encoder Position:%i\n", encoderPosition);
 		printf("Encoder Velocity:%i\n\n", encoderVel);
 
+		/*
 		if(currentAmp > 2)
 		{
 			flag = true;
@@ -92,6 +93,7 @@ public:
 			flag = false;
 			timer->Reset();
 		}
+		*/
 	}
 
 	void TestPeriodic() {
