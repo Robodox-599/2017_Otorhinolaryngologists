@@ -1,7 +1,6 @@
 #include "WPILib.h"
 #include "Drive.h"
 #include "Pixy.h"
-#include "PixyLego.h"
 
 class Robot: public IterativeRobot
 {
@@ -10,16 +9,14 @@ private:
 
 	Drive* drive;
 	Pixy* pixy;
-	PixyLego* pixyLego;
-	Joystick* xbox;
+	XboxController* xbox;
 
 
 	void RobotInit()
 	{
 		drive = new Drive();
 		pixy = new Pixy();
-		pixyLego = new PixyLego();
-		xbox = new Joystick(1);
+		xbox = new XboxController(1);
 	}
 
 	void AutonomousInit()
@@ -39,19 +36,6 @@ private:
 
 	void TeleopPeriodic()
 	{
-
-
-		//Pixy lego
-
-		pixyLego->getGeneral();
-
-		SmartDashboard::PutNumber("Signature", pixyLego->combine());
-		SmartDashboard::PutNumber("X Center", pixyLego->general[2]);
-		SmartDashboard::PutNumber("Y Center", pixyLego->general[3]);
-		SmartDashboard::PutNumber("Width", pixyLego->general[4]);
-		SmartDashboard::PutNumber("Height", pixyLego->general[5]);
-
-
 		/*
 		//Pixy Normal
 
@@ -69,6 +53,14 @@ private:
 		}
 
 		*/
+
+
+		drive->drive(xbox->GetX(XboxController::kRightHand), xbox->GetX(XboxController::kLeftHand));
+
+		if(xbox->GetAButton())
+		{
+			drive->setAutoTurning(90);
+		}
 
 		/*
 		//Drive code

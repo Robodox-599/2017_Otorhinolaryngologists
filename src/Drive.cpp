@@ -168,15 +168,15 @@ void Drive::resetGyro(float offSet)
 	isAutoTurning = false;
 }
 
-void Drive::globalAutoTurning(float angle)
+void Drive::globalAutoTurning(float angle)//0 - 360
 {
-	if(angle - (globalGyro % 360) > (globalGyro % 360) - angle)
+	if(angle - ((int)globalGyro % 360) > ((int)globalGyro % 360) - (angle - 360))
 	{
-		setAutoTurning(refAngle + (360 - (globalGyro % 360)));
+		setAutoTurning(refAngle + (((int)globalGyro % 360) - (angle - 360)));
 	}
 	else
 	{
-		setAutoTurning(refAngle - (globalGyro % 360));
+		setAutoTurning(refAngle - (angle - ((int)globalGyro % 360)));
 	}
 }
 
