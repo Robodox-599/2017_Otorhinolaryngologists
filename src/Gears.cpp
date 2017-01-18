@@ -40,7 +40,7 @@ void Gears::intakeRotator(bool rotate)
 }
 
 
-void Gears::trapDoor(bool retract)
+void Gears::trapDoor()
 {
 	if(pressurePlate->Get())
 	{
