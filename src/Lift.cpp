@@ -43,19 +43,7 @@ void Lift::liftCimMotors(bool button)
 	}
 }
 
-void Lift::runMotors(bool button)
-{
-	if (button)
-	{
-		leftCimMotor->Set(0.75);
-		rightCimMotor->Set(-0.75);
-	}
-	else
-	{
-		leftCimMotor->Set(0);
-		rightCimMotor->Set(0);
-	}
-}
+
 
 
 

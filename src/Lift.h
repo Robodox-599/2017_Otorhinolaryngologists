@@ -15,7 +15,6 @@ public:
 	~Lift();
 
 	void liftCimMotors(bool button);
-	void runMotors(bool button);
 private:
 	CANTalon* leftCimMotor;
 	CANTalon* rightCimMotor;
