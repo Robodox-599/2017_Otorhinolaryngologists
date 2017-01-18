@@ -36,23 +36,6 @@ private:
 
 	void TeleopPeriodic()
 	{
-		/*
-		//Pixy Normal
-
-		SmartDashboard::PutBoolean("Pixy Detected",pixy->Sensor->AddressOnly());
-
-		if(pixy->updateBuffer()){
-
-			SmartDashboard::PutNumber("Check Sum", pixy->get());
-			SmartDashboard::PutNumber("Signature", pixy->get());
-			SmartDashboard::PutNumber("X Center", pixy->get());
-			SmartDashboard::PutNumber("Y Center", pixy->get());
-			SmartDashboard::PutNumber("Width", pixy->get());
-			SmartDashboard::PutNumber("Height", pixy->get());
-
-		}
-
-		*/
 
 
 		drive->drive(xbox->GetX(XboxController::kRightHand), xbox->GetX(XboxController::kLeftHand));
