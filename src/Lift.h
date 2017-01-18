@@ -14,11 +14,12 @@ public:
 	Lift();
 	~Lift();
 
-	void liftCimMotors(float speed);
+	void liftCimMotors(bool button);
+	void runMotors(bool button);
 private:
 	CANTalon* leftCimMotor;
 	CANTalon* rightCimMotor;
-
+	Timer* timeSpent;
 };
 
 
