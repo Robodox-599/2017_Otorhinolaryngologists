@@ -12,6 +12,8 @@ Gears::Gears()
 	trapDoorSol = new DoubleSolenoid(1, 2);
 	pressurePlate = new DigitalInput(1);
 	trapDoorSol->Set(DoubleSolenoid::Value::kForward);
+	timeSpent = new Timer();
+	retracted = true;
 }
 
 
@@ -21,22 +23,28 @@ Gears::~Gears()
 	delete intakeRotatorSol;
 	delete trapDoorSol;
 	delete pressurePlate;
+	delete timeSpent;
 
 	intakeRotatorSol = nullptr;
 	trapDoorSol = nullptr;
 	pressurePlate = nullptr;
+	timeSpent = nullptr;
 }
 
 
 void Gears::intakeRotator(bool rotate)
 {
-	if(rotate)
+	if(rotate && retracted)
 	{
 		intakeRotatorSol->Set(DoubleSolenoid::Value::kForward);
-		Wait(5);
-		intakeRotatorSol->Set(DoubleSolenoid::Value::kReverse);
+		retracted = false;
+		Wait(0.5);
 	}
-
+	else if(rotate)
+	{
+		intakeRotatorSol->Set(DoubleSolenoid::Value::kReverse);
+		retracted = true;
+	}
 }
 
 
@@ -44,15 +52,13 @@ void Gears::trapDoor()
 {
 	if(pressurePlate->Get())
 	{
+		timeSpent->Start();
 		trapDoorSol->Set(DoubleSolenoid::Value::kReverse);
 	}
-	else
+	else if(timeSpent->HasPeriodPassed(5))
 	{
-		Wait(2);
+		timeSpent->Stop();
+		timeSpent->Reset();
 		trapDoorSol->Set(DoubleSolenoid::Value::kForward);
 	}
 }
-
-
-
-

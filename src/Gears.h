@@ -19,6 +19,9 @@ class Gears
 
 		void trapDoor();
 
+		bool retracted;
+
+
 
 
 
@@ -30,6 +33,8 @@ class Gears
 		DoubleSolenoid*trapDoorSol;
 
 		DigitalInput*pressurePlate;
+
+		Timer*timeSpent;
 
 
 
