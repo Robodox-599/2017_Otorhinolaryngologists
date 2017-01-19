@@ -7,6 +7,7 @@
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
 
+#include "WPILib.h"
 #include "CANTalon.h"
 #include "Timer.h"
 
@@ -54,16 +55,42 @@ public:
 
 	void TeleopInit()
 	{
-		talon->Set(.2);
+		//talon->Set(0);
 		timer->Reset();
+		Wait(.5);
+
 	}
 
 	void TeleopPeriodic()
 	{
+
 		float currentAmp = talon->GetOutputCurrent();
 		float outputV = talon->GetOutputVoltage();
 		int encoderPosition = talon->GetEncPosition();
 		int encoderVel = talon->GetEncVel();
+
+		int fullRotation = encoderPosition + 1024;
+
+		printf("Encoder Position:%i\n", encoderPosition);
+		printf("Rot Position:%i\n", fullRotation);
+		Wait(1);
+
+		while(fullRotation > encoderPosition)
+		{
+			talon->Set(.1);
+			encoderPosition = talon->GetEncPosition();
+			printf("Encoder Position:%i\n", encoderPosition);
+			Wait(.1);
+
+		}
+		talon->Set(0);
+		printf("DONE");
+		Wait(3);
+		talon->SetEncPosition(0);
+		Wait(.5);
+
+
+
 
 		SmartDashboard::PutNumber("Current Amp:", currentAmp);
 		SmartDashboard::PutBoolean("Flag:", flag);
