@@ -13,10 +13,10 @@ Drive::Drive()
 	navX = new AHRS(SPI::Port::kMXP);
 
 	//left drive
-	frontLeftDrive = new Talon(0);	//port 13
-	backLeftDrive = new Talon(1);	//port 15
-	frontRightDrive = new Talon(3);	//port 0
-	backRightDrive = new Talon(2);	//port 2
+	frontLeftDrive = new CANTalon(0);	//port 13
+	backLeftDrive = new CANTalon(1);	//port 15
+	frontRightDrive = new CANTalon(3);	//port 0
+	backRightDrive = new CANTalon(2);	//port 2
 
 	forwardSpeed = 0;
 	turnSpeed = 0;

@@ -10,6 +10,7 @@
 
 #include "WPILib.h"
 #include "AHRS.h"
+#include "CANTalon.h"
 
 class Drive
 {
@@ -41,10 +42,10 @@ private:
 
 	float abs(float num);
 
-	Talon* frontLeftDrive;
-	Talon* backLeftDrive;
-	Talon* frontRightDrive;
-	Talon* backRightDrive;
+	CANTalon* frontLeftDrive;
+	CANTalon* backLeftDrive;
+	CANTalon* frontRightDrive;
+	CANTalon* backRightDrive;
 
 	float forwardSpeed;
 	float turnSpeed;
