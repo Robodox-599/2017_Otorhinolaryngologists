@@ -6,70 +6,86 @@
  */
 #include "Auto.h"
 
+Auto::Auto(Drive* autoDrive, Gears* autoGear)
+{
+	drive = autoDrive;
+	gear = autoGear;
+	autoSteps = 0;
+	isTurning = false;
+	isDriving = false;
+	isGears = false;
+}
 
+Auto::~Auto()
+{
+	drive = nullptr;
+	gear = nullptr;
+
+	delete drive;
+	delete gear;
+}
 
 
 
 
 void Auto::auto1()
 {
-	if(auto1Steps == 0)
+	if(autoSteps == 0)
 	{
 		//Move Forward
 
-		if(isDriving && isGears)
+		if(isDriving)
 		{
-			auto1Steps = 1;
+			autoSteps = 1;
 			isDriving = false;
-			isGears = false;
 		}
 	}
 
-	if(auto1Steps == 1)
+	if(autoSteps == 1)
 	{
 		//Put Gear
 
 		if(isGears)
 		{
-			auto1Steps = 2;
+			autoSteps = 2;
 			isGears = false;
 		}
 	}
 
-	if(auto1Steps == 2)
+	if(autoSteps == 2)
 	{
 		//Turn
 
 		if(isDriving)
 		{
-			auto1Steps = 3;
+			autoSteps = 3;
 			isDriving = false;
 		}
 	}
 
-	if(auto1Steps == 3)
+	if(autoSteps == 3)
 	{
 		//Drive forward (hit ball deposit)
 
 		if(isDriving)
 		{
-			auto1Steps = 4;
+			autoSteps = 4;
 			isDriving = false;
 		}
 	}
 
-	if(auto1Steps == 4)
+	if(autoSteps == 4)
 	{
 		//Turn
 
 		if(isDriving)
 		{
-			auto1Steps = 5;
+			autoSteps = 5;
 			isDriving = false;
 		}
 	}
 
-	if(auto1Steps == 5)
+	if(autoSteps == 5)
 	{
 		//Drive forward
 
@@ -77,6 +93,73 @@ void Auto::auto1()
 		{
 			isDriving = false;
 		}
+	}
+}
+
+void Auto::auto2()
+{
+	if(autoSteps == 0)
+	{
+		//Move forward
+		if(isDriving)
+		{
+			autoSteps = 1;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 1)
+	{
+		//Put Gear
+		if(isGears)
+		{
+			autoSteps = 2;
+			isGears = false;
+		}
+	}
+	if(autoSteps == 2)
+	{
+		//turn 90 degrees
+		if(isTurning)
+		{
+			autoSteps = 3;
+			isTurning = false;
+		}
+	}
+	if(autoSteps == 3)
+	{
+		//drive <170"
+		if(isDriving)
+		{
+			autoSteps = 4;
+			isDriving = false;
+		}
+	}
+	if(autoSteps == 4)
+	{
+		//turn 90 degrees
+		if(isTurning)
+		{
+			autoSteps = 5;
+			isTurning = false;
+		}
+	}
+	if(autoSteps == 5)
+	{
+		//drive 120"
+		if(isDriving)
+		{
+			isDriving = false;
+		}
+	}
+}
+
+void Auto::auto4()
+{
+	if(autoSteps == 0)
+	{
+		//drive 112"
+		if()
 	}
 }
 
