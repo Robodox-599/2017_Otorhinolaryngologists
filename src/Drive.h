@@ -28,11 +28,10 @@ public:
 	void updateLeftMotors(float speed);
 	void updateRightMotors(float speed);
 	
-	void setAutoTurning(float angle);
-	void endAutoTurning();
+	bool setAutoTurning(float angle);
 	void resetGyro(float offSet = 0);
 
-	void globalAutoTurning(float angle);
+	bool globalAutoTurning(float angle);
 
 	AHRS* navX;
 	
@@ -64,7 +63,6 @@ private:
 	
 	//Auto Turning Variables
 	bool isAutoTurning;
-	bool needsReset;
 
 
 	//Mic
