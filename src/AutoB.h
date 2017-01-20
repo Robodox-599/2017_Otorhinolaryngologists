@@ -4,9 +4,9 @@
  *  Created on: Jan 19, 2017
  *      Author: Admin
  */
-
-#ifndef SRC_AUTO_H_
-#define SRC_AUTO_H_
+//Brandon's autonomouses
+#ifndef SRC_AUTOB_H_
+#define SRC_AUTOB_H_
 
 class Auto
 {
@@ -39,4 +39,4 @@ private:
 
 
 
-#endif /* SRC_AUTO_H_ */
+#endif /* SRC_AUTOB_H_ */

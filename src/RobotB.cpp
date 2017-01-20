@@ -1,3 +1,7 @@
+//Brandon's autonomouses
+/*
+ * manually merge RobotB.cpp, AutoB.h, AutoB.cpp later
+ */
 #include "WPILib.h"
 
 class Robot: public IterativeRobot
