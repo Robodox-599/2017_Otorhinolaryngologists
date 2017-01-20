@@ -12,18 +12,26 @@ class Auto
 {
 public:
 
-	Auto();
+	Auto(Drive* autoDrive, Gears* autoGear);
 	~Auto();
 
 	void auto1();
+	void auto3();
+	void auto5();
+	void auto7();
 
-	int auto1Steps;
+
+	int autoSteps;
 	bool isTurning;
 	bool isDriving;
 	bool isGears;
 
+
+
 private:
 
+	Drive*drive;
+	Gears*gear;
 
 };
 
