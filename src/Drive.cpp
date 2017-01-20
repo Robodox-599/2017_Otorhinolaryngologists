@@ -91,6 +91,15 @@ void Drive::setForwardSpeed(float forward)
 	{
 		forwardSpeed = 2 * (-forward - .3) * (-forward - .3);
 	}
+	else if(error >= .5 || error <= -.5)
+	{
+		 forwardSpeed = error*kp;
+
+	}
+	else if(forwardSpeed > 1)
+	{
+		forwardSpeed = 1;
+	}
 	else
 	{
 		forwardSpeed = 0;
@@ -189,5 +198,22 @@ float Drive::abs(float num)
 	return num;
 }
 
+void Drive::autoEncDistance(float desiredDistance)
+{
+	desiredTicks = desiredDistance*54.35; //54.35 is ticks/in
+	encStartPosition = frontLeftDrive->GetEncPosition();
+	encTargetPosition = encStartPosition + desiredTicks;
+
+	if(frontLeftDrive->GetEncPosition() < abs(encTargetPosition))
+	{
+		encError = encTargetPosition - frontLeftDrive->GetEncPosition();
+
+		drive(0, forwardSpeed);
+	}
+	else
+	{
+		drive(0,0);
+	}
+}
 
 
