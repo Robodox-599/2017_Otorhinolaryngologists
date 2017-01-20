@@ -30,7 +30,6 @@ Drive::Drive()
 	error = 0;
 	
 	isAutoTurning = false;
-	needsReset = false;
 }
 
 
@@ -129,7 +128,6 @@ void Drive::setTurnSpeed(float turn)//continuous turning problem
 	else
 	{
 		turnSpeed = 0;
-		needsReset = true;
 	}
 }
 
@@ -153,18 +151,22 @@ void Drive::updateRightMotors(float speed)
 	backRightDrive->Set(speed);
 }
 
-void Drive::setAutoTurning(float angle)
+void Drive::setAutoTurning(float angle) // range -180 to 180
 {
-	refAngle = angle;
-	isAutoTurning = true;
-}
-
-void Drive::endAutoTurning()
-{
-	if(isAutoTurning && needsReset)
+	drive(0, 0);
+	if(!isAutoTurning)
+	{
+		refAngle = angle;
+		isAutoTurning = true;
+	}
+	
+	if(error == 0)
 	{
 		resetGyro();
+		return true;
 	}
+	
+	return false;
 }
 
 void Drive::resetGyro(float offSet)
@@ -173,11 +175,10 @@ void Drive::resetGyro(float offSet)
 	navX->ZeroYaw();
 	gyroValue = navX->GetYaw();
 	refAngle = offSet;
-	needsReset = false;
 	isAutoTurning = false;
 }
 
-void Drive::globalAutoTurning(float angle)//0 - 360
+void Drive::globalAutoTurning(float angle)//range: 0 - 360 NOT ready for use
 {
 	if(angle - ((int)globalGyro % 360) > ((int)globalGyro % 360) - (angle - 360))
 	{
