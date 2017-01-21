@@ -18,7 +18,7 @@ public:
 	Drive();
 	~Drive();
 
-	void autoEncDistance (float desiredDistance);
+	bool autoEncDistance (float desiredDistance);
 
 	void drive(float xAxis, float yAxis);
 
@@ -56,10 +56,15 @@ private:
 	float refAngle;
 
 	float const kp = 0.01;
-	int encError;
+
+	/*int encError;
 	int desiredTicks;
 	int encStartPosition;
-	int encTargetPosition;
+	int encTargetPosition;*/
+
+	bool isDriving;
+	int autoDrivingError;
+	float distance;
 	
 	//Auto Turning Variables
 	bool isAutoTurning;

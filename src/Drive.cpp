@@ -30,6 +30,10 @@ Drive::Drive()
 	error = 0;
 	
 	isAutoTurning = false;
+
+	isDriving = false;
+	autoDrivingError = 0;
+	distance = 0;
 }
 
 
@@ -67,6 +71,8 @@ void Drive::drive(float xAxis, float yAxis)
 
 	error = refAngle - gyroValue;
 
+	autoDrivingError = distance - frontLeftDrive->GetEncPosition();
+
 	setForwardSpeed(yAxis);
 	setTurnSpeed(xAxis);
 	
@@ -90,7 +96,12 @@ void Drive::setForwardSpeed(float forward)
 	{
 		forwardSpeed = 2 * (-forward - .3) * (-forward - .3);
 	}
-	else if(frontLeftDrive->GetEncPosition() < abs(encTargetPosition))
+
+	else if(autoDrivingError <= -2 || autoDrivingError >= 2)
+	{
+		forwardSpeed = autoDrivingError*0.00001;
+	}
+	/*else if(frontLeftDrive->GetEncPosition() < abs(encTargetPosition))
 	{
 		 forwardSpeed = error*kp;
 
@@ -98,7 +109,7 @@ void Drive::setForwardSpeed(float forward)
 	else if(forwardSpeed > 1)
 	{
 		forwardSpeed = 1;
-	}
+	}*/
 	else
 	{
 		forwardSpeed = 0;
@@ -151,15 +162,17 @@ void Drive::updateRightMotors(float speed)
 	backRightDrive->Set(speed);
 }
 
-void Drive::setAutoTurning(float angle) // range -180 to 180
+bool Drive::setAutoTurning(float angle) // range -180 to 180
 {
-	drive(0, 0);
+
 	if(!isAutoTurning)
 	{
 		refAngle = angle;
 		isAutoTurning = true;
 	}
 	
+	drive(0, 0);
+
 	if(error == 0)
 	{
 		resetGyro();
@@ -178,15 +191,15 @@ void Drive::resetGyro(float offSet)
 	isAutoTurning = false;
 }
 
-void Drive::globalAutoTurning(float angle)//range: 0 - 360 NOT ready for use
+bool Drive::globalAutoTurning(float angle)//range: 0 - 360 NOT ready for use
 {
 	if(angle - ((int)globalGyro % 360) > ((int)globalGyro % 360) - (angle - 360))
 	{
-		setAutoTurning(refAngle + (((int)globalGyro % 360) - (angle - 360)));
+		return setAutoTurning(refAngle + (((int)globalGyro % 360) - (angle - 360)));
 	}
 	else
 	{
-		setAutoTurning(refAngle - (angle - ((int)globalGyro % 360)));
+		return setAutoTurning(refAngle - (angle - ((int)globalGyro % 360)));
 	}
 }
 
@@ -199,13 +212,32 @@ float Drive::abs(float num)
 	return num;
 }
 
-void Drive::autoEncDistance(float desiredDistance)
+bool Drive::autoEncDistance(float desiredDistance)
 {
-	desiredTicks = desiredDistance*54.35; //54.35 is ticks/in
+
+
+	if(!isDriving)
+	{
+		frontLeftDrive->SetEncPosition(0);
+		distance = desiredDistance*54.35;
+		isDriving = true;
+	}
+
+	drive(0, 0);
+
+	if(autoDrivingError == 0)
+	{
+		//resetGyro();
+		return true;
+	}
+
+	return false;
+
+	/*desiredTicks = desiredDistance*54.35; //54.35 is ticks/in
 	encStartPosition = frontLeftDrive->GetEncPosition();
 	encTargetPosition = encStartPosition + desiredTicks;
 
-	encError = encTargetPosition - frontLeftDrive->GetEncPosition();
+	encError = encTargetPosition - frontLeftDrive->GetEncPosition();*/
 }
 
 
