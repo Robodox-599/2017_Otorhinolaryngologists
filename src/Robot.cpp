@@ -1,6 +1,6 @@
 #include "WPILib.h"
 #include "Drive.h"
-#include "Pixy.h"
+//#include "Pixy.h"
 
 class Robot: public IterativeRobot
 {
@@ -8,14 +8,14 @@ private:
 	LiveWindow *lw = LiveWindow::GetInstance();
 
 	Drive* drive;
-	Pixy* pixy;
+	//Pixy* pixy;
 	XboxController* xbox;
 
 
 	void RobotInit()
 	{
 		drive = new Drive();
-		pixy = new Pixy();
+	//	pixy = new Pixy();
 		xbox = new XboxController(1);
 	}
 
@@ -39,6 +39,9 @@ private:
 
 
 		drive->drive(xbox->GetX(XboxController::kRightHand), xbox->GetX(XboxController::kLeftHand));
+
+		drive->autoEncDistance(5);
+		//drive->setAutoTurning(90);
 
 		if(xbox->GetAButton())
 		{

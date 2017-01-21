@@ -13,10 +13,10 @@ Drive::Drive()
 	navX = new AHRS(SPI::Port::kMXP);
 
 	//left drive
-	frontLeftDrive = new CANTalon(0);	//port 13
+	frontLeftDrive = new CANTalon(0);	//port 13		83	712
 	backLeftDrive = new CANTalon(1);	//port 15
-	frontRightDrive = new CANTalon(3);	//port 0
-	backRightDrive = new CANTalon(2);	//port 2
+	frontRightDrive = new CANTalon(7);	//port 12
+	backRightDrive = new CANTalon(8);	//port 3
 
 	forwardSpeed = 0;
 	turnSpeed = 0;
@@ -218,7 +218,7 @@ bool Drive::autoEncDistance(float desiredDistance)
 
 	if(!isDriving)
 	{
-		frontLeftDrive->SetEncPosition(0);
+		backRightDrive->SetEncPosition(0);
 		distance = desiredDistance*54.35;
 		isDriving = true;
 	}
