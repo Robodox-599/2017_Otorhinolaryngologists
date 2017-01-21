@@ -1,14 +1,14 @@
 /*
- * Auto.cpp
+ * Autonomous.cpp
  *
  *  Created on: Jan 19, 2017
  *      Author: Admin
  */
 //Brandon's autonomouses
 
-#include "Auto.h"
+#include <Autonomous.h>
 
-Auto::Auto(Drive* autoDrive, Gears* autoGear)
+Autonomous::Autonomous(Drive* autoDrive, Gears* autoGear)
 {
 	drive = autoDrive;
 	gear = autoGear;
@@ -18,7 +18,7 @@ Auto::Auto(Drive* autoDrive, Gears* autoGear)
 	isGears = false;
 }
 
-Auto::~Auto()
+Autonomous::~Autonomous()
 {
 	drive = nullptr;
 	gear = nullptr;
@@ -29,12 +29,7 @@ Auto::~Auto()
 }
 
 
-
-
-
-
-
-void Auto::auto1()
+void Autonomous::auto1()
 {
 	if(autoSteps == 0)
 	{
@@ -104,9 +99,9 @@ void Auto::auto1()
 }
 
 
-//Third Auto
+//Third Autonomous
 
-void Auto::auto3()
+void Autonomous::auto3()
 {
 	if(autoSteps == 0)
 	{
@@ -130,9 +125,9 @@ void Auto::auto3()
 	}
 }
 
-//Fifth Auto
+//Fifth Autonomous
 
-void Auto::auto5()
+void Autonomous::auto5()
 {
 	if(autoSteps == 0)
 	{
@@ -145,9 +140,9 @@ void Auto::auto5()
 	}
 }
 
-//Seventh Auto
+//Seventh Autonomous
 
-void Auto::auto7()
+void Autonomous::auto7()
 {
 	if(autoSteps == 0)
 	{

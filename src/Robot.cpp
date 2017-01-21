@@ -1,8 +1,14 @@
+#include <Autonomous.h>
 #include <iostream>
 #include <memory>
 #include <string>
 
 #include "WPILib.h"
+#include "Drive.h"
+#include "Auto.h"
+#include "Autonomous.h"
+#include "Gears.h"
+#include "Lift.h"
 
 #include <IterativeRobot.h>
 #include <LiveWindow/LiveWindow.h>
@@ -15,6 +21,11 @@ public:
 		chooser.AddDefault(autoNameDefault, autoNameDefault);
 		chooser.AddObject(autoNameCustom, autoNameCustom);
 		frc::SmartDashboard::PutData("Auto Modes", &chooser);
+		drive = new Drive();
+		gears = new Gears();
+		lift = new Lift();
+		autoA = new Auto(drive, gears);
+		autoB = new Autonomous(drive, gears);
 	}
 
 	/*
@@ -38,6 +49,8 @@ public:
 		} else {
 			// Default Auto goes here
 		}
+
+
 	}
 
 	void AutonomousPeriodic() {
@@ -66,6 +79,12 @@ private:
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
+
+	Drive* drive;
+	Gears* gears;
+	Lift* lift;
+	Auto* autoA;
+	Autonomous* autoB;
 };
 
 START_ROBOT_CLASS(Robot)

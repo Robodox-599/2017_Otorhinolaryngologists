@@ -96,6 +96,8 @@ void Auto::auto1()
 	}
 }
 
+//Second Auto
+
 void Auto::auto2()
 {
 	if(autoSteps == 0)
@@ -154,12 +156,142 @@ void Auto::auto2()
 	}
 }
 
+//Fourth Auto
+
 void Auto::auto4()
 {
 	if(autoSteps == 0)
 	{
 		//drive 112"
-		if()
+
+		if(isDriving)
+		{
+			autoSteps = 1;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 1)
+	{
+		//Turn
+
+		if(isTurning)
+		{
+			autoSteps = 2;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 2)
+	{
+		//Drive forward
+
+		if(isDriving)
+		{
+			autoSteps = 3;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 3)
+	{
+		//Put gear
+
+		if(isGears)
+		{
+			isGears = false;
+		}
 	}
 }
 
+//Sixth Auto
+
+void Auto::auto6()
+{
+	if(autoSteps == 0)
+	{
+		//Drive forward
+
+		if(isDriving)
+		{
+			autoSteps = 1;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 1)
+	{
+		//Turn
+
+		if(isTurning)
+		{
+			autoSteps = 2;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 2)
+	{
+		//Drive forward
+
+		if(isDriving)
+		{
+			autoSteps = 3;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 3)
+	{
+		//Put gear
+
+		if(isGears)
+		{
+			autoSteps = 4;
+			isGears = false;
+		}
+	}
+
+	if(autoSteps = 4)
+	{
+		//Turn
+
+		if(isTurning)
+		{
+			autoSteps = 5;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps = 5)
+	{
+		//Drive forward (Hit ball deposit)
+
+		if(isDriving)
+		{
+			autoSteps = 6;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 6)
+	{
+		//Turn
+
+		if(isTurning)
+		{
+			autoSteps = 7;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 7)
+	{
+		//Drive forward
+
+		if(isDriving)
+		{
+			isDriving = false;
+		}
+	}
+}

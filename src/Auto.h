@@ -7,6 +7,8 @@
 
 #ifndef SRC_AUTO_H_
 #define SRC_AUTO_H_
+#include "Drive.h"
+#include "Gears.h"
 
 class Auto
 {
@@ -18,6 +20,7 @@ public:
 	void auto1();
 	void auto2();
 	void auto4();
+	void auto6();
 
 	int autoSteps;
 	bool isTurning;
