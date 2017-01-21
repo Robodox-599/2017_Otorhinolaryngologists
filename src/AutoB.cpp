@@ -28,11 +28,7 @@ Auto::~Auto()
 
 }
 
-
-
-
-
-
+//First Auto
 
 void Auto::auto1()
 {
@@ -206,7 +202,7 @@ void Auto::auto7()
 
 	if(autoSteps == 5)
 	{
-		//Drive forward
+		//Drive forward (Halfway not touching ball deposit)
 
 		if(isDriving)
 		{
@@ -218,5 +214,21 @@ void Auto::auto7()
 	if(autoSteps == 6)
 	{
 		//Turn
+
+		if(isTurning)
+		{
+			autoSteps = 7;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 7)
+	{
+		//Drive forward
+
+		if(isDriving)
+		{
+			isDriving = false;
+		}
 	}
 }

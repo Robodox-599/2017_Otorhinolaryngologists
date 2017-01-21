@@ -18,6 +18,7 @@ public:
 	void auto1();
 	void auto2();
 	void auto4();
+	void auto6();
 
 	int autoSteps;
 	bool isTurning;
