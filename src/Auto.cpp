@@ -252,7 +252,7 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps = 4)
+	if(autoSteps == 4)
 	{
 		//Turn
 
@@ -263,7 +263,7 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps = 5)
+	if(autoSteps == 5)
 	{
 		//Drive forward (Hit ball deposit)
 

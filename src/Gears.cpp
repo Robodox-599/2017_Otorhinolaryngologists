@@ -5,7 +5,7 @@
  *      Author: Admin
  */
 #include "Gears.h"
-
+#include "WPILib.h"
 Gears::Gears()
 {
 	intakeRotatorSol = new DoubleSolenoid(3, 4);
@@ -48,12 +48,13 @@ void Gears::intakeRotator(bool rotate)
 }
 
 
-void Gears::trapDoor()
+bool Gears::trapDoor()
 {
 	if(pressurePlate->Get())
 	{
 		timeSpent->Start();
 		trapDoorSol->Set(DoubleSolenoid::Value::kReverse);
+		return true;
 	}
 	else if(timeSpent->HasPeriodPassed(5))
 	{
@@ -61,4 +62,5 @@ void Gears::trapDoor()
 		timeSpent->Reset();
 		trapDoorSol->Set(DoubleSolenoid::Value::kForward);
 	}
+	return false;
 }

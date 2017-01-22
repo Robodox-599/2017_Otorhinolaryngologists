@@ -17,7 +17,7 @@ class Gears
 
 		void intakeRotator(bool rotate);
 
-		void trapDoor();
+		bool trapDoor();
 
 		bool retracted;
 
@@ -28,13 +28,13 @@ class Gears
 
 	private:
 
-		DoubleSolenoid*intakeRotatorSol;
+		DoubleSolenoid* intakeRotatorSol;
 
-		DoubleSolenoid*trapDoorSol;
+		DoubleSolenoid* trapDoorSol;
 
-		DigitalInput*pressurePlate;
+		DigitalInput* pressurePlate;
 
-		Timer*timeSpent;
+		Timer* timeSpent;
 
 
 
