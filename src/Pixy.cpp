@@ -11,6 +11,7 @@ Pixy::Pixy()
 	Sensor = new I2C(I2C::Port::kOnboard, 0x2);
 	buffer[12] = {};
 	sync[2] = {};
+	pixyValues[6] = {};
 }
 
 Pixy::~Pixy()
@@ -19,9 +20,9 @@ Pixy::~Pixy()
 	Sensor = nullptr;
 }
 
-uint16_t Pixy::convert(int one, int two)
+void Pixy::convert(int byteOne, int byteTwo)
 {
-	return buffer[one] | (buffer[two] << 8);
+	pixyValues[byteOne/2] = buffer[byteOne] | (buffer[byteTwo] << 8);
 }
 
 bool Pixy::updateBuffer()
@@ -39,6 +40,12 @@ bool Pixy::updateBuffer()
 				if(sync[0] == 170)
 				{
 					Sensor->Transaction(NULL, 0, buffer, 12);
+					convert(0,1);
+					convert(2,3);
+					convert(4,5);
+					convert(6,7);
+					convert(8,9);
+					convert(10,11);
 					return true;
 				}
 			}
@@ -50,4 +57,9 @@ bool Pixy::updateBuffer()
 		//place appropriate code
 	}
 	return false;
+}
+
+uint16_t Pixy::getValue(Value v)
+{
+	return pixyValues[v];
 }

@@ -16,13 +16,27 @@ public:
 
 	I2C* Sensor;
 
+	enum Value
+	{
+		CHECKSUM,
+		SIGNATURE,
+		X_CENTER,
+		Y_CENTER,
+		WIDTH,
+		HEIGHT
+	};
+
 	bool updateBuffer();
-	uint16_t convert(int one, int two);
+	uint16_t getValue(Value v);
 
 private:
 
+	void convert(int byteOne, int byteTwo);
+
 	uint8_t sync[2];
 	uint8_t buffer[12];
+
+	uint16_t pixyValues[6];
 
 
 };

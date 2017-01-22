@@ -33,12 +33,12 @@ private:
 	{
 		if(pixy->updateBuffer())
 		{
-			SmartDashboard::PutNumber("Check Sum", pixy->convert(0,1));
-			SmartDashboard::PutNumber("Signature", pixy->convert(2,3));
-			SmartDashboard::PutNumber("X Center", pixy->convert(4,5));
-			SmartDashboard::PutNumber("Y Center", pixy->convert(6,7));
-			SmartDashboard::PutNumber("Width", pixy->convert(8,9));
-			SmartDashboard::PutNumber("Height", pixy->convert(10,11));
+			SmartDashboard::PutNumber("Check Sum", pixy->getValue(Pixy::Value::CHECKSUM));
+			SmartDashboard::PutNumber("Signature", pixy->getValue(Pixy::Value::SIGNATURE));
+			SmartDashboard::PutNumber("X Center", pixy->getValue(Pixy::Value::X_CENTER));
+			SmartDashboard::PutNumber("Y Center", pixy->getValue(Pixy::Value::Y_CENTER));
+			SmartDashboard::PutNumber("Width", pixy->getValue(Pixy::Value::WIDTH));
+			SmartDashboard::PutNumber("Height", pixy->getValue(Pixy::Value::HEIGHT));
 		}
 	}
 
