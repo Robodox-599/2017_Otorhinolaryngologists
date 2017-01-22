@@ -8,11 +8,9 @@
 
 Pixy::Pixy()
 {
-	Sensor = new I2C(I2C::Port::kMXP, 0x54);
-	high[1] = {};
-	low[1] = {};
-	sync[1] = {0};
-	send[1] = {0x06};
+	Sensor = new I2C(I2C::Port::kOnboard, 0x2);
+	buffer[12] = {};
+	sync[2] = {};
 }
 
 Pixy::~Pixy()
@@ -21,43 +19,35 @@ Pixy::~Pixy()
 	Sensor = nullptr;
 }
 
-uint16_t Pixy::convert()
+uint16_t Pixy::convert(int one, int two)
 {
-	return high[0] | (low[0] << 8);
-}
-
-uint16_t Pixy::get()
-{
-	Sensor->Transaction(send, 1, low, 1);
-	Sensor->Transaction(send, 1, high, 1);
-	return convert();
+	return buffer[one] | (buffer[two] << 8);
 }
 
 bool Pixy::updateBuffer()
 {
-	/*
-	Sensor->ReadOnly(12, buffer);
-	return true;
-	Sensor->ReadOnly(12, buffer);
-			if(convert(0, 1) == convert(2, 3) + convert(4, 5) + convert(6, 7) + convert(8, 9) + convert(10, 11))
-			{
-				return true;
-			}
-			//return true;
-	*/
-	high[0] = 0;
-	low[0] = 0;
-	sync[0] = 0;
-
-	Sensor->Transaction(send, 1, sync, 1);
-	if(sync[0] == 0x55)
+	Sensor->Transaction(NULL, 0, sync, 1);
+	if(sync[0] == 85)
 	{
-		Sensor->Transaction(send, 1, sync, 1);
-		if(sync[0] == 0xaa)
+		Sensor->Transaction(NULL, 0, sync, 1);
+		if(sync[0] == 170)
 		{
-			return true;
+			Sensor->Transaction(NULL, 0, sync, 1);
+			if(sync[0] == 85)
+			{
+				Sensor->Transaction(NULL, 0, sync, 1);
+				if(sync[0] == 170)
+				{
+					Sensor->Transaction(NULL, 0, buffer, 12);
+					return true;
+				}
+			}
 		}
-		//return true;
+	}
+	else if(sync[0] == 0)
+	{
+		//no object detected
+		//place appropriate code
 	}
 	return false;
 }

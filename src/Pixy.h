@@ -17,17 +17,12 @@ public:
 	I2C* Sensor;
 
 	bool updateBuffer();
-	uint16_t convert();
-
-	uint16_t get();
-
-	uint8_t send[1];
+	uint16_t convert(int one, int two);
 
 private:
 
-	uint8_t sync[1];
-	uint8_t high[1];
-	uint8_t low[1];
+	uint8_t sync[2];
+	uint8_t buffer[12];
 
 
 };
