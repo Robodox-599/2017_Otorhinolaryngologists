@@ -17,7 +17,6 @@ public:
 	Auto(Drive* autoDrive, Gears* autoGear);
 	~Auto();
 
-	void auto1();
 	void auto2();
 	void auto4();
 	void auto6();

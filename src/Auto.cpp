@@ -25,84 +25,13 @@ Auto::~Auto()
 	delete gear;
 }
 
-
-
-
-void Auto::auto1()
-{
-	if(autoSteps == 0)
-	{
-		//Move Forward
-
-		if(isDriving)
-		{
-			autoSteps = 1;
-			isDriving = false;
-		}
-	}
-
-	if(autoSteps == 1)
-	{
-		//Put Gear
-
-		if(isGears)
-		{
-			autoSteps = 2;
-			isGears = false;
-		}
-	}
-
-	if(autoSteps == 2)
-	{
-		//Turn
-
-		if(isDriving)
-		{
-			autoSteps = 3;
-			isDriving = false;
-		}
-	}
-
-	if(autoSteps == 3)
-	{
-		//Drive forward (hit ball deposit)
-
-		if(isDriving)
-		{
-			autoSteps = 4;
-			isDriving = false;
-		}
-	}
-
-	if(autoSteps == 4)
-	{
-		//Turn
-
-		if(isDriving)
-		{
-			autoSteps = 5;
-			isDriving = false;
-		}
-	}
-
-	if(autoSteps == 5)
-	{
-		//Drive forward
-
-		if(isDriving)
-		{
-			isDriving = false;
-		}
-	}
-}
-
 //Second Auto
 
 void Auto::auto2()
 {
 	if(autoSteps == 0)
 	{
-		//Move forward
+		isDriving = drive->autoEncDistance(6);
 		if(isDriving)
 		{
 			autoSteps = 1;
@@ -112,43 +41,76 @@ void Auto::auto2()
 
 	if(autoSteps == 1)
 	{
-		//Put Gear
+		isTurning = drive->setAutoTurning(90);
+		if(isTurning)
+		{
+			autoSteps = 2;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 2)
+	{
+		isDriving = drive->autoEncDistance(10);
+		if(isDriving)
+		{
+			autoSteps = 3;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 3)
+	{
+		isGears = gear->trapDoor();
 		if(isGears)
 		{
 			autoSteps = 2;
 			isGears = false;
 		}
 	}
-	if(autoSteps == 2)
+
+	if(autoSteps == 4)
 	{
-		//turn 90 degrees
+		isDriving = drive->autoEncDistance(-1);
+		if(isDriving)
+		{
+			autoSteps = 3;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 5)
+	{
+		isTurning = drive->setAutoTurning(90);
 		if(isTurning)
 		{
 			autoSteps = 3;
 			isTurning = false;
 		}
 	}
-	if(autoSteps == 3)
+	if(autoSteps == 6)
 	{
-		//drive <170"
+		isDriving = drive->autoEncDistance(6);
 		if(isDriving)
 		{
 			autoSteps = 4;
 			isDriving = false;
 		}
 	}
-	if(autoSteps == 4)
+
+	if(autoSteps == 7)
 	{
-		//turn 90 degrees
+		isTurning = drive->setAutoTurning(1);
 		if(isTurning)
 		{
-			autoSteps = 5;
+			autoSteps = 8;
 			isTurning = false;
 		}
 	}
-	if(autoSteps == 5)
+
+	if(autoSteps == 8)
 	{
-		//drive 120"
+		isDriving = drive->autoEncDistance(6);
 		if(isDriving)
 		{
 			isDriving = false;
@@ -162,7 +124,7 @@ void Auto::auto4()
 {
 	if(autoSteps == 0)
 	{
-		//drive 112"
+		isDriving = drive->autoEncDistance(6);
 
 		if(isDriving)
 		{
@@ -173,7 +135,7 @@ void Auto::auto4()
 
 	if(autoSteps == 1)
 	{
-		//Turn
+		isTurning = drive->setAutoTurning(45);
 
 		if(isTurning)
 		{
@@ -184,7 +146,7 @@ void Auto::auto4()
 
 	if(autoSteps == 2)
 	{
-		//Drive forward
+		isDriving = drive->autoEncDistance(6);
 
 		if(isDriving)
 		{
@@ -195,12 +157,16 @@ void Auto::auto4()
 
 	if(autoSteps == 3)
 	{
-		//Put gear
+		isGears = gear->trapDoor();
 
 		if(isGears)
 		{
 			isGears = false;
 		}
+	}
+	if(autoSteps == 4)
+	{
+		isDriving = drive->autoEncDistance(-1);
 	}
 }
 
@@ -210,7 +176,7 @@ void Auto::auto6()
 {
 	if(autoSteps == 0)
 	{
-		//Drive forward
+		isDriving = drive->autoEncDistance(6);
 
 		if(isDriving)
 		{
@@ -221,7 +187,7 @@ void Auto::auto6()
 
 	if(autoSteps == 1)
 	{
-		//Turn
+		isTurning = drive->setAutoTurning(45);
 
 		if(isTurning)
 		{
@@ -232,7 +198,7 @@ void Auto::auto6()
 
 	if(autoSteps == 2)
 	{
-		//Drive forward
+		isDriving = drive->autoEncDistance(6);
 
 		if(isDriving)
 		{
@@ -243,7 +209,7 @@ void Auto::auto6()
 
 	if(autoSteps == 3)
 	{
-		//Put gear
+		isGears = gear->trapDoor();
 
 		if(isGears)
 		{
@@ -252,9 +218,19 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps = 4)
+	if(autoSteps == 4)
 	{
-		//Turn
+		isDriving = drive->autoEncDistance(-1);
+		if(isDriving)
+		{
+			autoSteps = 5;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 4)
+	{
+		isTurning = drive->setAutoTurning(45);
 
 		if(isTurning)
 		{
@@ -263,9 +239,9 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps = 5)
+	if(autoSteps == 5)
 	{
-		//Drive forward (Hit ball deposit)
+		isDriving = drive->autoEncDistance(6);
 
 		if(isDriving)
 		{
@@ -276,7 +252,7 @@ void Auto::auto6()
 
 	if(autoSteps == 6)
 	{
-		//Turn
+		isTurning = drive->setAutoTurning(45);
 
 		if(isTurning)
 		{
@@ -287,7 +263,7 @@ void Auto::auto6()
 
 	if(autoSteps == 7)
 	{
-		//Drive forward
+		isDriving = drive->autoEncDistance(6);
 
 		if(isDriving)
 		{
