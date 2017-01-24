@@ -4,6 +4,7 @@
 #include <string>
 
 #include "WPILib.h"
+#include "XboxController.h"
 #include "Drive.h"
 #include "Auto.h"
 #include "Autonomous.h"
@@ -15,7 +16,7 @@
 #include <SmartDashboard/SendableChooser.h>
 #include <SmartDashboard/SmartDashboard.h>
 
-class Robot: public frc::IterativeRobot {
+class Robot: public IterativeRobot {
 public:
 	void RobotInit() {
 		chooser.AddDefault(autoNameDefault, autoNameDefault);
@@ -26,6 +27,12 @@ public:
 		lift = new Lift();
 		autoA = new Auto(drive, gears);
 		autoB = new Autonomous(drive, gears);
+		xbox = new XboxController(0); //usb port
+
+
+		SmartDashboard::PutBoolean("Gear Piston Position: ", gears->retracted);
+		SmartDashboard::PutBoolean("Pressure Plate Status: ", gears->pressurePlate);
+		SmartDashboard::PutNumber("Current Amps (small spike = caught, big spike = top): ", drive->frontLeftDrive->GetOutputCurrent()); //motor w enc
 	}
 
 	/*
@@ -66,6 +73,9 @@ public:
 	}
 
 	void TeleopPeriodic() {
+		drive->drive(xbox->GetX(XboxController::kRightHand), xbox->GetY(XboxController::kLeftHand));
+		lift->liftCimMotors(xbox->GetAButton());
+		gears->intakeRotator(xbox->GetBButton());
 
 	}
 
@@ -74,8 +84,8 @@ public:
 	}
 
 private:
-	frc::LiveWindow* lw = LiveWindow::GetInstance();
-	frc::SendableChooser<std::string> chooser;
+	LiveWindow* lw = LiveWindow::GetInstance();
+	SendableChooser<std::string> chooser;
 	const std::string autoNameDefault = "Default";
 	const std::string autoNameCustom = "My Auto";
 	std::string autoSelected;
@@ -85,6 +95,7 @@ private:
 	Lift* lift;
 	Auto* autoA;
 	Autonomous* autoB;
+	XboxController* xbox;
 };
 
 START_ROBOT_CLASS(Robot)
