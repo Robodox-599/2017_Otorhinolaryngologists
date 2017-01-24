@@ -136,7 +136,7 @@ void Autonomous::auto3()
 {
 	if(autoSteps == 0)
 	{
-		isDriving = drive->autoEncDistance(112); //PARAMETERS ARBRITARY
+		isDriving = drive->autoEncDistance(78); //PARAMETERS ARBRITARY
 		if(isDriving)
 		{
 			autoSteps = 1;
@@ -157,7 +157,7 @@ void Autonomous::auto3()
 
 	if(autoSteps == 2)
 	{
-		isDriving = drive->autoEncDistance(-50);
+		isDriving = drive->autoEncDistance(-15);
 
 		if(isDriving)
 		{
