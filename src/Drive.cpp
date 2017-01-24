@@ -215,7 +215,6 @@ float Drive::abs(float num)
 bool Drive::autoEncDistance(float desiredDistance)
 {
 
-
 	if(!isDriving)
 	{
 		frontLeftDrive->SetEncPosition(0);
