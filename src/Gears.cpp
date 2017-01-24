@@ -5,7 +5,7 @@
  *      Author: Admin
  */
 #include "Gears.h"
-
+#include "WPILib.h"
 Gears::Gears()
 {
 	intakeRotatorSol = new DoubleSolenoid(3, 4);

@@ -228,7 +228,7 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps == 4)
+	if(autoSteps == 5)
 	{
 		isTurning = drive->setAutoTurning(45);
 
@@ -239,7 +239,7 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps == 5)
+	if(autoSteps == 6)
 	{
 		isDriving = drive->autoEncDistance(6);
 
@@ -250,7 +250,7 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps == 6)
+	if(autoSteps == 7)
 	{
 		isTurning = drive->setAutoTurning(45);
 
@@ -261,7 +261,7 @@ void Auto::auto6()
 		}
 	}
 
-	if(autoSteps == 7)
+	if(autoSteps == 8)
 	{
 		isDriving = drive->autoEncDistance(6);
 

@@ -25,7 +25,6 @@ Autonomous::~Autonomous()
 
 	delete drive;
 	delete gear;
-
 }
 
 
@@ -33,63 +32,95 @@ void Autonomous::auto1()
 {
 	if(autoSteps == 0)
 	{
-		//Move Forward
+		isDriving = drive->autoEncDistance(43.25); //PARAMETERS ARBRITRARY
 
-		if(isDriving && isGears)
+		if(isDriving)
 		{
 			autoSteps = 1;
 			isDriving = false;
-			isGears = false;
 		}
 	}
 
 	if(autoSteps == 1)
 	{
-		//Put Gear
+		isTurning = drive->setAutoTurning(10); //PARAMETERS ARBRITRARY
 
-		if(isGears)
+		if(isTurning)
 		{
 			autoSteps = 2;
-			isGears = false;
+			isTurning = false;
 		}
 	}
 
 	if(autoSteps == 2)
 	{
-		//Turn
+		isDriving = drive->autoEncDistance(14); //PARAMETERS ARBRITRARY
 
-		if(isTurning)
+		if(isDriving)
 		{
 			autoSteps = 3;
-			isTurning = false;
+			isDriving = false;
 		}
 	}
 
 	if(autoSteps == 3)
 	{
-		//Drive forward (hit ball deposit)
+		isGears = gear->trapDoor();
 
-		if(isDriving)
+		if(isGears)
 		{
 			autoSteps = 4;
-			isDriving = false;
+			isGears = false;
 		}
 	}
 
 	if(autoSteps == 4)
 	{
-		//Turn
+		isDriving = drive->setAutoTurning(-10); //PARAMETERS ARBRITRARY
 
-		if(isTurning)
+		if(isDriving)
 		{
 			autoSteps = 5;
-			isTurning = false;
+			isDriving = false;
 		}
 	}
 
 	if(autoSteps == 5)
 	{
-		//Drive forward
+		isTurning = drive->setAutoTurning(120); //PARAMETERS ARBRITARY
+
+		if(isTurning)
+		{
+			autoSteps = 6;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 6)
+	{
+		isDriving = drive->autoEncDistance(10); //(hit ball deposit) //PARAMETERS ARBRITARY
+
+		if(isDriving)
+		{
+			autoSteps = 7;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 7)
+	{
+		isTurning = drive->setAutoTurning(120); //PARAMETERS ARBRITARY
+
+		if(isTurning)
+		{
+			autoSteps = 8;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 8)
+	{
+		isDriving = drive->autoEncDistance(11); //PARAMETERS ARBRITARY
 
 		if(isDriving)
 		{
@@ -105,8 +136,7 @@ void Autonomous::auto3()
 {
 	if(autoSteps == 0)
 	{
-		// Drive forward
-
+		isDriving = drive->autoEncDistance(78); //PARAMETERS ARBRITARY
 		if(isDriving)
 		{
 			autoSteps = 1;
@@ -116,11 +146,22 @@ void Autonomous::auto3()
 
 	if(autoSteps == 1)
 	{
-		//Put gear
+		isGears = gear->trapDoor();
 
 		if(isGears)
 		{
+			autoSteps = 2;
 			isGears = false;
+		}
+	}
+
+	if(autoSteps == 2)
+	{
+		isDriving = drive->autoEncDistance(-15);
+
+		if(isDriving)
+		{
+			isDriving = false;
 		}
 	}
 }
@@ -131,7 +172,7 @@ void Autonomous::auto5()
 {
 	if(autoSteps == 0)
 	{
-		//Drive forward
+		isDriving = drive->autoEncDistance(285); //PARAMETERS ARBRITARY
 
 		if(isDriving)
 		{
@@ -146,7 +187,7 @@ void Autonomous::auto7()
 {
 	if(autoSteps == 0)
 	{
-		//Move forward
+		isDriving = drive->autoEncDistance(14); //PARAMETERS ARBRITARY
 
 		if(isDriving)
 		{
@@ -157,7 +198,7 @@ void Autonomous::auto7()
 
 	if(autoSteps == 1)
 	{
-		//Turn
+		isTurning = drive->setAutoTurning(120); //PARAMETERS ARBRITARY
 
 		if(isTurning)
 		{
@@ -168,7 +209,7 @@ void Autonomous::auto7()
 
 	if(autoSteps == 2)
 	{
-		//Drive forward
+		isDriving = drive->autoEncDistance(15); //PARAMETERS ARBRITARY
 
 		if(isDriving)
 		{
@@ -179,7 +220,7 @@ void Autonomous::auto7()
 
 	if(autoSteps == 3)
 	{
-		//Put gear
+		isGears = gear->trapDoor();
 
 		if(isGears)
 		{
@@ -190,28 +231,55 @@ void Autonomous::auto7()
 
 	if(autoSteps == 4)
 	{
-		//Turn
+		isDriving = drive->autoEncDistance(-6);
 
-		if(isTurning)
+		if(isDriving)
 		{
 			autoSteps = 5;
-			isTurning = false;
+			isDriving = false;
 		}
 	}
 
 	if(autoSteps == 5)
 	{
-		//Drive forward
+		isTurning = drive->setAutoTurning(120); //PARAMETERS ARBRITARY
 
-		if(isDriving)
+		if(isTurning)
 		{
 			autoSteps = 6;
-			isDriving = false;
+			isTurning = false;
 		}
 	}
 
 	if(autoSteps == 6)
 	{
-		//Turn
+		isDriving = drive->autoEncDistance(16); //PARAMETERS ARBRITARY
+
+		if(isDriving)
+		{
+			autoSteps = 7;
+			isDriving = false;
+		}
+	}
+
+	if(autoSteps == 7)
+	{
+		isTurning = drive->setAutoTurning(120); //PARAMETERS ARBRITARY
+
+		if(isTurning)
+		{
+			autoSteps = 8;
+			isTurning = false;
+		}
+	}
+
+	if(autoSteps == 8)
+	{
+		isDriving = drive->autoEncDistance(17); //PARAMETERS ARBRITARY
+
+		if(isDriving)
+		{
+			isDriving = false;
+		}
 	}
 }
