@@ -8,12 +8,15 @@
 
 Gears::Gears()
 {
-	intakeRotatorSol = new DoubleSolenoid(3, 4);
-	trapDoorSol = new DoubleSolenoid(1, 2);
-	pressurePlate = new DigitalInput(1);
+	intakeRotatorSol = new DoubleSolenoid(0, 1);
+	trapDoorSol = new DoubleSolenoid(2, 3);
+	pressurePlate = new DigitalInput(0);
 	trapDoorSol->Set(DoubleSolenoid::Value::kForward);
 	timeSpent = new Timer();
 	retracted = true;
+	comp599 = new Compressor();
+
+	comp599->SetClosedLoopControl(true);
 }
 
 
@@ -32,28 +35,34 @@ Gears::~Gears()
 }
 
 
-void Gears::intakeRotator(bool rotate)
+void Gears::intakeRotator(bool rotate, bool two)
 {
-	if(rotate && retracted)
+	if(rotate)//&& retracted)
 	{
 		intakeRotatorSol->Set(DoubleSolenoid::Value::kForward);
 		retracted = false;
-		Wait(0.5);
+		//Wait(0.5);
 	}
-	else if(rotate)
+	else if(two)
 	{
 		intakeRotatorSol->Set(DoubleSolenoid::Value::kReverse);
 		retracted = true;
 	}
 }
 
-
+/* hhhhhhhh
+ *
+ */
 void Gears::trapDoor()
 {
+
+	//printf("test \n");
 	if(pressurePlate->Get())
 	{
-		timeSpent->Start();
+		printf("test inside if \n");
 		trapDoorSol->Set(DoubleSolenoid::Value::kReverse);
+		timeSpent->Start();
+
 	}
 	else if(timeSpent->HasPeriodPassed(5))
 	{

@@ -15,7 +15,7 @@ class Gears
 		Gears();
 		~Gears();
 
-		void intakeRotator(bool rotate);
+		void intakeRotator(bool rotate, bool two);
 
 		void trapDoor();
 
@@ -36,6 +36,7 @@ class Gears
 
 		Timer*timeSpent;
 
+		Compressor* comp599;
 
 
 

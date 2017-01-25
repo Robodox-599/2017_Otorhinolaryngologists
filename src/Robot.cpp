@@ -1,16 +1,17 @@
 #include "WPILib.h"
 #include "Commands/Command.h"
-
+#include "Gears.h"
 
 class Robot: public IterativeRobot
 {
 private:
-	std::unique_ptr<Command> autonomousCommand;
-	SendableChooser *chooser;
+	Gears* gear;
+	XboxController* xbox;
 
 	void RobotInit()
 	{
-
+		gear = new Gears();
+		xbox = new XboxController(0);
 	}
 
 	/**
@@ -46,6 +47,9 @@ private:
 	void TeleopPeriodic()
 	{
 		Scheduler::GetInstance()->Run();
+		gear->intakeRotator(xbox->GetAButton(), xbox->GetBButton());
+		//printf("test robot file \n");
+		gear->trapDoor();
 	}
 
 	void TestPeriodic()
