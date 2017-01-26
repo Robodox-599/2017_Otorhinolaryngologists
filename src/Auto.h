@@ -20,6 +20,8 @@ public:
 	void auto2();
 	void auto4();
 	void auto6();
+	void overlap1_2();
+	void overlap4_6_7();
 
 	int autoSteps;
 	bool isTurning;

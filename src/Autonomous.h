@@ -21,6 +21,8 @@ public:
 	void auto3();
 	void auto5();
 	void auto7();
+	void overlap1_2();
+	void overlap4_6_7();
 
 
 	int autoSteps;
