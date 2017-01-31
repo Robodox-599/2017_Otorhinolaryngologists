@@ -29,7 +29,7 @@ void Autonomous::overlap1_2()
 {
 	if(autoSteps == 0)
 		{
-			isDriving = drive->autoEncDistance(79.92); //PARAMETERS ARBRITRARY
+			isDriving = drive->autoEncDistance(79.92);
 
 			if(isDriving)
 			{
@@ -40,7 +40,7 @@ void Autonomous::overlap1_2()
 
 		if(autoSteps == 1)
 		{
-			isTurning = drive->setAutoTurning(60); //PARAMETERS ARBRITRARY
+			isTurning = drive->setAutoTurning(60);
 
 			if(isTurning)
 			{
@@ -51,7 +51,7 @@ void Autonomous::overlap1_2()
 
 		if(autoSteps == 2)
 		{
-			isDriving = drive->autoEncDistance(38); //PARAMETERS ARBRITRARY
+			isDriving = drive->autoEncDistance(38);
 
 			if(isDriving)
 			{
@@ -74,7 +74,7 @@ void Autonomous::overlap1_2()
 
 		if(autoSteps == 4)
 		{
-			isDriving = drive->autoEncDistance(-38); //PARAMETERS ARBRITRARY
+			isDriving = drive->autoEncDistance(-38);
 
 			if(isDriving)
 			{
@@ -89,7 +89,7 @@ void Autonomous::overlap4_6_7()
 {
 	if(autoSteps == 0)
 		{
-			isDriving = drive->autoEncDistance(79.92); //PARAMETERS ARBRITARY
+			isDriving = drive->autoEncDistance(79.92);
 
 			if(isDriving)
 			{
@@ -100,7 +100,7 @@ void Autonomous::overlap4_6_7()
 
 		if(autoSteps == 1)
 		{
-			isTurning = drive->setAutoTurning(-60); //PARAMETERS ARBRITARY
+			isTurning = drive->setAutoTurning(-60);
 
 			if(isTurning)
 			{
@@ -111,7 +111,7 @@ void Autonomous::overlap4_6_7()
 
 		if(autoSteps == 2)
 		{
-			isDriving = drive->autoEncDistance(38); //PARAMETERS ARBRITARY
+			isDriving = drive->autoEncDistance(38);
 
 			if(isDriving)
 			{
@@ -176,7 +176,7 @@ void Auto::auto4()
 
 	if(autoSteps == 5)
 	{
-		isTurning = drive->setAutoTurning(-60);
+		isTurning = drive->setAutoTurning(60);
 
 		if(isTurning)
 		{
@@ -193,7 +193,7 @@ void Auto::auto6()
 
 	if(autoSteps == 5)
 	{
-		isTurning = drive->setAutoTurning(91.51456682);
+		isTurning = drive->setAutoTurning(91.515);
 
 		if(isTurning)
 		{
@@ -215,7 +215,7 @@ void Auto::auto6()
 
 	if(autoSteps == 7)
 	{
-		isTurning = drive->setAutoTurning(58.48543318);
+		isTurning = drive->setAutoTurning(58.485);
 
 		if(isTurning)
 		{
