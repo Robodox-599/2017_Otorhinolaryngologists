@@ -72,7 +72,14 @@ public:
 
 	void TeleopPeriodic()
 	{
-		drive->drive(xbox->GetY(XboxController::kLeftHand), xbox->GetX(XboxController::kRightHand));
+		if(xbox->GetYButton())
+		{
+			drive->drive(-xbox->GetY(XboxController::kLeftHand), -xbox->GetX(XboxController::kRightHand));
+		}
+		else
+		{
+			drive->drive(xbox->GetY(XboxController::kLeftHand), xbox->GetX(XboxController::kRightHand));
+		}
 
 		nvxDrive->straightDrive();
 
