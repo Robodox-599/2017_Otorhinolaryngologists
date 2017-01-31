@@ -17,7 +17,7 @@ class Gears
 
 		void intakeRotator(bool rotate, bool two);
 
-		void trapDoor();
+		void trapDoor(bool safetyRelease);
 
 		bool retracted;
 

@@ -53,7 +53,7 @@ void Gears::intakeRotator(bool rotate, bool two)
 /* hhhhhhhh
  *
  */
-void Gears::trapDoor()
+void Gears::trapDoor(bool safetyRelease)
 {
 
 	//printf("test \n");
@@ -63,6 +63,11 @@ void Gears::trapDoor()
 		trapDoorSol->Set(DoubleSolenoid::Value::kReverse);
 		timeSpent->Start();
 
+	}
+	else if(safetyRelease)
+	{
+		trapDoorSol->Set(DoubleSolenoid::Value::kReverse);
+		timeSpent->Start();
 	}
 	else if(timeSpent->HasPeriodPassed(5))
 	{
