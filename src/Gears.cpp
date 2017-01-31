@@ -50,9 +50,7 @@ void Gears::intakeRotator(bool rotate, bool two)
 	}
 }
 
-/* hhhhhhhh
- *
- */
+
 void Gears::trapDoor(bool safetyRelease)
 {
 
