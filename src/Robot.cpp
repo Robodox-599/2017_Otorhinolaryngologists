@@ -49,7 +49,7 @@ private:
 		Scheduler::GetInstance()->Run();
 		gear->intakeRotator(xbox->GetAButton(), xbox->GetBButton());
 		//printf("test robot file \n");
-		gear->trapDoor();
+		gear->trapDoor(xbox->GetYButton());
 	}
 
 	void TestPeriodic()
