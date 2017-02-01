@@ -30,6 +30,8 @@ public:
 private:
   Drive* vtDrive;
   Pixy* pixy;
+
+  bool getFrame;
 };
 
 

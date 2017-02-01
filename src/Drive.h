@@ -38,14 +38,16 @@ public:
 
 	CANTalon* getCANTalon();
 
+	float forwardSpeed;
+	float turnSpeed;
+
 private:
 	Talon* frontLeftDrive;
 	Talon* backLeftDrive;
 	CANTalon* frontRightDrive;
 	CANTalon* backRightDrive;
 
-	float forwardSpeed;
-	float turnSpeed;
+
 
 	//true if the driver is turning the robot. Used in straight drive.
 	bool isJoystickTurn;

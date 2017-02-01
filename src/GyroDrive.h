@@ -11,7 +11,7 @@
 
 /*MACROS*/
 #define GYRO_ERROR_DEADZONE (.5)
-#define GYRO_ERROR_LIMIT    (180)
+#define GYRO_ERROR_LIMIT    (180.0)
 
 /*INCLUDES*/
 #include "AHRS.h"

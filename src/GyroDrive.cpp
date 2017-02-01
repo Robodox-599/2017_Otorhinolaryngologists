@@ -40,19 +40,21 @@ bool GyroDrive::straightDrive()
     period->Start();
     hasTimerStarted = true;
   }
-  else if(!(period->HasPeriodPassed(2)) && hasTimerStarted)
+  else if(!period->HasPeriodPassed(2) && hasTimerStarted)
   {
     //Time is passing, are you?
     reset();
   }
   else if((calculateError() > GYRO_ERROR_DEADZONE && calculateError() < GYRO_ERROR_LIMIT) || (calculateError() < -GYRO_ERROR_DEADZONE && calculateError() > -GYRO_ERROR_LIMIT))
   {
-    period->Stop();
-    period->Reset();
-    hasTimerStarted = false;
-
     gDrive->addTurnSpeed(calculateError() / (GYRO_ERROR_LIMIT - GYRO_ERROR_DEADZONE));
     return false;
+  }
+  else
+  {
+	  period->Stop();
+	  period->Reset();
+	  hasTimerStarted = false;
   }
   return true;
 }

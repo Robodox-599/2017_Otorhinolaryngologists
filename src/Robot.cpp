@@ -74,28 +74,35 @@ public:
 	{
 		if(xbox->GetYButton())
 		{
-			drive->drive(-xbox->GetY(XboxController::kLeftHand), -xbox->GetX(XboxController::kRightHand));
+			drive->drive(-xbox->GetX(XboxController::kRightHand), -xbox->GetY(XboxController::kLeftHand));
 		}
 		else
 		{
-			drive->drive(xbox->GetY(XboxController::kLeftHand), xbox->GetX(XboxController::kRightHand));
+			drive->drive(xbox->GetX(XboxController::kRightHand), xbox->GetY(XboxController::kLeftHand));
 		}
-
-		nvxDrive->straightDrive();
 
 		if(xbox->GetAButton())
 		{
 			pxyDrive->trackForward(30);
 			pxyDrive->trackTurn();
+			nvxDrive->reset();
 		}
 		else if(xbox->GetBButton())
 		{
 			encDrive->precisionDistance(10);
+			nvxDrive->straightDrive();
 		}
 		else if(xbox->GetXButton())
 		{
 			nvxDrive->autoTurn(30);
 		}
+		else
+		{
+			nvxDrive->straightDrive();
+		}
+
+		SmartDashboard::PutNumber("Turn Speed", drive->turnSpeed);
+		SmartDashboard::PutNumber("Forward Speed", drive->forwardSpeed);
 
 		drive->updateAllMotors();
 	}
