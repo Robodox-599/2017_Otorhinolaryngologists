@@ -47,11 +47,16 @@ bool GyroDrive::straightDrive()
   }
   else if((calculateError() > GYRO_ERROR_DEADZONE && calculateError() < GYRO_ERROR_LIMIT) || (calculateError() < -GYRO_ERROR_DEADZONE && calculateError() > -GYRO_ERROR_LIMIT))
   {
-    gDrive->addTurnSpeed(calculateError() / (GYRO_ERROR_LIMIT - GYRO_ERROR_DEADZONE));
+	  if(calculateError() / (GYRO_ERROR_LIMIT - 130.0) < .3)
+	  {
+		  gDrive->addTurnSpeed(calculateError() / (GYRO_ERROR_LIMIT - 130.0));
+	  }
+	  gDrive->addTurnSpeed(.3);
     return false;
   }
   else
   {
+	  reset();
 	  period->Stop();
 	  period->Reset();
 	  hasTimerStarted = false;

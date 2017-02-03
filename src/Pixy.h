@@ -32,12 +32,13 @@ public:
 
 private:
 
-	void convert(int byteOne, int byteTwo);
+	void convert(int byteOne, int byteTwo, uint16_t block[]);
 
 	uint8_t sync[2];
-	uint8_t buffer[12];
+	uint8_t buffer[28];
 
-	uint16_t pixyValues[6];
+	uint16_t pixyLeftValues[6];
+	uint16_t pixyRightValues[6];
 	bool blockRecieved;
 
 };

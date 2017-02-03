@@ -22,7 +22,7 @@ bool AutoDrive::precisionDistance(float distance)
 {
 	if(distanceError(distance) > 250 || distanceError(distance) < -250)
 	{
-		adDrive->addForwardSpeed(distanceError(distance) / 10000.0);
+		adDrive->addForwardSpeed(distanceError(distance) / 500.0);
 		return false;
 	}
 

@@ -29,7 +29,7 @@ bool VisionTracking::trackForward(int width)
 	getFrame = pixy->updateBuffer();
 	if(getFrame && (forwardError(width) > 1.5 || forwardError(width) < -1.5))
 	{
-	vtDrive->addForwardSpeed(forwardError(width) / 100.0);
+	vtDrive->addForwardSpeed(forwardError(width) / 70.0);
 	return false;
 	}
 	return true;
@@ -50,7 +50,7 @@ bool VisionTracking::trackTurn()
 {
   if(getFrame && (turnError() > 1.5 || turnError() < 1.5))
   {
-	  vtDrive->addTurnSpeed(turnError() / 100.0);//lower to turn faster, increase to turn slower
+	  vtDrive->addTurnSpeed(turnError() / 70.0);//lower to turn faster, increase to turn slower
 	  return false;
   }
   return true;
@@ -63,5 +63,7 @@ void VisionTracking::resetTurn()
 
 int VisionTracking::turnError()
 {
-  return pixy->getValue(Pixy::Value::X_CENTER) - 150;//may need to switch if turning wrong way
+
+	printf("\nVTTurn error: %d", pixy->getValue(Pixy::Value::X_CENTER) - 80);
+  return pixy->getValue(Pixy::Value::X_CENTER) - 80;//may need to switch if turning wrong way
 }

@@ -67,7 +67,7 @@ public:
 
 	void TeleopInit()
 	{
-
+		nvxDrive->reset();
 	}
 
 	void TeleopPeriodic()
@@ -94,7 +94,7 @@ public:
 		}
 		else if(xbox->GetXButton())
 		{
-			nvxDrive->autoTurn(30);
+			nvxDrive->autoTurn(90);
 		}
 		else
 		{
