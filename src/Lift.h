@@ -5,6 +5,7 @@
  *      Author: Admin
  */
 #include "wpilib.h"
+
 #ifndef SRC_LIFT_H_
 #define SRC_LIFT_H_
 
@@ -14,11 +15,14 @@ public:
 	Lift();
 	~Lift();
 
-	void liftCimMotors(bool button);
+	void liftCimMotors();
+
 private:
 	CANTalon* leftCimMotor;
 	CANTalon* rightCimMotor;
 	Timer* timeSpent;
+	DigitalOutput* irBreakBeam;
+
 };
 
 

@@ -31,6 +31,7 @@ private:
 	void TeleopPeriodic()
 	{
 		lift->liftCimMotors(ATK3->GetY());
+
 	}
 
 	void TestPeriodic()
