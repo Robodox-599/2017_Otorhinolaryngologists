@@ -27,6 +27,7 @@ Lift::~Lift()
 	delete irBreakBeam;
 }
 
+/*
 void Lift::liftCimMotors(bool button)
 {
 	if ((button) || (leftCimMotor->GetOutputCurrent() < 2))
@@ -47,45 +48,51 @@ void Lift::liftCimMotors(bool button)
 		}
 	}
 }
-
+*/
 
 //replaced button with irBreakBeam
 
-/*
-void Lift::liftCimMotors()
+
+void Lift::liftRobot(bool button)
 {
-	if ((irBreakBeam->Get()) || (leftCimMotor->GetOutputCurrent() < 2))
+	if(irBreakBeam->Get())
+	{
+		if ((button) || (leftCimMotor->GetOutputCurrent() < 2))
 		{
 			leftCimMotor->Set(0.75);
 			rightCimMotor->Set(-0.75);
 			timeSpent->Stop();
 			timeSpent->Reset();
 		}
-	else
-	{
-		timeSpent->Start();
-		if (timeSpent->HasPeriodPassed(1) || !button)
+		else
 		{
-			leftCimMotor->Set(0);
-			rightCimMotor->Set(0);
+			timeSpent->Start();
+			if (timeSpent->HasPeriodPassed(1) || !button)
+			{
+				leftCimMotor->Set(0);
+				rightCimMotor->Set(0);
 
+			}
 		}
 	}
 }
-*/
+
 
 
 //testing code to see what values irBreakBeam will give...?
 
-/*
-void Lift::liftCimMotors(bool broken)
+
+bool Lift::breakBeamTest()
 {
-	irBreakBeam->Get()
+	bool broken = false;
+
+	if(irBreakBeam->Get())
+	{
+		broken = true;
+	}
+	printf("status: %d", broken );
+	return broken;
 }
-*/
-
-
-
 
 
 

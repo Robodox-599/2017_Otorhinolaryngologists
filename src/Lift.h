@@ -5,6 +5,8 @@
  *      Author: Admin
  */
 #include "wpilib.h"
+#include "CANTalon.h"
+
 
 #ifndef SRC_LIFT_H_
 #define SRC_LIFT_H_
@@ -15,7 +17,8 @@ public:
 	Lift();
 	~Lift();
 
-	void liftCimMotors();
+	void liftRobot(bool button);
+	bool breakBeamTest();
 
 private:
 	CANTalon* leftCimMotor;

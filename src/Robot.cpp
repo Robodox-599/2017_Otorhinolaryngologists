@@ -1,4 +1,5 @@
 #include "WPILib.h"
+#include "Lift.cpp"
 
 class Robot: public IterativeRobot
 {
@@ -30,7 +31,10 @@ private:
 
 	void TeleopPeriodic()
 	{
-		lift->liftCimMotors(ATK3->GetY());
+		lift->liftRobot(ATK3->GetY());
+
+
+		SmartDashboard::PutBoolean("Break Beam Status: ", lift->irBreakBeam->Get());
 
 	}
 
@@ -38,6 +42,8 @@ private:
 	{
 		lw->Run();
 	}
+
+
 };
 
 START_ROBOT_CLASS(Robot)
