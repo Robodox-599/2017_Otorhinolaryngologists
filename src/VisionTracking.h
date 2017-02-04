@@ -27,6 +27,9 @@ public:
   void resetTurn();
   int turnError();
 
+  //General
+  void update();
+
 private:
   Drive* vtDrive;
   Pixy* pixy;

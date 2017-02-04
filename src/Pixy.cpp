@@ -13,7 +13,7 @@ Pixy::Pixy()
 	sync[2] = {};
 	pixyLeftValues[6] = {};
 	pixyRightValues[6] = {};
-	blockRecieved = false;
+	blockRecieved = 0;
 }
 
 Pixy::~Pixy()
@@ -41,6 +41,7 @@ bool Pixy::updateBuffer()
 				Sensor->Transaction(NULL, 0, sync, 1);
 				if(sync[0] == 170)
 				{
+
 					Sensor->Transaction(NULL, 0, buffer, 28);
 					convert(0,1,pixyLeftValues);
 					convert(2,3,pixyLeftValues);
@@ -59,10 +60,10 @@ bool Pixy::updateBuffer()
 					{
 						if(pixyRightValues[0] == pixyRightValues[1] + pixyRightValues[2] + pixyRightValues[3] + pixyRightValues[4] + pixyRightValues[5])
 						{
-							blockRecieved = true;
+							blockRecieved = 0;
 							return true;
 						}
-						blockRecieved = true;
+						blockRecieved = 0;
 						return true;
 					}
 				}
@@ -72,7 +73,7 @@ bool Pixy::updateBuffer()
 
 
 
-	blockRecieved = false;
+	blockRecieved++;
 	return false;
 }
 
@@ -81,7 +82,12 @@ uint16_t Pixy::getValue(Value v)
 	return (pixyLeftValues[v] + pixyRightValues[v])/2;
 }
 
-bool Pixy::getBlockStatus()
+int Pixy::getBlockStatus()
 {
-	return blockRecieved;
+	if(blockRecieved > 25)
+	{
+
+		return false;
+	}
+	return true;
 }

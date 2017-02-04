@@ -28,7 +28,7 @@ public:
 
 	bool updateBuffer();
 	uint16_t getValue(Value v);
-	bool getBlockStatus();
+	int getBlockStatus();
 
 private:
 
@@ -39,7 +39,7 @@ private:
 
 	uint16_t pixyLeftValues[6];
 	uint16_t pixyRightValues[6];
-	bool blockRecieved;
+	int blockRecieved;
 
 };
 

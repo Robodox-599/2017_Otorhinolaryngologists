@@ -10,6 +10,9 @@
 AutoDrive::AutoDrive(Drive* d)
 {
 	adDrive = d;
+
+	isAutoDrive = false;
+	dis = 0;
 }
 
 AutoDrive::~AutoDrive()
@@ -18,22 +21,29 @@ AutoDrive::~AutoDrive()
 	delete adDrive;
 }
 
-bool AutoDrive::precisionDistance(float distance)
+bool AutoDrive::precisionDistance()
 {
-	if(distanceError(distance) > 250 || distanceError(distance) < -250)
+	if(distanceError() < 250 && distanceError() > -250)
 	{
-		adDrive->addForwardSpeed(distanceError(distance) / 500.0);
-		return false;
+		adDrive->getCANTalon()->SetEncPosition(0);
+		isAutoDrive = false;
+		dis = 0;
+		return true;
 	}
 
-	adDrive->getCANTalon()->SetEncPosition(0);
-	return true;
+	adDrive->addForwardSpeed(distanceError() / 500.0);
+	return false;
 }
 
-float AutoDrive::distanceError(float distance)//encoder not attached to shaft
+float AutoDrive::distanceError()//encoder not attached to shaft
 {
-	printf("enc: %d", adDrive->getCANTalon()->GetEncPosition());
-	printf("\ndis: %a", distance * 54.35);
+	SmartDashboard::PutNumber("enc pos", adDrive->getCANTalon()->GetEncPosition());
+	SmartDashboard::PutNumber("dis", dis);
+	return adDrive->getCANTalon()->GetEncPosition() - dis * 54.35;
+}
 
-	return adDrive->getCANTalon()->GetEncPosition() - distance * 54.35;
+void AutoDrive::setDistance(float distance)
+{
+	dis = distance;
+	isAutoDrive = true;
 }

@@ -5,7 +5,7 @@
  *      Author: tons-of-carls
  */
 
-#define ARC_DRIVE_CODE
+#define OLD_DRIVE_CODE
 
 #ifdef ARC_DRIVE_CODE
 #include "Drive.h"
@@ -307,6 +307,7 @@ void Drive::setForwardSpeed(float forward)
  */
 void Drive::addForwardSpeed(float increment)
 {
+	SmartDashboard::PutNumber("inc", increment);
   forwardSpeed += increment;
 }
 
@@ -349,7 +350,7 @@ void Drive::addTurnSpeed(float increment)
  */
 void Drive::updateAllMotors()
 {
-  updateLeftMotors(forwardSpeed - turnSpeed);
+	updateLeftMotors(forwardSpeed - turnSpeed);
 	updateRightMotors(forwardSpeed + turnSpeed);
 }
 
@@ -404,6 +405,6 @@ float Drive::abs(float num)
 
 CANTalon* Drive::getCANTalon()
 {
-	return frontRightDrive;
+	return backRightDrive;
 }
 #endif /*OLD_DRIVE_CODE*/

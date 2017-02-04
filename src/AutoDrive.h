@@ -16,11 +16,15 @@ public:
 	AutoDrive(Drive* d);
 	~AutoDrive();
 
-	bool precisionDistance(float distance);
-	float distanceError(float distance);
+	bool precisionDistance();
+	float distanceError();
+	void setDistance(float distance);
 
 private:
 	Drive* adDrive;
+
+	bool isAutoDrive;
+	float dis;
 
 };
 

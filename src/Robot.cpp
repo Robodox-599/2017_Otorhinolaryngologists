@@ -26,7 +26,8 @@ public:
 		encDrive = new AutoDrive(drive);
 		pxyDrive = new VisionTracking(drive);
 		nvxDrive = new GyroDrive(drive);
-
+		comp599 = new Compressor();
+		comp599->SetClosedLoopControl(true);
 		xbox = new XboxController(0);
 	}
 
@@ -74,12 +75,14 @@ public:
 	{
 		if(xbox->GetYButton())
 		{
-			drive->drive(-xbox->GetX(XboxController::kRightHand), -xbox->GetY(XboxController::kLeftHand));
+			//drive->drive(-xbox->GetX(XboxController::kRightHand), -xbox->GetY(XboxController::kLeftHand));
 		}
 		else
 		{
 			drive->drive(xbox->GetX(XboxController::kRightHand), xbox->GetY(XboxController::kLeftHand));
 		}
+
+		pxyDrive->update();
 
 		if(xbox->GetAButton())
 		{
@@ -89,8 +92,8 @@ public:
 		}
 		else if(xbox->GetBButton())
 		{
-			encDrive->precisionDistance(10);
-			nvxDrive->straightDrive();
+			encDrive->setDistance(100);
+			//nvxDrive->straightDrive();
 		}
 		else if(xbox->GetXButton())
 		{
@@ -99,6 +102,7 @@ public:
 		else
 		{
 			nvxDrive->straightDrive();
+			encDrive->precisionDistance();
 		}
 
 		SmartDashboard::PutNumber("Turn Speed", drive->turnSpeed);
@@ -124,6 +128,8 @@ private:
 	AutoDrive* encDrive;
 	VisionTracking* pxyDrive;
 	GyroDrive* nvxDrive;
+	Compressor* comp599;
+
 
 	XboxController* xbox;
 };
