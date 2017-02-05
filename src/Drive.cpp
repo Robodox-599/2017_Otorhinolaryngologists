@@ -283,21 +283,21 @@ void Drive::drive(float xAxis, float yAxis)
  */
 void Drive::setForwardSpeed(float forward)
 {
-  forwardSpeed = 0;
+	forwardSpeed = 0;
 
-	if(forward >= .3)
+	if(forward >= .05)
 	{
-		forwardSpeed += 2 * (forward - .3) * (forward - .3);
+		forwardSpeed += 2 * (forward - .05) * (forward - .3);
 		isJoystickForward = true;
 	}
-	else if(forward <= -.3)
+	else if(forward <= -.05)
 	{
-		forwardSpeed += -2 * (-forward - .3) * (-forward - .3);
+		forwardSpeed += -2 * (-forward - .05) * (-forward - .3);
 		isJoystickForward = true;
 	}
 	else
 	{
-	  isJoystickForward = false;
+		isJoystickForward = false;
 	}
 }
 
@@ -308,7 +308,7 @@ void Drive::setForwardSpeed(float forward)
 void Drive::addForwardSpeed(float increment)
 {
 	SmartDashboard::PutNumber("inc", increment);
-  forwardSpeed += increment;
+	forwardSpeed += increment;
 }
 
 /**
@@ -318,16 +318,16 @@ void Drive::addForwardSpeed(float increment)
  */
 void Drive::setTurnSpeed(float turn)//continuous turning problem
 {
-  turnSpeed = 0;
+	turnSpeed = 0;
 
 	if(turn >= .3)
 	{
-		turnSpeed += 1.6 * (turn - .3) * (turn - .3) * (1 - (.5 * abs(forwardSpeed)));
+		turnSpeed += .85 * (turn - .3) * (turn - .3) * (1 - (.05*abs(forwardSpeed)));
 		isJoystickTurn = true;
 	}
 	else if(turn <= -.3)
 	{
-		turnSpeed += -1.6 * (-turn - .3) * (-turn - .3) * (1 - (.5 * abs(forwardSpeed)));
+		turnSpeed += -.85 * (-turn - .3) * (-turn - .3) * (1 - (.05*abs(forwardSpeed)));
 		isJoystickTurn = true;
 	}
 	else
@@ -342,7 +342,7 @@ void Drive::setTurnSpeed(float turn)//continuous turning problem
  */
 void Drive::addTurnSpeed(float increment)
 {
-  turnSpeed += increment;
+	turnSpeed += increment;
 }
 
 /**
@@ -381,7 +381,7 @@ void Drive::updateRightMotors(float speed)
  */
 bool Drive::getIsJoystickTurn()
 {
-  return isJoystickTurn;
+	return isJoystickTurn;
 }
 
 /**
@@ -391,16 +391,16 @@ bool Drive::getIsJoystickTurn()
  */
 bool Drive::getIsJoystickForward()
 {
-  return isJoystickForward;
+	return isJoystickForward;
 }
 
 float Drive::abs(float num)
 {
-  if(num < 0)
-  {
-    return -num;
-  }
-  return num;
+	if(num < 0)
+	{
+		return -num;
+	}
+	return num;
 }
 
 CANTalon* Drive::getCANTalon()

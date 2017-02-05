@@ -14,27 +14,27 @@
 class VisionTracking
 {
 public:
-  VisionTracking(Drive* d);
-  ~VisionTracking();
+	VisionTracking(Drive* d);
+	~VisionTracking();
 
-  //Forward
-  bool trackForward(int width);
-  void resetForward();
-  int forwardError(int width);
+	//Forward
+	bool trackForward(int width);
+	void resetForward();
+	int forwardError(int width);
 
-  //Turn
-  bool trackTurn();
-  void resetTurn();
-  int turnError();
+	//Turn
+	bool trackTurn();
+	void resetTurn();
+	int turnError();
 
-  //General
-  void update();
+	//General
+	void update();
 
 private:
-  Drive* vtDrive;
-  Pixy* pixy;
+	Drive* vtDrive;
+	Pixy* pixy;
 
-  bool getFrame;
+	bool getFrame;
 };
 
 

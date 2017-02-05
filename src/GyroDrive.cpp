@@ -9,78 +9,81 @@
 
 GyroDrive::GyroDrive(Drive* d)
 {
-  gDrive = d;
-  navX = new AHRS(SPI::Port::kMXP);
-  period = new Timer();
+	gDrive = d;
+	navX = new AHRS(SPI::Port::kMXP);
+	period = new Timer();
 
-  navX->ZeroYaw();
+	navX->ZeroYaw();
 
-  gyroValue = 0;
-  desiredAngle = 0;
-  hasTimerStarted = false;
+	gyroValue = 0;
+	desiredAngle = 0;
+	hasTimerStarted = false;
 }
 
 GyroDrive::~GyroDrive()
 {
-  gDrive = nullptr;
-  navX = nullptr;
-  period = nullptr;
+	gDrive = nullptr;
+	navX = nullptr;
+	period = nullptr;
 
-  delete gDrive;
-  delete navX;
-  delete period;
+	delete gDrive;
+	delete navX;
+	delete period;
 }
 
 bool GyroDrive::straightDrive()
 {
-  gyroValue = navX->GetYaw();
 
-  if(gDrive->getIsJoystickTurn())
-  {
-    period->Start();
-    hasTimerStarted = true;
-  }
-  else if(!period->HasPeriodPassed(2) && hasTimerStarted)
-  {
-    //Time is passing, are you?
-    reset();
-  }
-  else if((calculateError() > GYRO_ERROR_DEADZONE && calculateError() < GYRO_ERROR_LIMIT) || (calculateError() < -GYRO_ERROR_DEADZONE && calculateError() > -GYRO_ERROR_LIMIT))
-  {
-	  if(calculateError() / (GYRO_ERROR_LIMIT - 130.0) < .3)
-	  {
-		  gDrive->addTurnSpeed(calculateError() / (GYRO_ERROR_LIMIT - 130.0));
-	  }
-	  gDrive->addTurnSpeed(.3);
-    return false;
-  }
-  else
-  {
-	  reset();
-	  period->Stop();
-	  period->Reset();
-	  hasTimerStarted = false;
-  }
-  return true;
+	SmartDashboard::PutNumber("Gyro offset", navX->GetAngleAdjustment());
+	gyroValue = navX->GetYaw();
+
+	if(gDrive->getIsJoystickTurn())
+	{
+		period->Start();
+		hasTimerStarted = true;
+	}
+	else if(!period->HasPeriodPassed(.5) && hasTimerStarted)
+	{
+		//Time is passing, are you?
+		reset();
+	}
+	else if((calculateError()*100 > GYRO_ERROR_DEADZONE && calculateError()*100 < GYRO_ERROR_LIMIT) || (calculateError()*100 < -GYRO_ERROR_DEADZONE && calculateError()*100 > -GYRO_ERROR_LIMIT))
+	{
+		if(gDrive->abs(calculateError()) < .25)
+		{
+			gDrive->addTurnSpeed(calculateError());
+		}
+		gDrive->addTurnSpeed(gDrive->abs(calculateError()) / (calculateError())*(.25));
+
+		return false;
+	}
+	else
+	{
+		//reset();
+		period->Stop();
+		period->Reset();
+		hasTimerStarted = false;
+	}
+	return true;
 }
 
 bool GyroDrive::autoTurn(float angle)
 {
-  desiredAngle = angle;
-  return straightDrive();
+	desiredAngle = angle;
+	return straightDrive();
 }
 
 float GyroDrive::calculateError()
 {
-  return desiredAngle - gyroValue;
+	return (desiredAngle - gyroValue) * .01;
 }
 
 void GyroDrive::reset()
 {
-  navX->ZeroYaw();
+	navX->ZeroYaw();
 
-  gyroValue = 0;
-  desiredAngle = 0;
+	gyroValue = 0;
+	desiredAngle = 0;
 }
 
 

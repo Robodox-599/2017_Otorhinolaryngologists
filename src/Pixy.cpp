@@ -84,7 +84,7 @@ uint16_t Pixy::getValue(Value v)
 
 int Pixy::getBlockStatus()
 {
-	if(blockRecieved > 25)
+	if(blockRecieved > 1)
 	{
 
 		return false;

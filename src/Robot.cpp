@@ -16,7 +16,8 @@
 
 class Robot: public frc::IterativeRobot {
 public:
-	void RobotInit() {
+	void RobotInit()
+	{
 		chooser.AddDefault(autoNameDefault, autoNameDefault);
 		chooser.AddObject(autoNameCustom, autoNameCustom);
 		frc::SmartDashboard::PutData("Auto Modes", &chooser);
@@ -28,26 +29,28 @@ public:
 		nvxDrive = new GyroDrive(drive);
 		comp599 = new Compressor();
 		comp599->SetClosedLoopControl(true);
-		xbox = new XboxController(0);
+		xbox = new Joystick(0);
 	}
 
 	/*
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * GetString line to get the auto name from the text box below the Gyro.
-	 *
-	 * You can add additional auto modes by adding additional comparisons to the
-	 * if-else structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
-	 */
-	void AutonomousInit() override {
+	* This autonomous (along with the chooser code above) shows how to select
+	* between different autonomous modes using the dashboard. The sendable
+	* chooser code works with the Java SmartDashboard. If you prefer the
+	* LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	* GetString line to get the auto name from the text box below the Gyro.
+	*
+	* You can add additional auto modes by adding additional comparisons to the
+	* if-else structure below with additional strings. If using the
+	* SendableChooser make sure to add them to the chooser code above as well.
+	*/
+	void AutonomousInit() override
+	{
 		autoSelected = chooser.GetSelected();
 		// std::string autoSelected = SmartDashboard::GetString("Auto Selector", autoNameDefault);
 		std::cout << "Auto selected: " << autoSelected << std::endl;
 
-		if (autoSelected == autoNameCustom) {
+		if (autoSelected == autoNameCustom)
+		{
 			// Custom Auto goes here
 		} else {
 			// Default Auto goes here
@@ -69,13 +72,14 @@ public:
 	void TeleopInit()
 	{
 		nvxDrive->reset();
+		drive->getCANTalon()->SetEncPosition(0);
 	}
 
 	void TeleopPeriodic()
 	{
-		if(xbox->GetYButton())
+		if(xbox->GetRawButton(1))
 		{
-			//drive->drive(-xbox->GetX(XboxController::kRightHand), -xbox->GetY(XboxController::kLeftHand));
+			drive->drive(-xbox->GetX(XboxController::kRightHand), -xbox->GetY(XboxController::kLeftHand));
 		}
 		else
 		{
@@ -84,25 +88,27 @@ public:
 
 		pxyDrive->update();
 
-		if(xbox->GetAButton())
+		if(xbox->GetRawButton(6))
 		{
-			pxyDrive->trackForward(30);
+			//pxyDrive->trackForward(30);
 			pxyDrive->trackTurn();
 			nvxDrive->reset();
+			drive->getCANTalon()->SetEncPosition(0);
 		}
-		else if(xbox->GetBButton())
+		else if(xbox->GetRawButton(8))
 		{
 			encDrive->setDistance(100);
 			//nvxDrive->straightDrive();
 		}
-		else if(xbox->GetXButton())
+		else if(xbox->GetRawButton(11))
 		{
 			nvxDrive->autoTurn(90);
+			drive->getCANTalon()->SetEncPosition(0);
 		}
 		else
 		{
 			nvxDrive->straightDrive();
-			encDrive->precisionDistance();
+			//encDrive->precisionDistance();
 		}
 
 		SmartDashboard::PutNumber("Turn Speed", drive->turnSpeed);
@@ -131,7 +137,7 @@ private:
 	Compressor* comp599;
 
 
-	XboxController* xbox;
+	Joystick* xbox;
 };
 
 START_ROBOT_CLASS(Robot)

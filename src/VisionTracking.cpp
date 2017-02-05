@@ -9,10 +9,10 @@
 
 VisionTracking::VisionTracking(Drive* d)
 {
-  vtDrive = d;
-  pixy = new Pixy();
+	vtDrive = d;
+	pixy = new Pixy();
 
-  getFrame = false;
+	getFrame = false;
 }
 
 VisionTracking::~VisionTracking()
@@ -36,27 +36,28 @@ bool VisionTracking::trackForward(int width)
 
 void VisionTracking::resetForward()
 {
-  //may need in future if vision tracking starts acting up
+	//may need in future if vision tracking starts acting up
 }
 
 int VisionTracking::forwardError(int width)
 {
-	if(pixy->getBlockStatus())
+	/*if(pixy->getBlockStatus())
 	{
 		return pixy->getValue(Pixy::Value::WIDTH) - width;
 	}
+	return 0;*/
 	return 0;
 }
 
 
 bool VisionTracking::trackTurn()
 {
-  if(turnError() > 1.5 || turnError() < 1.5)
-  {
-	  vtDrive->addTurnSpeed(turnError() / 100.0);//lower to turn faster, increase to turn slower
-	  return false;
-  }
-  return true;
+	if(turnError() > 1.5 || turnError() < 1.5)
+	{
+		vtDrive->addTurnSpeed(turnError() / 100.0);//lower to turn faster, increase to turn slower
+		return false;
+	}
+	return true;
 }
 
 void VisionTracking::resetTurn()
@@ -66,11 +67,7 @@ void VisionTracking::resetTurn()
 
 int VisionTracking::turnError()
 {
-	if(pixy->getBlockStatus())
-	{
-		return pixy->getValue(Pixy::Value::X_CENTER) - 80;//may need to switch if turning wrong way
-	}
-	return 0;
+	return pixy->getValue(Pixy::Value::X_CENTER) - 80;//may need to switch if turning wrong way
 }
 
 void VisionTracking::update()
