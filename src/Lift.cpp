@@ -11,7 +11,8 @@ Lift::Lift()
 	leftCimMotor = new CANTalon(7);
 	rightCimMotor = new CANTalon(8);
 	timeSpent = new Timer();
-	irBreakBeam = new DigitalOutput(9);
+	irBreakBeam1 = new DigitalInput(9);
+	irBreakBeam2 = new DigitalInput(10);
 
 }
 
@@ -20,43 +21,21 @@ Lift::~Lift()
 	leftCimMotor = nullptr;
 	rightCimMotor = nullptr;
 	timeSpent = nullptr;
-	irBreakBeam = nullptr;
+	irBreakBeam1 = nullptr;
+	irBreakBeam2 = nullptr;
 	delete leftCimMotor;
 	delete rightCimMotor;
 	delete timeSpent;
-	delete irBreakBeam;
+	delete irBreakBeam1;
+	delete irBreakBeam2;
 }
 
-/*
-void Lift::liftCimMotors(bool button)
+
+bool Lift::liftRobot(bool button)
 {
-	if ((button) || (leftCimMotor->GetOutputCurrent() < 2))
+	if(irBreakBeam1->Get() && irBreakBeam2->Get())
 	{
-		leftCimMotor->Set(0.75);
-		rightCimMotor->Set(-0.75);
-		timeSpent->Stop();
-		timeSpent->Reset();
-	}
-	else
-	{
-		timeSpent->Start();
-		if (timeSpent->HasPeriodPassed(1) || !button)
-		{
-			leftCimMotor->Set(0);
-			rightCimMotor->Set(0);
 
-		}
-	}
-}
-*/
-
-//replaced button with irBreakBeam
-
-
-void Lift::liftRobot(bool button)
-{
-	if(irBreakBeam->Get())
-	{
 		if ((button) || (leftCimMotor->GetOutputCurrent() < 2))
 		{
 			leftCimMotor->Set(0.75);
@@ -64,6 +43,13 @@ void Lift::liftRobot(bool button)
 			timeSpent->Stop();
 			timeSpent->Reset();
 		}
+		/* needed second parameter for counting how many times it has been broken
+		bool broken = false;
+		else if(irBreakBeam1->Get() && )
+		{
+			printf("status: %d", broken);
+		}
+		*/
 		else
 		{
 			timeSpent->Start();
@@ -75,6 +61,7 @@ void Lift::liftRobot(bool button)
 			}
 		}
 	}
+	return false;
 }
 
 
@@ -86,15 +73,13 @@ bool Lift::breakBeamTest()
 {
 	bool broken = false;
 
-	if(irBreakBeam->Get())
+	if(irBreakBeam1->Get())
 	{
 		broken = true;
 	}
 	printf("status: %d", broken );
 	return broken;
 }
-
-
 
 
 
