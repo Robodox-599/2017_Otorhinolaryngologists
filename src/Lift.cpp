@@ -30,12 +30,20 @@ Lift::~Lift()
 	delete irBreakBeam2;
 }
 
+bool Lift::break1()
+{
+	bool broken = false;
+	if(irBreakBeam1->Get())
+	{
+		bool broken = true;
+		printf("status: %d", broken);
+	}
+}
 
 bool Lift::liftRobot(bool button)
 {
-	if(irBreakBeam1->Get() && irBreakBeam2->Get())
+	if((button) || (irBreakBeam2->Get()))
 	{
-
 		if ((button) || (leftCimMotor->GetOutputCurrent() < 2))
 		{
 			leftCimMotor->Set(0.75);
@@ -43,13 +51,6 @@ bool Lift::liftRobot(bool button)
 			timeSpent->Stop();
 			timeSpent->Reset();
 		}
-		/* needed second parameter for counting how many times it has been broken
-		bool broken = false;
-		else if(irBreakBeam1->Get() && )
-		{
-			printf("status: %d", broken);
-		}
-		*/
 		else
 		{
 			timeSpent->Start();

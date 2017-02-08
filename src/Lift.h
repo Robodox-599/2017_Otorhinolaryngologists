@@ -19,6 +19,8 @@ public:
 
 	bool liftRobot(bool button);
 	bool breakBeamTest();
+	bool break1();
+
 
 private:
 	CANTalon* leftCimMotor;
