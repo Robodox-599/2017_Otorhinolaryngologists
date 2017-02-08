@@ -287,12 +287,12 @@ void Drive::setForwardSpeed(float forward)
 
 	if(forward >= .05)
 	{
-		forwardSpeed += 2 * (forward - .05) * (forward - .3);
+		forwardSpeed += (forward - .05) * (forward - .05);
 		isJoystickForward = true;
 	}
 	else if(forward <= -.05)
 	{
-		forwardSpeed += -2 * (-forward - .05) * (-forward - .3);
+		forwardSpeed += -(-forward - .05) * (-forward - .05);
 		isJoystickForward = true;
 	}
 	else
@@ -312,7 +312,7 @@ void Drive::addForwardSpeed(float increment)
 }
 
 /**
- * Drive Equation: 2x^2 - 1.2x + .18
+ * Drive Equation:
  * setTurnSpeed: update turn speed with input
  * @param turn is the turn speed
  */
@@ -320,14 +320,14 @@ void Drive::setTurnSpeed(float turn)//continuous turning problem
 {
 	turnSpeed = 0;
 
-	if(turn >= .3)
+	if(turn >= .05)
 	{
-		turnSpeed += .85 * (turn - .3) * (turn - .3) * (1 - (.05*abs(forwardSpeed)));
+		turnSpeed += .5 * (turn - .3) * (turn - .3) * (1 - (.48*abs(forwardSpeed)));
 		isJoystickTurn = true;
 	}
-	else if(turn <= -.3)
+	else if(turn <= -.05)
 	{
-		turnSpeed += -.85 * (-turn - .3) * (-turn - .3) * (1 - (.05*abs(forwardSpeed)));
+		turnSpeed += -.5 * (-turn - .05) * (-turn - .05) * (1 - (.48*abs(forwardSpeed)));
 		isJoystickTurn = true;
 	}
 	else
