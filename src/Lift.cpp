@@ -11,9 +11,9 @@ Lift::Lift()
 	leftCimMotor = new CANTalon(7);
 	rightCimMotor = new CANTalon(8);
 	timeSpent = new Timer();
-	irBreakBeam1 = new DigitalInput(9);
-	irBreakBeam2 = new DigitalInput(10);
-
+	
+	override = false;
+	
 }
 
 Lift::~Lift()
@@ -21,35 +21,24 @@ Lift::~Lift()
 	leftCimMotor = nullptr;
 	rightCimMotor = nullptr;
 	timeSpent = nullptr;
-	irBreakBeam1 = nullptr;
-	irBreakBeam2 = nullptr;
 	delete leftCimMotor;
 	delete rightCimMotor;
 	delete timeSpent;
-	delete irBreakBeam1;
-	delete irBreakBeam2;
 }
 
-bool Lift::break1()
-{
-	bool broken = false;
-	if(irBreakBeam1->Get())
-	{
-		bool broken = true;
-		printf("status: %d", broken);
-	}
-}
 
-bool Lift::liftRobot(bool button)
+
+void Lift::liftRobot(bool override)
 {
-	if((button) || (irBreakBeam2->Get()))
+	
+	if (!override)
 	{
-		if ((button) || (leftCimMotor->GetOutputCurrent() < 2))
+		if (leftCimMotor->GetOutputCurrent() < 2)
 		{
-			leftCimMotor->Set(0.75);
-			rightCimMotor->Set(-0.75);
-			timeSpent->Stop();
-			timeSpent->Reset();
+				leftCimMotor->Set(0.75);
+				rightCimMotor->Set(-0.75);
+				timeSpent->Stop();
+				timeSpent->Reset();
 		}
 		else
 		{
@@ -58,29 +47,46 @@ bool Lift::liftRobot(bool button)
 			{
 				leftCimMotor->Set(0);
 				rightCimMotor->Set(0);
-
+	
 			}
 		}
 	}
-	return false;
 }
 
-
-
-//testing code to see what values irBreakBeam will give...?
-
-
-bool Lift::breakBeamTest()
+void Lift::manualOverride(bool button)
 {
-	bool broken = false;
-
-	if(irBreakBeam1->Get())
+	if (button)
 	{
-		broken = true;
+		override = true;
 	}
-	printf("status: %d", broken );
-	return broken;
+		
+	else if(override)
+	{
+		leftCimMotor->Set(0.75);
+		rightCimMotor->Set(-0.75);
+		timeSpent->Stop();
+		timeSpent->Reset();
+	}
+	else
+	{
+		timeSpent->Start();
+		if (timeSpent->HasPeriodPassed(1) || !button)
+		{
+			leftCimMotor->Set(0);
+			rightCimMotor->Set(0);
+
+		}
+	}
 }
+
+
+
+
+
+
+
+
+
 
 
 

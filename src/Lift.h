@@ -17,17 +17,17 @@ public:
 	Lift();
 	~Lift();
 
-	bool liftRobot(bool button);
-	bool breakBeamTest();
-	bool break1();
+	void liftRobot(bool override);
+	
+	void manualOverride(bool button);
+	
+	bool override;
 
 
 private:
 	CANTalon* leftCimMotor;
 	CANTalon* rightCimMotor;
 	Timer* timeSpent;
-	DigitalInput* irBreakBeam1;
-	DigitalInput* irBreakBeam2;
 
 };
 
