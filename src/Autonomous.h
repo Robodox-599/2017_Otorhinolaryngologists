@@ -5,8 +5,9 @@
  *      Author: Admin
  */
 //Brandon's autonomouses
-/*#ifndef SRC_AUTONOMOUS_H_
+#ifndef SRC_AUTONOMOUS_H_
 #define SRC_AUTONOMOUS_H_
+
 #include "Drive.h"
 #include "Gears.h"
 
@@ -48,4 +49,4 @@ private:
 
 
 
-#endif  SRC_AUTONOMOUS_H_ */
+#endif  SRC_AUTONOMOUS_H_

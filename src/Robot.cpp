@@ -89,7 +89,7 @@ public:
 	{
 		if(xbox->GetBumper(XboxController::JoystickHand::kLeftHand) || xbox->GetBumper(XboxController::JoystickHand::kRightHand))
 		{
-			drive->drive(xbox->GetX(XboxController::kRightHand), xbox->GetY(XboxController::kLeftHand));
+			drive->drive(-xbox->GetX(XboxController::kRightHand), xbox->GetY(XboxController::kLeftHand));
 		}
 		else
 		{
@@ -146,6 +146,8 @@ public:
 		SmartDashboard::PutBoolean("Gear Pressure Plate Status", gears->getPressurePlateStatus());
 
 		SmartDashboard::PutNumber("Lift Status", lift->getLiftStatus());
+
+		SmartDashboard::PutNumber("Lift ENC", lift->leftCimMotor->GetEncPosition());
 	}
 
 	void TestPeriodic()

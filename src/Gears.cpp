@@ -11,7 +11,7 @@ Gears::Gears()
 	intakeRotatorSol = new DoubleSolenoid(2,3);
 	trapDoorSol = new DoubleSolenoid(4,5);
 
-	plateOne = new DigitalInput(0);
+	plateOne = new DigitalInput(9);
 	plateTwo = new DigitalInput(4);
 
 	trapDoorSol->Set(DoubleSolenoid::Value::kForward);
@@ -61,7 +61,7 @@ void Gears::intakeRotator(bool rotate)
 
 bool Gears::trapDoor()
 {
-	if(!plateOne->Get() || plateTwo->Get())//debounce
+	if(plateOne->Get() || plateTwo->Get())//debounce
 	{
 		timeSpent->Start();
 		if(timeSpent->HasPeriodPassed(.2)) //&& (!plateOne->Get() || plateTwo->Get()))//trapDoorSol->Get() == DoubleSolenoid::Value::kReverse && !timeSpent->HasPeriodPassed(3)
@@ -166,7 +166,7 @@ bool Gears::trapDoor()
 
 bool Gears::getPressurePlateStatus()
 {
-	if(!plateOne->Get() || plateTwo->Get())
+	if(plateOne->Get() || plateTwo->Get())
 	{
 		return true;
 	}
@@ -177,7 +177,7 @@ bool Gears::getPressurePlateStatus()
 
 bool Gears::getPlateOne()
 {
-	return !plateOne->Get();
+	return plateOne->Get();
 }
 
 bool Gears::getPlateTwo()

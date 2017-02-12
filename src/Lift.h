@@ -56,10 +56,9 @@ public:
 	void resetLiftToggle();
 
 	int getLiftStatus();
-
+	CANTalon* leftCimMotor;
 
 private:
-	CANTalon* leftCimMotor;
 	CANTalon* rightCimMotor;
 	//Timer* timeSpent;
 	DigitalInput* liftStopOne;

@@ -6,7 +6,13 @@
  */
 //Brandon's autonomouses
 
-/*#include <Autonomous.h>
+
+#define AUTONOMOU
+
+
+
+#ifdef AUTONOMOUS
+#include <Autonomous.h>
 
 Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive)
 {
@@ -436,4 +442,4 @@ void Autonomous::auto7()
 		}
 	}
 }
-*/
+#endif /*AUTONOMOUS*/

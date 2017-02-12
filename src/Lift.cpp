@@ -126,9 +126,9 @@ void Lift::manualOverride(bool button)
 
 Lift::Lift()
 {
-	leftCimMotor = new CANTalon(7);
+	leftCimMotor = new CANTalon(5);
 	rightCimMotor = new CANTalon(6);
-	//timeSpent = new Timer();
+
 	liftStopOne = new DigitalInput(3);
 	liftStopTwo = new DigitalInput(7);
 
@@ -138,6 +138,8 @@ Lift::Lift()
 	liftStatus = 0;
 
 	liftToggle = false;
+
+	leftCimMotor->SetEncPosition(0);
 }
 
 Lift::~Lift()
@@ -217,7 +219,6 @@ void Lift::liftRobot(bool button)
 		rightCimMotor->Set(0);
 	}*/
 
-
 	if(button && liftStatus == 0)
 	{
 		if(liftStopOne->Get() || liftStopTwo->Get())
@@ -249,16 +250,29 @@ void Lift::liftRobot(bool button)
 		leftCimMotor->Set(0.75);
 		rightCimMotor->Set(-0.75);
 	}
-	/*else if(liftStatus == 2)
-	{
-
-	}*/
 	else if(!button && liftStatus == 2)
 	{
 		leftCimMotor->Set(0);
 		rightCimMotor->Set(0);
 		liftStatus = 0;
 	}
+
+
+	/*
+	if(leftCimMotor->GetEncPosition() > 18432)
+	{
+
+	}
+	else if(button)
+	{
+		leftCimMotor->Set(0.75);
+		rightCimMotor->Set(-0.75);
+	}
+	else
+	{
+		leftCimMotor->Set(0);
+		rightCimMotor->Set(0);
+	}*/
 }
 
 
