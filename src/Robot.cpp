@@ -29,7 +29,7 @@ public:
 		nvxDrive = new GyroDrive(drive);
 		comp599 = new Compressor();
 		comp599->SetClosedLoopControl(true);
-		xbox = new Joystick(0);
+		xbox = new XboxController(0);
 	}
 
 	/*
@@ -137,7 +137,7 @@ private:
 	Compressor* comp599;
 
 
-	Joystick* xbox;
+	XboxController* xbox;
 };
 
 START_ROBOT_CLASS(Robot)

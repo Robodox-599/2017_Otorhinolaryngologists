@@ -322,7 +322,7 @@ void Drive::setTurnSpeed(float turn)//continuous turning problem
 
 	if(turn >= .05)
 	{
-		turnSpeed += .5 * (turn - .3) * (turn - .3) * (1 - (.48*abs(forwardSpeed)));
+		turnSpeed += .5 * (turn - .05) * (turn - .05) * (1 - (.48*abs(forwardSpeed)));
 		isJoystickTurn = true;
 	}
 	else if(turn <= -.05)
