@@ -5,7 +5,7 @@
  *      Author: Admin
  */
 //Brandon's autonomouses
-#ifndef SRC_AUTONOMOUS_H_
+/*#ifndef SRC_AUTONOMOUS_H_
 #define SRC_AUTONOMOUS_H_
 #include "Drive.h"
 #include "Gears.h"
@@ -14,7 +14,7 @@ class Autonomous
 {
 public:
 
-	Autonomous(Drive* autoDrive, Gears* autoGear);
+	Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive);
 	~Autonomous();
 
 	void auto1();
@@ -37,7 +37,9 @@ public:
 
 private:
 
-	Drive* drive;
+	GyroDrive* gyroDrive;
+	AutoDrive* encDrive;
+
 	Gears* gear;
 
 };
@@ -46,4 +48,4 @@ private:
 
 
 
-#endif /* SRC_AUTONOMOUS_H_ */
+#endif  SRC_AUTONOMOUS_H_ */

@@ -1,39 +1,31 @@
 /*
  * Drive.cpp
  *
- *  Created on: Mar 27, 2016
- *      Author: Robodox 599
+ *  Created on: Jan 30, 2017
+ *      Author: tons-of-carls
  */
-//Gyro and
+
+#define OLD_DRIVE_CODE
+
+#ifdef ARC_DRIVE_CODE
 #include "Drive.h"
 
 Drive::Drive()
 {
+	//Left Drive
+	frontLeftDrive = new Talon(0);      //port 13
+	backLeftDrive = new Talon(1);       //port 15
 
-	navX = new AHRS(SPI::Port::kMXP);
+	//Right Drive
+	frontRightDrive = new CANTalon(8);  //port 0
+	backRightDrive = new CANTalon(7);   //port 2
 
-	//left drive
-	frontLeftDrive = new CANTalon(0);	//port 13
-	backLeftDrive = new CANTalon(1);	//port 15
-	frontRightDrive = new CANTalon(3);	//port 0
-	backRightDrive = new CANTalon(2);	//port 2
-
+	//general Variables
 	forwardSpeed = 0;
 	turnSpeed = 0;
 
-	globalGyro = 0;
-
-	navX->ZeroYaw();
-
-	gyroValue = navX->GetYaw();
-	refAngle = gyroValue;
-	error = 0;
-	
-	isAutoTurning = false;
-
-	isDriving = false;
-	autoDrivingError = 0;
-	distance = 0;
+	isJoystickTurn = false;
+	isJoystickForward = false;
 }
 
 
@@ -45,7 +37,7 @@ Drive::~Drive()
 
 	//right drive
 	delete frontRightDrive;
-	delete backRightDrive;
+	//delete backRightDrive;
 
 	//left drive
 	frontLeftDrive = nullptr;
@@ -67,88 +59,98 @@ Drive::~Drive()
  */
 void Drive::drive(float xAxis, float yAxis)
 {
-	gyroValue = navX->GetYaw();
-
-	error = refAngle - gyroValue;
-
-	autoDrivingError = distance - frontLeftDrive->GetEncPosition();
-
-	setForwardSpeed(yAxis);
 	setTurnSpeed(xAxis);
-	
-	resetGyro();
-
-	updateLeftMotors(forwardSpeed - turnSpeed);
-	updateRightMotors(forwardSpeed + turnSpeed);
+	setForwardSpeed(yAxis);
 }
 
 /**
+ * Drive Equation: 2x^2 - 1.2x + .18
  * setForwardSpeed: update forward speed with input
  * @param forward is the forward/backward speed
  */
 void Drive::setForwardSpeed(float forward)
 {
-	if(forward >= .3)
+	forwardSpeed = 0;
+
+	if((turnSpeed > 0 || turnSpeed < 0) && abs(forward) > .3)
 	{
-		forwardSpeed = 2 * (forward - .3) * (forward - .3);
+		forwardSpeed += (1/.7) * forward * abs(turnSpeed);//linear velocity = radius * angular velocity
+	}
+	else if(forward >= .3)
+	{
+		forwardSpeed += 2 * (forward - .3) * (forward - .3);
+		isJoystickForward = true;
 	}
 	else if(forward <= -.3)
 	{
-		forwardSpeed = 2 * (-forward - .3) * (-forward - .3);
+		forwardSpeed += -2 * (-forward - .3) * (-forward - .3);
+		isJoystickForward = true;
 	}
-
-	else if(autoDrivingError <= -2 || autoDrivingError >= 2)
-	{
-		forwardSpeed = autoDrivingError*0.00001;
-	}
-	/*else if(frontLeftDrive->GetEncPosition() < abs(encTargetPosition))
-	{
-		 forwardSpeed = error*kp;
-
-	}
-	else if(forwardSpeed > 1)
-	{
-		forwardSpeed = 1;
-	}*/
 	else
 	{
-		forwardSpeed = 0;
+		isJoystickForward = false;
 	}
 }
 
 /**
+ * addForwardSpeed: increases the forward speed by increment
+ * @param increment is the amount to increase the forward speed by
+ */
+void Drive::addForwardSpeed(float increment)
+{
+	forwardSpeed += increment;
+}
+
+/**
+ * Drive Equation: 2x^2 - 1.2x + .18
  * setTurnSpeed: update turn speed with input
  * @param turn is the turn speed
  */
 void Drive::setTurnSpeed(float turn)//continuous turning problem
 {
+	turnSpeed = 0;
+
 	if(turn >= .3)
 	{
-		resetGyro(-5);
-		turnSpeed = 2 * (turn - .3) * (turn - .3) * (1 - abs(forwardSpeed));
+		turnSpeed += 2 * (turn - .3) * (turn - .3);
+		isJoystickTurn = true;
 	}
 	else if(turn <= -.3)
 	{
-		resetGyro(5);
-		turnSpeed = 2 * (-turn - .3) * (-turn - .3) * (1 - abs(forwardSpeed));
-	}
-	else if(error >= .5 || error <= -.5)
-	{
-		turnSpeed = kp * error;
+		turnSpeed += -2 * (-turn - .3) * (-turn - .3);
+		isJoystickTurn = true;
 	}
 	else
 	{
-		turnSpeed = 0;
+		isJoystickTurn = false;
 	}
+}
+
+/**
+ * addTurnSpeed: increases the turn speed by increment
+ * @param increment is the amount to increase the turn speed by
+ */
+void Drive::addTurnSpeed(float increment)
+{
+  turnSpeed += increment;
+}
+
+/**
+ * updateAllMotors: updates all motors using the updateLeftMotors and updateRightMotors function
+ */
+void Drive::updateAllMotors()
+{
+  updateLeftMotors(forwardSpeed - turnSpeed);
+	updateRightMotors(forwardSpeed + turnSpeed);
 }
 
 /**
  * updateLeftMotors: set left motors to desired speed
  * @param speed is the desired speed input
  */
-void Drive::updateLeftMotors(float speed)//put on an x^2 curve
+void Drive::updateLeftMotors(float speed)
 {
-	frontLeftDrive->Set(-speed);//2x speed note
+	frontLeftDrive->Set(-speed);
 	backLeftDrive->Set(-speed);
 }
 
@@ -162,45 +164,238 @@ void Drive::updateRightMotors(float speed)
 	backRightDrive->Set(speed);
 }
 
-bool Drive::setAutoTurning(float angle) // range -180 to 180
+/**
+ * getIsJoystickTurn: gets the value of isJoystickTurn
+ * if the driver is turning using the joystick then isJoystickTurn will be true
+ * @return the value of isJoystickTurn
+ */
+bool Drive::getIsJoystickTurn()
 {
-
-	if(!isAutoTurning)
-	{
-		refAngle = angle;
-		isAutoTurning = true;
-	}
-	
-	drive(0, 0);
-
-	if(error == 0)
-	{
-		resetGyro();
-		return true;
-	}
-	
-	return false;
+  return isJoystickTurn;
 }
 
-void Drive::resetGyro(float offSet)
+/**
+ * getIsJoystickForward: gets the value of isJoystickForward
+ * if the driver is driving forward or backwards using the joystick then isJoystickforwards will be true
+ * @return the value of isJoystickforwards
+ */
+bool Drive::getIsJoystickForward()
 {
-	globalGyro = globalGyro + navX->GetYaw() + offSet;//check if this works
-	navX->ZeroYaw();
-	gyroValue = navX->GetYaw();
-	refAngle = offSet;
-	isAutoTurning = false;
+  return isJoystickForward;
 }
 
-bool Drive::globalAutoTurning(float angle)//range: 0 - 360 NOT ready for use
+float Drive::abs(float num)
 {
-	if(angle - ((int)globalGyro % 360) > ((int)globalGyro % 360) - (angle - 360))
+  if(num < 0)
+  {
+    return -num;
+  }
+  return num;
+}
+
+CANTalon* Drive::getCANTalon()
+{
+	return frontRightDrive;
+}
+
+#endif /*NEW_DRIVE_CODE*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#ifdef OLD_DRIVE_CODE
+#include "Drive.h"
+
+Drive::Drive()
+{
+	//Left Drive
+	frontLeftDrive = new CANTalon(3);      //port 13
+	backLeftDrive = new CANTalon(4);       //port 15
+
+	//Right Drive
+	frontRightDrive = new CANTalon(1);  //port 0
+	backRightDrive = new CANTalon(2);   //port 2
+
+	shifter = new DoubleSolenoid(0,1);
+
+	//general Variables
+	forwardSpeed = 0;
+	turnSpeed = 0;
+
+	shifterButtonPress = false;
+
+	isJoystickTurn = false;
+	isJoystickForward = false;
+}
+
+
+Drive::~Drive()
+{
+	//left drive
+	delete frontLeftDrive;
+	delete backLeftDrive;
+
+	//right drive
+	delete frontRightDrive;
+	//delete backRightDrive;
+
+	//left drive
+	frontLeftDrive = nullptr;
+	backLeftDrive = nullptr;
+
+	//right drive
+	frontRightDrive = nullptr;
+	backRightDrive = nullptr;
+}
+
+
+/*************************************************/
+
+/**
+ * drive: get desired speed values and assign them to motors
+ * @param xAxis is the joystick x-axis
+ * @param yAxis is the joystick y-axis
+ *
+ */
+void Drive::drive(float xAxis, float yAxis)
+{
+	setForwardSpeed(yAxis);
+	setTurnSpeed(xAxis);
+}
+
+/**
+ * Drive Equation: 2x^2 - 1.2x + .18
+ * setForwardSpeed: update forward speed with input
+ * @param forward is the forward/backward speed
+ */
+void Drive::setForwardSpeed(float forward)
+{
+	forwardSpeed = 0;
+
+	if(forward >= .05)
 	{
-		return setAutoTurning(refAngle + (((int)globalGyro % 360) - (angle - 360)));
+		forwardSpeed += (forward - .05) * (forward - .05);
+		isJoystickForward = true;
+	}
+	else if(forward <= -.05)
+	{
+		forwardSpeed += -(-forward - .05) * (-forward - .05);
+		isJoystickForward = true;
 	}
 	else
 	{
-		return setAutoTurning(refAngle - (angle - ((int)globalGyro % 360)));
+		isJoystickForward = false;
 	}
+}
+
+/**
+ * addForwardSpeed: increases the forward speed by increment
+ * @param increment is the amount to increase the forward speed by
+ */
+void Drive::addForwardSpeed(float increment)
+{
+	SmartDashboard::PutNumber("inc", increment);
+	forwardSpeed += increment;
+}
+
+/**
+ * Drive Equation:
+ * setTurnSpeed: update turn speed with input
+ * @param turn is the turn speed
+ */
+void Drive::setTurnSpeed(float turn)//continuous turning problem
+{
+	turnSpeed = 0;
+
+	if(turn >= .05)
+	{
+		turnSpeed += .5 * (turn - .05) * (turn - .05) * (1 - (.48*abs(forwardSpeed)));
+		isJoystickTurn = true;
+	}
+	else if(turn <= -.05)
+	{
+		turnSpeed += -.5 * (-turn - .05) * (-turn - .05) * (1 - (.48*abs(forwardSpeed)));
+		isJoystickTurn = true;
+	}
+	else
+	{
+	  isJoystickTurn = false;
+	}
+}
+
+/**
+ * addTurnSpeed: increases the turn speed by increment
+ * @param increment is the amount to increase the turn speed by
+ */
+void Drive::addTurnSpeed(float increment)
+{
+	turnSpeed += increment;
+}
+
+/**
+ * updateAllMotors: updates all motors using the updateLeftMotors and updateRightMotors function
+ */
+void Drive::updateAllMotors()
+{
+	updateLeftMotors(forwardSpeed - turnSpeed);
+	updateRightMotors(forwardSpeed + turnSpeed);
+}
+
+/**
+ * updateLeftMotors: set left motors to desired speed
+ * @param speed is the desired speed input
+ */
+void Drive::updateLeftMotors(float speed)
+{
+	frontLeftDrive->Set(-speed);
+	backLeftDrive->Set(-speed);
+}
+
+/**
+ * updateRightMotors: set right motors to desired speed; reverses right motors
+ * @param speed is the desired speed input
+ */
+void Drive::updateRightMotors(float speed)
+{
+	frontRightDrive->Set(speed);
+	backRightDrive->Set(speed);
+}
+
+/**
+ * getIsJoystickTurn: gets the value of isJoystickTurn
+ * if the driver is turning using the joystick then isJoystickTurn will be true
+ * @return the value of isJoystickTurn
+ */
+bool Drive::getIsJoystickTurn()
+{
+	return isJoystickTurn;
+}
+
+/**
+ * getIsJoystickForward: gets the value of isJoystickForward
+ * if the driver is driving forward or backwards using the joystick then isJoystickforwards will be true
+ * @return the value of isJoystickforwards
+ */
+bool Drive::getIsJoystickForward()
+{
+	return isJoystickForward;
 }
 
 float Drive::abs(float num)
@@ -212,31 +407,42 @@ float Drive::abs(float num)
 	return num;
 }
 
-bool Drive::autoEncDistance(float desiredDistance)
+CANTalon* Drive::getCANTalon()
 {
-
-	if(!isDriving)
-	{
-		frontLeftDrive->SetEncPosition(0);
-		distance = desiredDistance*54.35;
-		isDriving = true;
-	}
-
-	drive(0, 0);
-
-	if(autoDrivingError == 0)
-	{
-		//resetGyro();
-		return true;
-	}
-
-	return false;
-
-	/*desiredTicks = desiredDistance*54.35; //54.35 is ticks/in
-	encStartPosition = frontLeftDrive->GetEncPosition();
-	encTargetPosition = encStartPosition + desiredTicks;
-
-	encError = encTargetPosition - frontLeftDrive->GetEncPosition();*/
+	return backRightDrive;
 }
 
+void Drive::shift(bool toggleShift)
+{
+	if(toggleShift && shifterButtonPress)
+		{
+			if(shifter->Get() == DoubleSolenoid::Value::kForward)
+			{
+				shifter->Set(DoubleSolenoid::Value::kReverse);
 
+			}
+			else
+			{
+				shifter->Set(DoubleSolenoid::Value::kForward);
+
+			}
+			shifterButtonPress = false;
+		}
+
+		if(!toggleShift && !shifterButtonPress)
+		{
+			shifterButtonPress = true;
+		}
+}
+
+string Drive::getShiftState()
+{
+	if(shifter->Get() == DoubleSolenoid::Value::kForward)
+	{
+		return "Slow";
+	}
+
+	return "Fast";
+}
+
+#endif /*OLD_DRIVE_CODE*/

@@ -6,6 +6,37 @@
  */
 #include "wpilib.h"
 #include "CANTalon.h"
+
+/*#ifndef SRC_LIFT_H_
+#define SRC_LIFT_H_
+
+class Lift
+{
+public:
+	Lift();
+	~Lift();
+
+	void liftRobot(bool override);
+
+	void manualOverride(bool button);
+
+	bool override;
+
+
+private:
+	CANTalon* leftCimMotor;
+	CANTalon* rightCimMotor;
+	Timer* timeSpent;
+
+};
+
+
+
+#endif  SRC_LIFT_H_ */
+
+
+
+
 #ifndef SRC_LIFT_H_
 #define SRC_LIFT_H_
 
@@ -15,13 +46,35 @@ public:
 	Lift();
 	~Lift();
 
-	void liftCimMotors(bool button);
+	void liftRobot(bool button);
+	bool beamOne();
+	bool beamTwo();
+
+	bool initialBreak();
+
+	bool getLiftToggle();
+	void resetLiftToggle();
+
+	int getLiftStatus();
+
+
 private:
 	CANTalon* leftCimMotor;
 	CANTalon* rightCimMotor;
-	Timer* timeSpent;
+	//Timer* timeSpent;
+	DigitalInput* liftStopOne;
+	DigitalInput* liftStopTwo;
+
+	bool initialBreakOne;
+	bool initialBreakTwo;
+
+	int liftStatus;
+
+	bool liftToggle;
+
 };
 
 
 
-#endif /* SRC_LIFT_H_ */
+#endif /*SRC_LIFT_H_ */
+

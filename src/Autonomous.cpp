@@ -6,11 +6,13 @@
  */
 //Brandon's autonomouses
 
-#include <Autonomous.h>
+/*#include <Autonomous.h>
 
-Autonomous::Autonomous(Drive* autoDrive, Gears* autoGear)
+Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive)
 {
-	drive = autoDrive;
+	gyroDrive = autoTurning;
+	encDrive = precisionDrive;
+
 	gear = autoGear;
 	autoSteps = 0;
 	isTurning = false;
@@ -20,10 +22,11 @@ Autonomous::Autonomous(Drive* autoDrive, Gears* autoGear)
 
 Autonomous::~Autonomous()
 {
-	drive = nullptr;
+
+
 	gear = nullptr;
 
-	delete drive;
+
 	delete gear;
 }
 
@@ -31,60 +34,62 @@ Autonomous::~Autonomous()
 void Autonomous::overlap1_2()
 {
 	if(autoSteps == 0)
+	{
+		encDrive->setDistance(79.92);
+		isDriving = encDrive->precisionDistance();
+
+		if(isDriving)
 		{
-			isDriving = drive->autoEncDistance(79.92);
-
-			if(isDriving)
-			{
-				autoSteps = 1;
-				isDriving = false;
-			}
+			autoSteps = 1;
+			isDriving = false;
 		}
+	}
 
-		if(autoSteps == 1)
+	if(autoSteps == 1)
+	{
+		isTurning = gyroDrive->autoTurn(60);
+
+		if(isTurning)
 		{
-			isTurning = drive->setAutoTurning(60);
-
-			if(isTurning)
-			{
-				autoSteps = 2;
-				isTurning = false;
-			}
+			autoSteps = 2;
+			isTurning = false;
 		}
+	}
 
-		if(autoSteps == 2)
+	if(autoSteps == 2)
+	{
+		encDrive->setDistance(38);
+		isDriving = encDrive->precisionDistance();
+
+		if(isDriving)
 		{
-			isDriving = drive->autoEncDistance(38);
-
-			if(isDriving)
-			{
-				autoSteps = 3;
-				isDriving = false;
-			}
+			autoSteps = 3;
+			isDriving = false;
 		}
+	}
 
-		if(autoSteps == 3)
+	if(autoSteps == 3)
+	{
+
+		isGears = gear->trapDoor();
+
+		if(isGears)
 		{
-
-			isGears = gear->trapDoor();
-
-			if(isGears)
-			{
-				autoSteps = 4;
-				isGears = false;
-			}
+			autoSteps = 4;
+			isGears = false;
 		}
+	}
 
-		if(autoSteps == 4)
+	if(autoSteps == 4)
+	{
+		isDriving = drive->autoEncDistance(-38);
+
+		if(isDriving)
 		{
-			isDriving = drive->autoEncDistance(-38);
-
-			if(isDriving)
-			{
-				autoSteps = 5;
-				isDriving = false;
-			}
+			autoSteps = 5;
+			isDriving = false;
 		}
+	}
 }
 
 void Autonomous::overlap4_6_7()
@@ -431,5 +436,4 @@ void Autonomous::auto7()
 		}
 	}
 }
-
-
+*/
