@@ -48,7 +48,7 @@ bool GyroDrive::straightDrive()
 		//Time is passing, are you?
 		reset();
 	}*/
-	else if((calculateError()*100 > GYRO_ERROR_DEADZONE && calculateError()*100 < GYRO_ERROR_LIMIT) || (calculateError()*100 < -GYRO_ERROR_DEADZONE && calculateError()*100 > -GYRO_ERROR_LIMIT))
+	else if((calculateError()/.2 > GYRO_ERROR_DEADZONE && calculateError()/.2 < GYRO_ERROR_LIMIT) || (calculateError()/.2 < -GYRO_ERROR_DEADZONE && calculateError()/.2 > -GYRO_ERROR_LIMIT))
 	{
 		if(gDrive->abs(calculateError()) < .25)
 		{
@@ -58,13 +58,13 @@ bool GyroDrive::straightDrive()
 
 		return false;
 	}
-	else
+	/*else
 	{
 		//reset();
-		period->Stop();
-		period->Reset();
-		hasTimerStarted = false;
-	}
+		//period->Stop();
+		//period->Reset();
+		//hasTimerStarted = false;
+	}*/
 	return true;
 }
 
@@ -87,4 +87,11 @@ void GyroDrive::reset()
 	desiredAngle = 0;
 }
 
-
+bool GyroDrive::isGyroStable()
+{
+	if(navX->GetRawGyroX() < 2 && navX->GetRawGyroY() < 2)//&& navX->GetRawGyroZ() < 2)
+	{
+		return true;
+	}
+	return false;
+}

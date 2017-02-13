@@ -51,11 +51,13 @@ float AutoDrive::distanceError()//encoder not attached to shaft
 	return -dis * 54.35 + adDrive->getCANTalon()->GetEncPosition();//switch this if switch encoder motor
 }
 
-void AutoDrive::setDistance(float distance)
+bool AutoDrive::setDistance(float distance)
 {
 	if(!isAutoDrive)
 	{
 		dis = -distance;
 		isAutoDrive = true;
 	}
+
+	return precisionDistance();
 }

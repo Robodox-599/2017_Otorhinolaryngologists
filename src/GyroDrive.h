@@ -27,6 +27,7 @@ public:
 	bool autoTurn(float angle);
 	float calculateError();
 	void reset();
+	bool isGyroStable();
 
 private:
 	Drive* gDrive;
