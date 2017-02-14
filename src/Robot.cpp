@@ -40,6 +40,8 @@ public:
 		xbox = new XboxController(0);
 		atk3 = new Joystick(1);
 
+		auton = new Autonomous();
+
 		CameraServer::GetInstance()->StartAutomaticCapture();
 	}
 
