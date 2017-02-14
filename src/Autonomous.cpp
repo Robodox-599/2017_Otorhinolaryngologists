@@ -7,7 +7,7 @@
 //Brandon's autonomouses
 
 
-#define AUTONOMOU
+#define AUTONOMOUS
 
 
 
@@ -41,8 +41,8 @@ void Autonomous::overlap1_2()
 {
 	if(autoSteps == 0)
 	{
-		encDrive->setDistance(79.92);
-		isDriving = encDrive->precisionDistance();
+
+		isDriving = encDrive->setDistance(79.92);
 
 		if(isDriving)
 		{
@@ -64,8 +64,7 @@ void Autonomous::overlap1_2()
 
 	if(autoSteps == 2)
 	{
-		encDrive->setDistance(38);
-		isDriving = encDrive->precisionDistance();
+		isDriving = encDrive->setDistance(38);
 
 		if(isDriving)
 		{

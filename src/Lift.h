@@ -58,6 +58,8 @@ public:
 	int getLiftStatus();
 	CANTalon* leftCimMotor;
 
+	void reset();
+
 private:
 	CANTalon* rightCimMotor;
 	//Timer* timeSpent;

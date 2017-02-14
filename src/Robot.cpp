@@ -83,6 +83,7 @@ public:
 	{
 		nvxDrive->reset();
 		drive->getCANTalon()->SetEncPosition(0);
+		lift->reset();
 	}
 
 	void TeleopPeriodic()

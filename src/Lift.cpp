@@ -219,49 +219,48 @@ void Lift::liftRobot(bool button)
 		rightCimMotor->Set(0);
 	}*/
 
-	if(button && liftStatus == 0)
+
+
+
+	if(leftCimMotor->GetEncPosition() > 18432)
 	{
-		if(liftStopOne->Get() || liftStopTwo->Get())
+		if(button && liftStatus == 0)
+		{
+			if(liftStopOne->Get() || liftStopTwo->Get())
+			{
+				leftCimMotor->Set(0);
+				rightCimMotor->Set(0);
+				liftStatus = 1;
+			}
+			else
+			{
+				leftCimMotor->Set(0.75);
+				rightCimMotor->Set(-0.75);
+				liftToggle = true;
+			}
+		}
+		else if(liftStatus == 0)
 		{
 			leftCimMotor->Set(0);
 			rightCimMotor->Set(0);
-			liftStatus = 1;
 		}
-		else
+		else if(!button && liftStatus == 1)
+		{
+			leftCimMotor->Set(0);
+			rightCimMotor->Set(0);
+			liftStatus = 2;
+		}
+		else if(button && liftStatus == 2)
 		{
 			leftCimMotor->Set(0.75);
 			rightCimMotor->Set(-0.75);
-			liftToggle = true;
 		}
-	}
-	else if(liftStatus == 0)
-	{
-		leftCimMotor->Set(0);
-		rightCimMotor->Set(0);
-	}
-	else if(!button && liftStatus == 1)
-	{
-		leftCimMotor->Set(0);
-		rightCimMotor->Set(0);
-		liftStatus = 2;
-	}
-	else if(button && liftStatus == 2)
-	{
-		leftCimMotor->Set(0.75);
-		rightCimMotor->Set(-0.75);
-	}
-	else if(!button && liftStatus == 2)
-	{
-		leftCimMotor->Set(0);
-		rightCimMotor->Set(0);
-		liftStatus = 0;
-	}
-
-
-	/*
-	if(leftCimMotor->GetEncPosition() > 18432)
-	{
-
+		else if(!button && liftStatus == 2)
+		{
+			leftCimMotor->Set(0);
+			rightCimMotor->Set(0);
+			liftStatus = 0;
+		}
 	}
 	else if(button)
 	{
@@ -272,7 +271,7 @@ void Lift::liftRobot(bool button)
 	{
 		leftCimMotor->Set(0);
 		rightCimMotor->Set(0);
-	}*/
+	}
 }
 
 
@@ -323,6 +322,12 @@ void Lift::resetLiftToggle()
 int Lift::getLiftStatus()
 {
 	return liftStatus;
+}
+
+void Lift::reset()
+{
+	leftCimMotor->SetEncPosition(0);
+
 }
 
 #endif /*OLD_LIFT_CODE*/
