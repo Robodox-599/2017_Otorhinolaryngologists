@@ -6,11 +6,19 @@
  */
 //Brandon's autonomouses
 
+
+#define AUTONOMOUS
+
+
+
+#ifdef AUTONOMOUS
 #include <Autonomous.h>
 
-Autonomous::Autonomous(Drive* autoDrive, Gears* autoGear)
+Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive)
 {
-	drive = autoDrive;
+	gyroDrive = autoTurning;
+	encDrive = precisionDrive;
+
 	gear = autoGear;
 	autoSteps = 0;
 	isTurning = false;
@@ -20,10 +28,11 @@ Autonomous::Autonomous(Drive* autoDrive, Gears* autoGear)
 
 Autonomous::~Autonomous()
 {
-	drive = nullptr;
+
+
 	gear = nullptr;
 
-	delete drive;
+
 	delete gear;
 }
 
@@ -31,67 +40,72 @@ Autonomous::~Autonomous()
 void Autonomous::overlap1_2()
 {
 	if(autoSteps == 0)
+	{
+
+		isDriving = encDrive->setDistance(79.92);
+
+		if(isDriving)
 		{
-			isDriving = drive->autoEncDistance(79.92);
-
-			if(isDriving)
-			{
-				autoSteps = 1;
-				isDriving = false;
-			}
+			autoSteps = 1;
+			isDriving = false;
 		}
+	}
 
-		if(autoSteps == 1)
+	if(autoSteps == 1)
+	{
+		isTurning = gyroDrive->autoTurn(60);
+
+		if(isTurning)
 		{
-			isTurning = drive->setAutoTurning(60);
-
-			if(isTurning)
-			{
-				autoSteps = 2;
-				isTurning = false;
-			}
+			autoSteps = 2;
+			isTurning = false;
 		}
+	}
 
-		if(autoSteps == 2)
+	if(autoSteps == 2)
+	{
+		isDriving = encDrive->setDistance(38);
+
+		if(isDriving)
 		{
-			isDriving = drive->autoEncDistance(38);
-
-			if(isDriving)
-			{
-				autoSteps = 3;
-				isDriving = false;
-			}
+			autoSteps = 3;
+			isDriving = false;
 		}
+	}
 
-		if(autoSteps == 3)
+	if(autoSteps == 3)
+	{
+
+		isGears = gear->trapDoor();
+
+		if(isGears)
 		{
-
-			isGears = gear->trapDoor();
-
-			if(isGears)
-			{
-				autoSteps = 4;
-				isGears = false;
-			}
+			autoSteps = 4;
+			isGears = false;
 		}
-
-		if(autoSteps == 4)
+		else
 		{
-			isDriving = drive->autoEncDistance(-38);
-
-			if(isDriving)
-			{
-				autoSteps = 5;
-				isDriving = false;
-			}
+			gearsReset();
 		}
+	}
+
+	if(autoSteps == 4)
+	{
+		isDriving = encDrive->setDistance(-38);
+
+		if(isDriving)
+		{
+			autoSteps = 5;
+			isDriving = false;
+		}
+	}
 }
 
 void Autonomous::overlap4_6_7()
 {
 	if(autoSteps == 0)
 		{
-			isDriving = drive->autoEncDistance(79.92);
+			isDriving = encDrive->setDistance(79.92);
 
 			if(isDriving)
 			{
@@ -102,7 +116,7 @@ void Autonomous::overlap4_6_7()
 
 		if(autoSteps == 1)
 		{
-			isTurning = drive->setAutoTurning(-60);
+			isTurning = gyroDrive->autoTurn(-60);
 
 			if(isTurning)
 			{
@@ -113,7 +127,7 @@ void Autonomous::overlap4_6_7()
 
 		if(autoSteps == 2)
 		{
-			isDriving = drive->autoEncDistance(38);
+			isDriving = encDrive->setDistance(38);
 
 			if(isDriving)
 			{
@@ -131,11 +145,15 @@ void Autonomous::overlap4_6_7()
 				autoSteps = 4;
 				isGears = false;
 			}
+			else
+			{
+				gearsReset();
+			}
 		}
 
 		if(autoSteps == 4)
 		{
-			isDriving = drive->autoEncDistance(-38);
+			isDriving = encDrive->setDistance(-38);
 
 			if(isDriving)
 			{
@@ -152,7 +170,7 @@ void Autonomous::auto1()
 
 	if(autoSteps == 5)
 	 {
-	  		isTurning = drive->setAutoTurning(-91.515);
+	  		isTurning = gyroDrive->autoTurn(-91.515);
 
 	 		if(isTurning)
 	  		{
@@ -163,7 +181,7 @@ void Autonomous::auto1()
 
 	  if(autoSteps == 6)
 	  {
-	  		isDriving = drive->autoEncDistance(133.33);
+	  		isDriving = encDrive->setDistance(133.33);
 
 	  		if(isDriving)
 	  		{
@@ -174,7 +192,7 @@ void Autonomous::auto1()
 
 	  if(autoSteps == 7)
 	  {
-	  		isTurning = drive->setAutoTurning(58.485);
+	  		isTurning = gyroDrive->autoTurn(58.485);
 
 	  		if(isTurning)
 	  		{
@@ -185,7 +203,7 @@ void Autonomous::auto1()
 
 	  if(autoSteps == 8)
 	  {
-	  		isDriving = drive->autoEncDistance(35.14);
+	  		isDriving = encDrive->setDistance(35.14);
 
 	  		if(isDriving)
 	  		{
@@ -196,7 +214,7 @@ void Autonomous::auto1()
 
 	  if(autoSteps == 9)
 	  {
-	  		isDriving = drive->autoEncDistance(-35.14);
+	  		isDriving = encDrive->setDistance(-35.14);
 
 	  		if(isDriving)
 	  		{
@@ -207,7 +225,7 @@ void Autonomous::auto1()
 
 	  if(autoSteps == 10)
 	  {
-	 		isTurning = drive->setAutoTurning(90);
+	 		isTurning = gyroDrive->autoTurn(90);
 
 	  		if(isTurning)
 	  		{
@@ -218,7 +236,7 @@ void Autonomous::auto1()
 
 	  if(autoSteps == 11)
 	  {
-	  		isDriving = drive->autoEncDistance(163.56);
+	  		isDriving = encDrive->setDistance(163.56);
 
 	  		if(isDriving)
 	  		{
@@ -235,7 +253,7 @@ void Autonomous::auto2()
 
 	if(autoSteps == 5)
 	{
-		isTurning = drive->setAutoTurning(-60);
+		isTurning = gyroDrive->autoTurn(-60);
 		if(isTurning)
 		{
 			autoSteps = 3;
@@ -244,7 +262,7 @@ void Autonomous::auto2()
 	}
 	if(autoSteps == 6)
 	{
-		isDriving = drive->autoEncDistance(260.17);
+		isDriving = encDrive->setDistance(260.17);
 		if(isDriving)
 		{
 			isDriving = false;
@@ -258,7 +276,7 @@ void Autonomous::auto3()
 {
 	if(autoSteps == 0)
 	{
-		isDriving = drive->autoEncDistance(79);
+		isDriving = encDrive->setDistance(79);
 		if(isDriving)
 		{
 			autoSteps = 1;
@@ -275,11 +293,15 @@ void Autonomous::auto3()
 			autoSteps = 2;
 			isGears = false;
 		}
+		else
+		{
+			gearsReset();
+		}
 	}
 
 	if(autoSteps == 2)
 	{
-		isDriving = drive->autoEncDistance(-15);
+		isDriving = encDrive->setDistance(-15);
 
 		if(isDriving)
 		{
@@ -296,7 +318,7 @@ void Autonomous::auto4()
 
 	if(autoSteps == 5)
 	{
-		isTurning = drive->setAutoTurning(60);
+		isTurning = gyroDrive->autoTurn(60);
 
 		if(isTurning)
 		{
@@ -311,7 +333,7 @@ void Autonomous::auto5()
 {
 	if(autoSteps == 0)
 	{
-		isDriving = drive->autoEncDistance(338.56);
+		isDriving = encDrive->setDistance(338.56);
 
 		if(isDriving)
 		{
@@ -328,7 +350,7 @@ void Autonomous::auto6()
 
 	if(autoSteps == 5)
 	{
-		isTurning = drive->setAutoTurning(91.515);
+		isTurning = gyroDrive->autoTurn(91.515);
 
 		if(isTurning)
 		{
@@ -339,7 +361,7 @@ void Autonomous::auto6()
 
 	if(autoSteps == 6)
 	{
-		isDriving = drive->autoEncDistance(113.33);
+		isDriving = encDrive->setDistance(113.33);
 
 		if(isDriving)
 		{
@@ -350,7 +372,7 @@ void Autonomous::auto6()
 
 	if(autoSteps == 7)
 	{
-		isTurning = drive->setAutoTurning(58.485);
+		isTurning = gyroDrive->autoTurn(58.485);
 
 		if(isTurning)
 		{
@@ -361,7 +383,7 @@ void Autonomous::auto6()
 
 	if(autoSteps == 8)
 	{
-		isDriving = drive->autoEncDistance(35.14);
+		isDriving = encDrive->setDistance(35.14);
 
 		if(isDriving)
 		{
@@ -372,7 +394,7 @@ void Autonomous::auto6()
 
 	if(autoSteps == 9)
 	{
-		isDriving = drive->autoEncDistance(-35.14);
+		isDriving = encDrive->setDistance(-35.14);
 
 		if(isDriving)
 		{
@@ -383,7 +405,7 @@ void Autonomous::auto6()
 
 	if(autoSteps == 10)
 	{
-		isTurning = drive->setAutoTurning(-90);
+		isTurning = gyroDrive->autoTurn(-90);
 
 		if(isTurning)
 		{
@@ -394,7 +416,7 @@ void Autonomous::auto6()
 
 	if(autoSteps == 11)
 	{
-		isDriving = drive->autoEncDistance(163.56);
+		isDriving = encDrive->setDistance(163.56);
 
 		if(isDriving)
 		{
@@ -411,7 +433,7 @@ void Autonomous::auto7()
 
 	if(autoSteps == 5)
 	{
-		isTurning = drive->setAutoTurning(60);
+		isTurning = gyroDrive->autoTurn(60);
 
 		if(isTurning)
 		{
@@ -422,7 +444,7 @@ void Autonomous::auto7()
 
 	if(autoSteps == 6)
 	{
-		isDriving = drive->autoEncDistance(260.17);
+		isDriving = encDrive->setDistance(260.17);
 
 		if(isDriving)
 		{
@@ -432,4 +454,13 @@ void Autonomous::auto7()
 	}
 }
 
+void Autonomous::gearsReset()
+{
+	isDriving = encDrive->setDistance(-10);
+	isTurning = gyroDrive->autoTurn(-17);
+	isTurning = gyroDrive->autoTurn(17);
+	isDriving = encDrive->setDistance(10);
+	isGears = gear->trapDoor();
+}
 
+#endif /*AUTONOMOUS*/

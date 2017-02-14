@@ -1,16 +1,17 @@
 /*
  * Drive.h
  *
- *  Created on: Mar 27, 2016
- *      Author: Robodox 599
+ *  Created on: Jan 30, 2017
+ *      Author: tons-of-carls
  */
 
-#ifndef SRC_DRIVE_DRIVE_H_
-#define SRC_DRIVE_DRIVE_H_
+#ifndef SRC_DRIVE_H_
+#define SRC_DRIVE_H_
 
 #include "WPILib.h"
-#include "AHRS.h"
 #include "CANTalon.h"
+
+using namespace std;
 
 class Drive
 {
@@ -18,62 +19,50 @@ public:
 	Drive();
 	~Drive();
 
-	bool autoEncDistance (float desiredDistance);
+	void resetAutoDriving();
 
 	void drive(float xAxis, float yAxis);
 
 	void setForwardSpeed(float rawY);
+	void addForwardSpeed(float increment);
+
 	void setTurnSpeed(float rawX);
+	void addTurnSpeed(float increment);
 
 	void updateLeftMotors(float speed);
 	void updateRightMotors(float speed);
-	
-	bool setAutoTurning(float angle);
-	void resetGyro(float offSet = 0);
+	void updateAllMotors();
 
-	bool globalAutoTurning(float angle);
-
-	AHRS* navX;
-	
-
-	
-	float error;
-
-private:
+	bool getIsJoystickTurn();
+	bool getIsJoystickForward();
 
 	float abs(float num);
 
+	void shift(bool toggleShift);
+	string getShiftState();
+
+	CANTalon* getCANTalon();
+
+	float forwardSpeed;
+	float turnSpeed;
+
+private:
 	CANTalon* frontLeftDrive;
 	CANTalon* backLeftDrive;
 	CANTalon* frontRightDrive;
 	CANTalon* backRightDrive;
 
-	float forwardSpeed;
-	float turnSpeed;
+	DoubleSolenoid* shifter;
 
-	//Straight Drive Variables
-	float gyroValue;
-	float refAngle;
+	bool shifterButtonPress;
 
-	float const kp = 0.01;
+	//true if the driver is turning the robot. Used in straight drive.
+	bool isJoystickTurn;
 
-	/*int encError;
-	int desiredTicks;
-	int encStartPosition;
-	int encTargetPosition;*/
+	//true if the driver is driving the robot forward of backwards.
+	bool isJoystickForward;
 
-	bool isDriving;
-	int autoDrivingError;
-	float distance;
-	
-	//Auto Turning Variables
-	bool isAutoTurning;
-
-
-	//Mic
-	float globalGyro;
 };
 
 
-
-#endif /* SRC_DRIVE_DRIVE_H_ */
+#endif /* SRC_DRIVE_H_ */

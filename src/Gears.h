@@ -9,6 +9,9 @@
 #define SRC_GEARS_H_
 #include "WPILib.h"
 
+
+using namespace std;
+
 class Gears
 {
 	public:
@@ -17,9 +20,17 @@ class Gears
 
 		void intakeRotator(bool rotate);
 
+		void toggleTrapDoor(bool open);
 		bool trapDoor();
+		bool getPlateOne();
+		bool getPlateTwo();
 
-		bool retracted;
+		string trapDoorState();
+		string rotatorState();
+		bool getPressurePlateStatus();
+
+		bool rState;
+		bool tdState;
 
 
 
@@ -32,7 +43,8 @@ class Gears
 
 		DoubleSolenoid* trapDoorSol;
 
-		DigitalInput* pressurePlate;
+		DigitalInput* plateOne;
+		DigitalInput* plateTwo;
 
 		Timer* timeSpent;
 

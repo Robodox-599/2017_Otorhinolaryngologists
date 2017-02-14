@@ -7,6 +7,7 @@
 //Brandon's autonomouses
 #ifndef SRC_AUTONOMOUS_H_
 #define SRC_AUTONOMOUS_H_
+
 #include "Drive.h"
 #include "Gears.h"
 
@@ -14,7 +15,7 @@ class Autonomous
 {
 public:
 
-	Autonomous(Drive* autoDrive, Gears* autoGear);
+	Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive);
 	~Autonomous();
 
 	void auto1();
@@ -26,6 +27,7 @@ public:
 	void auto7();
 	void overlap1_2();
 	void overlap4_6_7();
+	void gearsReset();
 
 
 	int autoSteps;
@@ -37,7 +39,9 @@ public:
 
 private:
 
-	Drive* drive;
+	GyroDrive* gyroDrive;
+	AutoDrive* encDrive;
+
 	Gears* gear;
 
 };
@@ -46,4 +50,4 @@ private:
 
 
 
-#endif /* SRC_AUTONOMOUS_H_ */
+#endif  SRC_AUTONOMOUS_H_
