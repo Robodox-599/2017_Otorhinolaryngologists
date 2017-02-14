@@ -6,7 +6,6 @@
 #include "WPILib.h"
 #include "XboxController.h"
 #include "Drive.h"
-#include "Auto.h"
 #include "Autonomous.h"
 #include "Gears.h"
 #include "Lift.h"
