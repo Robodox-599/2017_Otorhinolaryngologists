@@ -7,6 +7,7 @@
 #include "AutoDrive.h"
 #include "GyroDrive.h"
 #include "VisionTracking.h"
+#include "Autonomous.h"
 
 #include "Gears.h"
 #include "Lift.h"
@@ -77,6 +78,8 @@ public:
 		{
 			// Default Auto goes here
 		}
+		auton->auto3();
+		drive->updateAllMotors();
 	}
 
 	void TeleopInit()
@@ -174,6 +177,7 @@ private:
 
 	XboxController* xbox;
 	Joystick* atk3;
+	Autonomous* auton;
 };
 
 START_ROBOT_CLASS(Robot)

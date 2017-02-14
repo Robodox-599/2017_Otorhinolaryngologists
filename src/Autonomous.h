@@ -27,6 +27,7 @@ public:
 	void auto7();
 	void overlap1_2();
 	void overlap4_6_7();
+	void gearsReset();
 
 
 	int autoSteps;
