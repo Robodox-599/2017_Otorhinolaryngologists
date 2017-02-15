@@ -23,41 +23,54 @@ AutoDrive::~AutoDrive()
 
 bool AutoDrive::precisionDistance()
 {
+	printf("\nstart in precision distance");
 	if(isAutoDrive)
 	{
-		if(distanceError() > 250 || distanceError() < -250)
+		printf("\nafter isAutoDrive");
+		if(distanceError() > 1 || distanceError() < -1)
 		{
-			if(adDrive->abs(distanceError() / 500.0) < .3)
+			printf("\nafter deadzone for error");
+
+			if(adDrive->abs(distanceError() / 10.0) < .3)
 			{
-				adDrive->addForwardSpeed(distanceError() / 500.0);
+				printf("\nafter max speed check");
+				adDrive->addForwardSpeed(distanceError() / 10.0);
 				return false;
 			}
-			adDrive->addForwardSpeed(adDrive->abs(distanceError() / 500.0)/(distanceError() / 500.0) * .3);
+			adDrive->addForwardSpeed(adDrive->abs(distanceError())/(distanceError()) * .3);
 			return false;
 
 		}
-
-		adDrive->getCANTalon()->SetEncPosition(0);
 		isAutoDrive = false;
-		dis = 0;
 	}
+	//adDrive->getCANTalon()->SetEncPosition(0);
+	//dis = 0;
 	return true;
 }
 
-float AutoDrive::distanceError()//encoder not attached to shaft
+float AutoDrive::distanceError()//-dis * 54.35
 {
-	SmartDashboard::PutNumber("enc pos", adDrive->getCANTalon()->GetEncPosition());
-	SmartDashboard::PutNumber("dis", dis * 54.35);
-	return -dis * 54.35 + adDrive->getCANTalon()->GetEncPosition();//switch this if switch encoder motor
+	SmartDashboard::PutNumber("enc pos in inches", 0.019 * adDrive->getCANTalon()->GetEncPosition());
+	SmartDashboard::PutNumber("dis", dis);
+	return dis - 0.019 * adDrive->getCANTalon()->GetEncPosition();//going double the distance
 }
+//.8 enc rotation / 1 wheel rotation
+//1.25 wheel rotation / 1 enc rotation
+//
 
 bool AutoDrive::setDistance(float distance)
 {
 	if(!isAutoDrive)
 	{
-		dis = -distance;
+		dis = distance;
 		isAutoDrive = true;
 	}
 
 	return precisionDistance();
+}
+
+void AutoDrive::reset()
+{
+	adDrive->getCANTalon()->SetEncPosition(0);
+	dis = 0;
 }

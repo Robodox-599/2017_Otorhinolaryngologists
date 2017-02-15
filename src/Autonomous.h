@@ -8,7 +8,8 @@
 #ifndef SRC_AUTONOMOUS_H_
 #define SRC_AUTONOMOUS_H_
 
-#include "Drive.h"
+#include "AutoDrive.h"
+#include "GyroDrive.h"
 #include "Gears.h"
 
 class Autonomous

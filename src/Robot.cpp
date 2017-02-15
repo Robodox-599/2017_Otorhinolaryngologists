@@ -85,7 +85,7 @@ public:
 	void TeleopInit()
 	{
 		nvxDrive->reset();
-		drive->getCANTalon()->SetEncPosition(0);
+		encDrive->reset();
 		lift->reset();
 	}
 
@@ -102,12 +102,21 @@ public:
 
 		//pxyDrive->update();
 
-		/*if(xbox->GetAButton())
+		if(xbox->GetAButton())
 		{
 			pxyDrive->trackTurn();
 			nvxDrive->reset();
 			drive->getCANTalon()->SetEncPosition(0);
-		}*/
+		}
+		else if(xbox->GetYButton())
+		{
+			encDrive->setDistance(10);
+		}
+		else
+		{
+			encDrive->precisionDistance();
+		}
+
 		if(!lift->getLiftToggle())
 		{
 			nvxDrive->straightDrive();
@@ -152,6 +161,10 @@ public:
 		SmartDashboard::PutNumber("Lift Status", lift->getLiftStatus());
 
 		SmartDashboard::PutNumber("Lift ENC", lift->leftCimMotor->GetEncPosition());
+
+
+		SmartDashboard::PutNumber("Drive Enc", drive->getCANTalon()->GetEncPosition());
+		SmartDashboard::PutNumber("distance error", encDrive->distanceError());
 	}
 
 	void TestPeriodic()

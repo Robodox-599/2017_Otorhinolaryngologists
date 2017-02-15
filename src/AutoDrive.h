@@ -19,7 +19,7 @@ public:
 	bool precisionDistance();
 	float distanceError();
 	bool setDistance(float distance);
-	bool reset();
+	void reset();
 
 private:
 	Drive* adDrive;

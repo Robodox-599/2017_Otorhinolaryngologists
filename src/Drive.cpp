@@ -409,7 +409,7 @@ float Drive::abs(float num)
 
 CANTalon* Drive::getCANTalon()
 {
-	return backRightDrive;
+	return frontRightDrive;
 }
 
 void Drive::shift(bool toggleShift)
