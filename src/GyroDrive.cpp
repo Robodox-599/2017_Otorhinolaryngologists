@@ -76,7 +76,7 @@ bool GyroDrive::autoTurn(float angle)
 
 float GyroDrive::calculateError()
 {
-	return (desiredAngle - gyroValue) * .2;
+	return (gyroValue - desiredAngle) * .2;
 }
 
 void GyroDrive::reset()

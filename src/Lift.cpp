@@ -132,6 +132,8 @@ Lift::Lift()
 	liftStopOne = new DigitalInput(3);
 	liftStopTwo = new DigitalInput(7);
 
+	timeSpent = new Timer();
+
 	initialBreakOne = false;
 	initialBreakTwo = false;
 
@@ -146,12 +148,12 @@ Lift::~Lift()
 {
 	leftCimMotor = nullptr;
 	rightCimMotor = nullptr;
-	//timeSpent = nullptr;
+	timeSpent = nullptr;
 	liftStopOne = nullptr;
 	liftStopTwo = nullptr;
 	delete leftCimMotor;
 	delete rightCimMotor;
-	//delete timeSpent;
+	delete timeSpent;
 	delete liftStopOne;
 	delete liftStopTwo;
 }
@@ -226,14 +228,28 @@ void Lift::liftRobot(bool button)
 	{
 		if(button && liftStatus == 0)
 		{
-			if(liftStopOne->Get() || liftStopTwo->Get())
+			if(liftStopOne->Get() && liftStopTwo->Get())//was or changed 2/15/2017
 			{
-				leftCimMotor->Set(0);
-				rightCimMotor->Set(0);
-				liftStatus = 1;
+				//leftCimMotor->Set(0);
+				//rightCimMotor->Set(0);
+				//liftStatus = 1;
+
+
+				timeSpent->Start();
+				if(timeSpent->HasPeriodPassed(2))
+				{
+					leftCimMotor->Set(0);
+					rightCimMotor->Set(0);
+					liftStatus = 1;
+				}
 			}
 			else
 			{
+
+				timeSpent->Stop();
+				timeSpent->Reset();
+
+
 				leftCimMotor->Set(0.75);
 				rightCimMotor->Set(-0.75);
 				liftToggle = true;
@@ -254,8 +270,9 @@ void Lift::liftRobot(bool button)
 		{
 			leftCimMotor->Set(0.75);
 			rightCimMotor->Set(-0.75);
+			liftStatus = 3;
 		}
-		else if(!button && liftStatus == 2)
+		else if(!button && liftStatus == 3)
 		{
 			leftCimMotor->Set(0);
 			rightCimMotor->Set(0);

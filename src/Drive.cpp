@@ -311,7 +311,6 @@ void Drive::setForwardSpeed(float forward)
  */
 void Drive::addForwardSpeed(float increment)
 {
-	SmartDashboard::PutNumber("inc", increment);
 	forwardSpeed += increment;
 }
 
@@ -346,6 +345,7 @@ void Drive::setTurnSpeed(float turn)//continuous turning problem
  */
 void Drive::addTurnSpeed(float increment)
 {
+	SmartDashboard::PutNumber("turn inc in drive", increment);
 	turnSpeed += increment;
 }
 

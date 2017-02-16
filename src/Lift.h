@@ -62,7 +62,7 @@ public:
 
 private:
 	CANTalon* rightCimMotor;
-	//Timer* timeSpent;
+	Timer* timeSpent;
 	DigitalInput* liftStopOne;
 	DigitalInput* liftStopTwo;
 

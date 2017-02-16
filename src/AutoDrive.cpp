@@ -23,17 +23,12 @@ AutoDrive::~AutoDrive()
 
 bool AutoDrive::precisionDistance()
 {
-	printf("\nstart in precision distance");
 	if(isAutoDrive)
 	{
-		printf("\nafter isAutoDrive");
-		if(distanceError() > 1 || distanceError() < -1)
+		if(distanceError() > .5 || distanceError() < -.5)
 		{
-			printf("\nafter deadzone for error");
-
 			if(adDrive->abs(distanceError() / 10.0) < .3)
 			{
-				printf("\nafter max speed check");
 				adDrive->addForwardSpeed(distanceError() / 10.0);
 				return false;
 			}
@@ -43,8 +38,8 @@ bool AutoDrive::precisionDistance()
 		}
 		isAutoDrive = false;
 	}
-	//adDrive->getCANTalon()->SetEncPosition(0);
-	//dis = 0;
+	adDrive->getCANTalon()->SetEncPosition(0);
+	dis = 0;
 	return true;
 }
 
@@ -62,7 +57,7 @@ bool AutoDrive::setDistance(float distance)
 {
 	if(!isAutoDrive)
 	{
-		dis = distance;
+		dis = distance - 10;
 		isAutoDrive = true;
 	}
 

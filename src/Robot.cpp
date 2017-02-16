@@ -40,7 +40,7 @@ public:
 		xbox = new XboxController(0);
 		atk3 = new Joystick(1);
 
-		auton = new Autonomous();
+		auton = new Autonomous(gears, nvxDrive, encDrive);
 
 		CameraServer::GetInstance()->StartAutomaticCapture();
 	}
@@ -72,16 +72,26 @@ public:
 
 	void AutonomousPeriodic()
 	{
+		//drive->drive(0,0);
 		if (autoSelected == autoNameCustom)
 		{
 			// Custom Auto goes here
+			drive->drive(0, 1);
+			Wait(1);
+			drive->drive(0, -1);
+			Wait(1);
 		}
 		else
 		{
 			// Default Auto goes here
+
+			drive->drive(0, 1);
+			Wait(1);
+			drive->drive(0, -1);
+			Wait(1);
 		}
-		auton->auto3();
-		drive->updateAllMotors();
+		//auton->auto3();
+		//drive->updateAllMotors();
 	}
 
 	void TeleopInit()
@@ -91,7 +101,7 @@ public:
 		lift->reset();
 	}
 
-	void TeleopPeriodic()
+	void TeleopPeriodic()//change all to atk3
 	{
 		if(xbox->GetBumper(XboxController::JoystickHand::kLeftHand) || xbox->GetBumper(XboxController::JoystickHand::kRightHand))
 		{
@@ -102,7 +112,7 @@ public:
 			drive->drive(-xbox->GetX(XboxController::kRightHand), -xbox->GetY(XboxController::kLeftHand));
 		}
 
-		//pxyDrive->update();
+		pxyDrive->update();
 
 		if(xbox->GetAButton())
 		{
@@ -112,7 +122,7 @@ public:
 		}
 		else if(xbox->GetYButton())
 		{
-			encDrive->setDistance(10);
+			encDrive->setDistance(30);
 		}
 		else
 		{
@@ -123,6 +133,8 @@ public:
 		{
 			nvxDrive->straightDrive();
 		}
+
+		SmartDashboard::PutBoolean("lift Toggle", lift->getLiftToggle());
 
 		if(atk3->GetRawButton(10))
 		{
@@ -139,11 +151,11 @@ public:
 		drive->updateAllMotors();
 
 
-		lift->liftRobot(atk3->GetRawButton(6));
-		gears->intakeRotator(atk3->GetRawButton(8));
+		lift->liftRobot(atk3->GetRawButton(1));
+		gears->intakeRotator(atk3->GetRawButton(3));
 		gears->trapDoor();
 
-		gears->toggleTrapDoor(atk3->GetRawButton(9));
+		gears->toggleTrapDoor(atk3->GetRawButton(2));
 
 		SmartDashboard::PutBoolean("Break Beam One", lift->beamOne());
 		SmartDashboard::PutBoolean("Break Beam Two", lift->beamTwo());

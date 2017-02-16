@@ -52,7 +52,7 @@ int VisionTracking::forwardError(int width)
 
 bool VisionTracking::trackTurn()
 {
-	if(turnError() > 1.5 || turnError() < 1.5)
+	if(turnError() > 1.5 || turnError() < -1.5)
 	{
 		vtDrive->addTurnSpeed(turnError() / 100.0);//lower to turn faster, increase to turn slower
 		return false;
@@ -67,6 +67,7 @@ void VisionTracking::resetTurn()
 
 int VisionTracking::turnError()
 {
+	printf("\n%d", pixy->getValue(Pixy::Value::X_CENTER));
 	return pixy->getValue(Pixy::Value::X_CENTER) - 80;//may need to switch if turning wrong way
 }
 
