@@ -39,6 +39,8 @@ public:
 	float abs(float num);
 
 	void shift(bool toggleShift);
+	void setRampRates(int voltage);
+
 	string getShiftState();
 
 	CANTalon* getCANTalon();

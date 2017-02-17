@@ -68,7 +68,7 @@ void VisionTracking::resetTurn()
 int VisionTracking::turnError()
 {
 	printf("\n%d", pixy->getValue(Pixy::Value::X_CENTER));
-	return pixy->getValue(Pixy::Value::X_CENTER) - 80;//may need to switch if turning wrong way
+	return  80 - pixy->getValue(Pixy::Value::X_CENTER);//may need to switch if turning wrong way!!!???
 }
 
 void VisionTracking::update()

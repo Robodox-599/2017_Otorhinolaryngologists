@@ -40,6 +40,8 @@ public:
 		xbox = new XboxController(0);
 		atk3 = new Joystick(1);
 
+		power = new PowerDistributionPanel();
+
 		auton = new Autonomous(gears, nvxDrive, encDrive);
 
 		CameraServer::GetInstance()->StartAutomaticCapture();
@@ -157,8 +159,11 @@ public:
 
 		gears->toggleTrapDoor(atk3->GetRawButton(2));
 
-		SmartDashboard::PutBoolean("Break Beam One", lift->beamOne());
-		SmartDashboard::PutBoolean("Break Beam Two", lift->beamTwo());
+		SmartDashboard::PutNumber("VOLTAGE", power->GetVoltage());
+		SmartDashboard::PutNumber("TOTAL CURRENT", power->GetTotalCurrent());
+
+		SmartDashboard::PutBoolean("Lift Switch One", lift->beamOne());
+		SmartDashboard::PutBoolean("Lift Switch Two", lift->beamTwo());
 
 		SmartDashboard::PutBoolean("Initial Break", lift->initialBreak());
 
@@ -205,6 +210,8 @@ private:
 	XboxController* xbox;
 	Joystick* atk3;
 	Autonomous* auton;
+
+	PowerDistributionPanel* power;
 };
 
 START_ROBOT_CLASS(Robot)

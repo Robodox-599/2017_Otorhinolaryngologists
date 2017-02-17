@@ -228,7 +228,7 @@ void Lift::liftRobot(bool button)
 	{
 		if(button && liftStatus == 0)
 		{
-			if(liftStopOne->Get() && liftStopTwo->Get())//was or changed 2/15/2017
+			if(liftStopOne->Get() || liftStopTwo->Get())//was or changed 2/15/2017
 			{
 				//leftCimMotor->Set(0);
 				//rightCimMotor->Set(0);
@@ -236,7 +236,7 @@ void Lift::liftRobot(bool button)
 
 
 				timeSpent->Start();
-				if(timeSpent->HasPeriodPassed(2))
+				if(timeSpent->HasPeriodPassed(0))
 				{
 					leftCimMotor->Set(0);
 					rightCimMotor->Set(0);

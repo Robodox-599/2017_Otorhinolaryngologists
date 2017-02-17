@@ -23,9 +23,11 @@ AutoDrive::~AutoDrive()
 
 bool AutoDrive::precisionDistance()
 {
+	printf("\nEnc Velocity: %d", adDrive->getCANTalon()->GetEncVel());
+
 	if(isAutoDrive)
 	{
-		if(distanceError() > .5 || distanceError() < -.5)
+		if(distanceError() > .5 || distanceError() < -.5 || adDrive->getCANTalon()->GetEncVel() > 2 || adDrive->getCANTalon()->GetEncVel() < -2)
 		{
 			if(adDrive->abs(distanceError() / 10.0) < .3)
 			{
@@ -38,8 +40,7 @@ bool AutoDrive::precisionDistance()
 		}
 		isAutoDrive = false;
 	}
-	adDrive->getCANTalon()->SetEncPosition(0);
-	dis = 0;
+	reset();
 	return true;
 }
 

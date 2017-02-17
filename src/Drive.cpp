@@ -233,6 +233,12 @@ Drive::Drive()
 	frontRightDrive = new CANTalon(1);  //port 0
 	backRightDrive = new CANTalon(2);   //port 2
 
+	frontLeftDrive->SetVoltageRampRate(60);
+	backLeftDrive->SetVoltageRampRate(60);
+
+	frontRightDrive->SetVoltageRampRate(60);
+	backRightDrive->SetVoltageRampRate(60);
+
 	shifter = new DoubleSolenoid(0,1);
 
 	//general Variables
@@ -419,12 +425,12 @@ void Drive::shift(bool toggleShift)
 			if(shifter->Get() == DoubleSolenoid::Value::kForward)
 			{
 				shifter->Set(DoubleSolenoid::Value::kReverse);
-
+				setRampRates(40);
 			}
 			else
 			{
 				shifter->Set(DoubleSolenoid::Value::kForward);
-
+				setRampRates(80);
 			}
 			shifterButtonPress = false;
 		}
@@ -439,10 +445,19 @@ string Drive::getShiftState()
 {
 	if(shifter->Get() == DoubleSolenoid::Value::kForward)
 	{
-		return "Slow";
+		return "Low Gear";
 	}
 
-	return "Fast";
+	return "High Gear";
+}
+
+void Drive::setRampRates(int voltage)
+{
+	frontLeftDrive->SetVoltageRampRate(voltage);
+	backLeftDrive->SetVoltageRampRate(voltage);
+
+	frontRightDrive->SetVoltageRampRate(voltage);
+	backRightDrive->SetVoltageRampRate(voltage);
 }
 
 #endif /*OLD_DRIVE_CODE*/

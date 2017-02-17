@@ -10,7 +10,7 @@
 
 
 /*MACROS*/
-#define GYRO_ERROR_DEADZONE (1.5)//test deadzone, gyro not resetting after auto turning
+#define GYRO_ERROR_DEADZONE (2)//test deadzone, gyro not resetting after auto turning
 #define GYRO_ERROR_LIMIT    (180.0)
 
 /*INCLUDES*/
