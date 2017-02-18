@@ -418,6 +418,11 @@ CANTalon* Drive::getCANTalon()
 	return frontRightDrive;
 }
 
+CANTalon* Drive::getCANTalonLeft()
+{
+	return frontLeftDrive;
+}
+
 void Drive::shift(bool toggleShift)
 {
 	if(toggleShift && shifterButtonPress)
