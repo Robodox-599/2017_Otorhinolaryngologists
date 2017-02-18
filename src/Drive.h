@@ -44,6 +44,7 @@ public:
 	string getShiftState();
 
 	CANTalon* getCANTalon();
+	CANTalon* getCANTalonLeft();
 
 	float forwardSpeed;
 	float turnSpeed;
