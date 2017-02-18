@@ -29,12 +29,12 @@ bool AutoDrive::precisionDistance()
 	{
 		if(distanceError() > .5 || distanceError() < -.5 || adDrive->getCANTalon()->GetEncVel() > 2 || adDrive->getCANTalon()->GetEncVel() < -2)
 		{
-			if(adDrive->abs(distanceError() / 10.0) < .3)
+			if(adDrive->abs(distanceError() / 10.0) < .2)
 			{
 				adDrive->addForwardSpeed(distanceError() / 10.0);
 				return false;
 			}
-			adDrive->addForwardSpeed(adDrive->abs(distanceError())/(distanceError()) * .3);
+			adDrive->addForwardSpeed(adDrive->abs(distanceError())/(distanceError()) * .2);
 			return false;
 
 		}
@@ -58,7 +58,7 @@ bool AutoDrive::setDistance(float distance)
 {
 	if(!isAutoDrive)
 	{
-		dis = distance - 10;
+		dis = distance;
 		isAutoDrive = true;
 	}
 

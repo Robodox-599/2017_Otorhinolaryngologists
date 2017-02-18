@@ -50,11 +50,11 @@ bool GyroDrive::straightDrive()
 	}*/
 	else if((calculateError()/.2 > GYRO_ERROR_DEADZONE && calculateError()/.2 < GYRO_ERROR_LIMIT) || (calculateError()/.2 < -GYRO_ERROR_DEADZONE && calculateError()/.2 > -GYRO_ERROR_LIMIT))
 	{
-		if(gDrive->abs(calculateError()) < .25)
+		if(gDrive->abs(calculateError()) < .2)
 		{
 			gDrive->addTurnSpeed(calculateError());
 		}
-		gDrive->addTurnSpeed(gDrive->abs(calculateError()) / (calculateError())*(.25));
+		gDrive->addTurnSpeed(gDrive->abs(calculateError()) / (calculateError())*(.2));
 
 		return false;
 	}

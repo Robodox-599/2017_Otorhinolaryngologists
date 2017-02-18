@@ -70,12 +70,17 @@ public:
 		} else {
 			// Default Auto goes here
 		}
+
+		nvxDrive->reset();
+		encDrive->reset();
+		lift->reset();
+
 	}
 
 	void AutonomousPeriodic()
 	{
-		//drive->drive(0,0);
-		if (autoSelected == autoNameCustom)
+		drive->drive(0,0);
+		/*if (autoSelected == autoNameCustom)
 		{
 			// Custom Auto goes here
 			drive->drive(0, 1);
@@ -91,9 +96,10 @@ public:
 			Wait(1);
 			drive->drive(0, -1);
 			Wait(1);
-		}
-		//auton->auto3();
-		//drive->updateAllMotors();
+		}*/
+		auton->auto3();
+		nvxDrive->straightDrive();
+		drive->updateAllMotors();
 	}
 
 	void TeleopInit()

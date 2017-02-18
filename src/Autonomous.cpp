@@ -276,9 +276,10 @@ void Autonomous::auto3()
 {
 	if(autoSteps == 0)
 	{
-		isDriving = encDrive->setDistance(79);
+		isDriving = encDrive->setDistance(77);//was 79 changed 2/17/2017
 		if(isDriving)
 		{
+			encDrive->reset();
 			autoSteps = 1;
 			isDriving = false;
 		}
@@ -305,6 +306,8 @@ void Autonomous::auto3()
 
 		if(isDriving)
 		{
+			autoSteps = 3;
+			encDrive->reset();
 			isDriving = false;
 		}
 	}
