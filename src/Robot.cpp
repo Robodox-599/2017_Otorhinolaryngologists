@@ -42,7 +42,7 @@ public:
 
 		power = new PowerDistributionPanel();
 
-		auton = new Autonomous(gears, nvxDrive, encDrive);
+		auton = new Autonomous(gears, nvxDrive, encDrive, pxyDrive);
 
 		CameraServer::GetInstance()->StartAutomaticCapture();
 	}
@@ -98,7 +98,7 @@ public:
 			Wait(1);
 		}*/
 		auton->auto3();
-		nvxDrive->straightDrive();
+		//nvxDrive->straightDrive();
 		drive->updateAllMotors();
 	}
 
@@ -111,6 +111,11 @@ public:
 
 	void TeleopPeriodic()//change all to atk3
 	{
+		encDrive->linerizedDrive();
+		drive->drive(0,0);
+		drive->updateAllMotors();
+
+		/*
 		if(xbox->GetBumper(XboxController::JoystickHand::kLeftHand) || xbox->GetBumper(XboxController::JoystickHand::kRightHand))
 		{
 			drive->drive(-xbox->GetX(XboxController::kRightHand), xbox->GetY(XboxController::kLeftHand));
@@ -190,6 +195,7 @@ public:
 
 		SmartDashboard::PutNumber("Drive Enc", drive->getCANTalon()->GetEncPosition());
 		SmartDashboard::PutNumber("distance error", encDrive->distanceError());
+		*/
 	}
 
 	void TestPeriodic()

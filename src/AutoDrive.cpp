@@ -13,6 +13,7 @@ AutoDrive::AutoDrive(Drive* d)
 
 	isAutoDrive = false;
 	dis = 0;
+	intgError = 0;
 }
 
 AutoDrive::~AutoDrive()
@@ -38,9 +39,10 @@ bool AutoDrive::precisionDistance()
 			return false;
 
 		}
+		reset();
 		isAutoDrive = false;
 	}
-	reset();
+
 	return true;
 }
 
@@ -67,6 +69,28 @@ bool AutoDrive::setDistance(float distance)
 
 void AutoDrive::reset()
 {
+	//dis = 0.019 * adDrive->getCANTalon()->GetEncPosition();
+
 	adDrive->getCANTalon()->SetEncPosition(0);
+	adDrive->getCANTalonLeft()->SetEncPosition(0);
 	dis = 0;
 }
+
+void AutoDrive::linerizedDrive()
+{
+	if(adDrive->abs(linerizedError()) > 10)
+	{
+		intgError += 0.001 * adDrive->abs(linerizedError()) / linerizedError();
+	}
+	else
+	{
+		intgError = 0;
+	}
+	adDrive->addTurnSpeed(intgError);
+}
+
+float AutoDrive::linerizedError()
+{
+	return adDrive->getCANTalon()->GetEncPosition() - adDrive->getCANTalonLeft()->GetEncPosition();
+}
+

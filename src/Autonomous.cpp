@@ -14,10 +14,12 @@
 #ifdef AUTONOMOUS
 #include "Autonomous.h"
 
-Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive)
+Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive, VisionTracking* vt)
 {
 	gyroDrive = autoTurning;
 	encDrive = precisionDrive;
+
+	pxyDrive = vt;
 
 	gear = autoGear;
 	autoSteps = 0;
@@ -276,6 +278,7 @@ void Autonomous::auto3()
 {
 	if(autoSteps == 0)
 	{
+		encDrive->linerizedDrive();
 		isDriving = encDrive->setDistance(77);//was 79 changed 2/17/2017
 		if(isDriving)
 		{

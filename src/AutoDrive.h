@@ -20,12 +20,16 @@ public:
 	float distanceError();
 	bool setDistance(float distance);
 	void reset();
+	void linerizedDrive();
+	float linerizedError();
 
 private:
 	Drive* adDrive;
 
 	bool isAutoDrive;
 	float dis;
+
+	float intgError;
 
 };
 

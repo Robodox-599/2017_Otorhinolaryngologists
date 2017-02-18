@@ -16,7 +16,7 @@ class Autonomous
 {
 public:
 
-	Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive);
+	Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive, VisionTracking* vt);
 	~Autonomous();
 
 	void auto1();
@@ -42,6 +42,7 @@ private:
 
 	GyroDrive* gyroDrive;
 	AutoDrive* encDrive;
+	VisionTracking* pxyDrive;
 
 	Gears* gear;
 
