@@ -224,8 +224,8 @@ void Lift::liftRobot(bool button)
 
 
 
-	if(leftCimMotor->GetEncPosition() > 18432)
-	{
+	/*if(leftCimMotor->GetEncPosition() > 18432)
+	{*/
 		if(button && liftStatus == 0)
 		{
 			if(liftStopOne->Get() || liftStopTwo->Get())//was or changed 2/15/2017
@@ -278,7 +278,7 @@ void Lift::liftRobot(bool button)
 			rightCimMotor->Set(0);
 			liftStatus = 0;
 		}
-	}
+	/*}
 	else if(button)
 	{
 		leftCimMotor->Set(0.75);
@@ -288,7 +288,7 @@ void Lift::liftRobot(bool button)
 	{
 		leftCimMotor->Set(0);
 		rightCimMotor->Set(0);
-	}
+	}*/
 }
 
 

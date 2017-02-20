@@ -11,12 +11,14 @@
 #include "AutoDrive.h"
 #include "GyroDrive.h"
 #include "Gears.h"
+#include "VisionTracking.h"
+#include "Drive.h"
 
 class Autonomous
 {
 public:
 
-	Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive, VisionTracking* vt);
+	Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive, VisionTracking* vt, Drive* dr);
 	~Autonomous();
 
 	void auto1();
@@ -30,8 +32,10 @@ public:
 	void overlap4_6_7();
 	void gearsReset();
 
+	void autoReset();
 
-	int autoSteps;
+
+	double autoSteps;
 	bool isTurning;
 	bool isDriving;
 	bool isGears;
@@ -43,7 +47,8 @@ private:
 	GyroDrive* gyroDrive;
 	AutoDrive* encDrive;
 	VisionTracking* pxyDrive;
-
+	Drive* drive;
+	Timer* time;
 	Gears* gear;
 
 };

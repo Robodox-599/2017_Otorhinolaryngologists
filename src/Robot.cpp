@@ -42,9 +42,9 @@ public:
 
 		power = new PowerDistributionPanel();
 
-		auton = new Autonomous(gears, nvxDrive, encDrive, pxyDrive);
+		auton = new Autonomous(gears, nvxDrive, encDrive, pxyDrive, drive);
 
-		CameraServer::GetInstance()->StartAutomaticCapture();
+		//CameraServer::GetInstance()->StartAutomaticCapture();
 	}
 
 	/*
@@ -74,12 +74,16 @@ public:
 		nvxDrive->reset();
 		encDrive->reset();
 		lift->reset();
-
+		drive->getCANTalon()->SetEncPosition(0);
+		drive->getCANTalonLeft()->SetEncPosition(0);
+		auton->autoReset();
 	}
 
 	void AutonomousPeriodic()
 	{
 		drive->drive(0,0);
+		SmartDashboard::PutNumber("Encoder", drive->getCANTalon()->GetEncPosition());
+		SmartDashboard::PutNumber("encoder two", drive->getCANTalonLeft()->GetEncPosition());
 		/*if (autoSelected == autoNameCustom)
 		{
 			// Custom Auto goes here
@@ -98,7 +102,7 @@ public:
 			Wait(1);
 		}*/
 		auton->auto3();
-		//nvxDrive->straightDrive();
+		gears->trapDoor();
 		drive->updateAllMotors();
 	}
 
@@ -111,11 +115,11 @@ public:
 
 	void TeleopPeriodic()//change all to atk3
 	{
-		encDrive->linerizedDrive();
+		/*encDrive->linerizedDrive();
 		drive->drive(0,0);
-		drive->updateAllMotors();
+		drive->updateAllMotors();*/
 
-		/*
+
 		if(xbox->GetBumper(XboxController::JoystickHand::kLeftHand) || xbox->GetBumper(XboxController::JoystickHand::kRightHand))
 		{
 			drive->drive(-xbox->GetX(XboxController::kRightHand), xbox->GetY(XboxController::kLeftHand));
@@ -195,7 +199,6 @@ public:
 
 		SmartDashboard::PutNumber("Drive Enc", drive->getCANTalon()->GetEncPosition());
 		SmartDashboard::PutNumber("distance error", encDrive->distanceError());
-		*/
 	}
 
 	void TestPeriodic()

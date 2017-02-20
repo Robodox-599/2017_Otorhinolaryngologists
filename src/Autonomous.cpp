@@ -13,13 +13,18 @@
 
 #ifdef AUTONOMOUS
 #include "Autonomous.h"
+#include <cmath>
 
-Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive, VisionTracking* vt)
+Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* precisionDrive, VisionTracking* vt, Drive* dr)
 {
 	gyroDrive = autoTurning;
 	encDrive = precisionDrive;
 
 	pxyDrive = vt;
+
+	drive = dr;
+
+	time = new Timer();
 
 	gear = autoGear;
 	autoSteps = 0;
@@ -30,12 +35,15 @@ Autonomous::Autonomous(Gears* autoGear, GyroDrive* autoTurning, AutoDrive* preci
 
 Autonomous::~Autonomous()
 {
-
-
 	gear = nullptr;
-
+	gyroDrive = nullptr;
+	encDrive = nullptr;
+	pxyDrive = nullptr;
 
 	delete gear;
+	delete gyroDrive;
+	delete encDrive;
+	delete pxyDrive;
 }
 
 
@@ -278,42 +286,106 @@ void Autonomous::auto3()
 {
 	if(autoSteps == 0)
 	{
-		encDrive->linerizedDrive();
-		isDriving = encDrive->setDistance(77);//was 79 changed 2/17/2017
+		//encDrive->linerizedDrive();
+		gyroDrive->straightDrive();
+		isDriving = encDrive->setDistance(79);//was 79 changed 2/17/2017
+		//printf("false");
 		if(isDriving)
 		{
+			//Wait(10);
 			encDrive->reset();
 			autoSteps = 1;
 			isDriving = false;
 		}
 	}
 
-	if(autoSteps == 1)
+	/*else if(autoSteps == 2)
 	{
-		isGears = gear->trapDoor();
 
-		if(isGears)
+
+		drive->drive(0,0);
+		Wait(5);
+
+		drive->updateAllMotors();
+		Wait(2);
+		drive->addForwardSpeed(0);
+		drive->updateAllMotors();
+		isDriving = true;
+		if(isDriving)
 		{
-			autoSteps = 2;
-			isGears = false;
+			drive->drive(0,0);
+			autoSteps = 3;
+			isDriving = false;
+		}
+	}*/
+
+	else if(autoSteps == 1)
+	{
+		time->Start();
+		gyroDrive->straightDrive();
+
+		if(time->HasPeriodPassed(.5))
+		{
+
+			printf("\nwobble");
+			gearsReset();
+			autoSteps = 1.5;
+			//gyroDrive->straightDrive();
 		}
 		else
 		{
-			gearsReset();
+			printf("\nnot wobble");
+			drive->addForwardSpeed(.2);
+			isGears = gear->trapDoor();
+		}
+
+
+		if(isGears)
+		{
+			//Wait(3);
+			autoSteps = 2;
+			isGears = false;
 		}
 	}
 
-	if(autoSteps == 2)
+	else if(autoSteps == 2)
 	{
-		isDriving = encDrive->setDistance(-15);
+		isDriving = encDrive->setDistance(-8);
 
 		if(isDriving)
 		{
+			Wait(1);
 			autoSteps = 3;
+			encDrive->reset();
+			isDriving = false;
+			gear->toggleTrapDoor(true);
+		}
+	}
+
+	else if(autoSteps == 3)//test this step
+	{
+		isDriving = encDrive->setDistance(-4);
+
+		if(isDriving)
+		{
+			Wait(1);
+			autoSteps = 4;
 			encDrive->reset();
 			isDriving = false;
 		}
 	}
+	/*
+	else if(autoSteps == 4)
+	{
+		isDriving = encDrive->setDistance(-7);
+
+		if(isDriving)
+		{
+			autoSteps = 5;
+			encDrive->reset();
+			isDriving = false;
+		}
+	}*/
 }
 
 //Fourth Autonomous
@@ -462,11 +534,19 @@ void Autonomous::auto7()
 
 void Autonomous::gearsReset()
 {
-	isDriving = encDrive->setDistance(-10);
-	isTurning = gyroDrive->autoTurn(-17);
-	isTurning = gyroDrive->autoTurn(17);
-	isDriving = encDrive->setDistance(10);
-	isGears = gear->trapDoor();
+	drive->addForwardSpeed(-.2);
+	if(time->HasPeriodPassed(4))
+	{
+		time->Stop();
+		time->Reset();
+	}
+	//drive->addTurnSpeed(-sin( (drive->getCANTalon()->GetEncPosition() + drive->getCANTalonLeft()->GetEncPosition())/2 * 1/250.0 ) * .2);
+}
+
+
+void Autonomous::autoReset()
+{
+	autoSteps = 0;
 }
 
 #endif /*AUTONOMOUS*/

@@ -54,7 +54,7 @@ bool GyroDrive::straightDrive()
 		{
 			gDrive->addTurnSpeed(calculateError());
 		}
-		gDrive->addTurnSpeed(gDrive->abs(calculateError()) / (calculateError())*(.2));
+		gDrive->addTurnSpeed(gDrive->abs(calculateError()) / (calculateError())*(.08));
 
 		return false;
 	}
