@@ -284,6 +284,15 @@ void Autonomous::auto2()
 
 void Autonomous::auto3()
 {
+	//printf("autoStep: %d", autoSteps);
+	isGears = gear->trapDoor();
+	if(isGears)
+	{
+		//Wait(3);
+		autoSteps = 2;
+		isGears = false;
+	}
+
 	if(autoSteps == 0)
 	{
 		//encDrive->linerizedDrive();
@@ -317,7 +326,7 @@ void Autonomous::auto3()
 			autoSteps = 3;
 			isDriving = false;
 		}
-	}*/
+	}
 
 	else if(autoSteps == 1)
 	{
@@ -346,29 +355,89 @@ void Autonomous::auto3()
 			autoSteps = 2;
 			isGears = false;
 		}
+	}*/
+
+	else if(autoSteps == 1)
+	{
+
+		isGears = gear->trapDoor();
+
+		if(!isGears)
+		{
+			//Wait(3);
+			//autoSteps = 2;
+			//isGears = false;
+			autoSteps = 1.1;
+		}
+		else
+		{
+			autoSteps = 2;
+			isGears = false;
+		}
+	}
+
+	else if(autoSteps == 1.1)
+	{
+		gyroDrive->straightDrive();
+		isDriving = encDrive->setDistance(-3);
+
+		if(isDriving)
+		{
+
+			encDrive->reset();
+			autoSteps = 1.2;
+			isDriving = false;
+		}
+	}
+	else if(autoSteps == 1.2)
+	{
+		gyroDrive->straightDrive();
+		isDriving = encDrive->setDistance(7);
+		if(isDriving)
+		{
+			encDrive->reset();
+			autoSteps = 1;
+			isDriving = false;
+		}
 	}
 
 	else if(autoSteps == 2)
 	{
 		isDriving = encDrive->setDistance(-8);
+		gyroDrive->straightDrive();
 
 		if(isDriving)
 		{
-			Wait(1);
+			//Wait(1);
 			autoSteps = 3;
 			encDrive->reset();
 			isDriving = false;
+			gear->toggleTrapDoor(true);
 			gear->toggleTrapDoor(true);
 		}
 	}
 
 	else if(autoSteps == 3)//test this step
 	{
-		isDriving = encDrive->setDistance(-4);
+		isDriving = encDrive->setDistance(8);
+		gyroDrive->straightDrive();
 
 		if(isDriving)
 		{
-			Wait(1);
+			//Wait(1);
+			autoSteps = 3.1;
+			encDrive->reset();
+			isDriving = false;
+		}
+	}
+	else if(autoSteps == 3.1)
+	{
+		isDriving = encDrive->setDistance(-12);
+		gyroDrive->straightDrive();
+
+		if(isDriving)
+		{
+			//Wait(1);
 			autoSteps = 4;
 			encDrive->reset();
 			isDriving = false;
@@ -547,6 +616,7 @@ void Autonomous::gearsReset()
 void Autonomous::autoReset()
 {
 	autoSteps = 0;
+	printf("\n\nreset Auto Setps\n\n");
 }
 
 #endif /*AUTONOMOUS*/

@@ -63,14 +63,22 @@ bool Gears::trapDoor()
 {
 	if(plateOne->Get() || plateTwo->Get())//debounce
 	{
+
 		timeSpent->Start();
+
+		trapDoorSol->Set(DoubleSolenoid::Value::kReverse);
+		return true;
+
+
+
+		/*
 		if(timeSpent->HasPeriodPassed(.2)) //&& (!plateOne->Get() || plateTwo->Get()))//trapDoorSol->Get() == DoubleSolenoid::Value::kReverse && !timeSpent->HasPeriodPassed(3)
 		{
 			timeSpent->Reset();
 			//timeSpent->Start();
 			trapDoorSol->Set(DoubleSolenoid::Value::kReverse);
 			return true;
-		}
+		}*/
 	}
 	else if(timeSpent->HasPeriodPassed(3))
 	{

@@ -230,24 +230,24 @@ void Lift::liftRobot(bool button)
 		{
 			if(liftStopOne->Get() || liftStopTwo->Get())//was or changed 2/15/2017
 			{
-				//leftCimMotor->Set(0);
-				//rightCimMotor->Set(0);
-				//liftStatus = 1;
+				leftCimMotor->Set(0);
+				rightCimMotor->Set(0);
+				liftStatus = 1;
 
 
-				timeSpent->Start();
+				/*timeSpent->Start();
 				if(timeSpent->HasPeriodPassed(0))
 				{
 					leftCimMotor->Set(0);
 					rightCimMotor->Set(0);
 					liftStatus = 1;
-				}
+				}*/
 			}
 			else
 			{
 
-				timeSpent->Stop();
-				timeSpent->Reset();
+				//timeSpent->Stop();
+				//timeSpent->Reset();
 
 
 				leftCimMotor->Set(0.75);
@@ -264,8 +264,9 @@ void Lift::liftRobot(bool button)
 		{
 			leftCimMotor->Set(0);
 			rightCimMotor->Set(0);
-			liftStatus = 2;
+			liftStatus = 0;
 		}
+		/*
 		else if(button && liftStatus == 2)
 		{
 			leftCimMotor->Set(0.75);
@@ -277,7 +278,7 @@ void Lift::liftRobot(bool button)
 			leftCimMotor->Set(0);
 			rightCimMotor->Set(0);
 			liftStatus = 0;
-		}
+		}*/
 	/*}
 	else if(button)
 	{

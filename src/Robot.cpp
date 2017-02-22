@@ -43,6 +43,7 @@ public:
 		power = new PowerDistributionPanel();
 
 		auton = new Autonomous(gears, nvxDrive, encDrive, pxyDrive, drive);
+		autoini = false;
 
 		//CameraServer::GetInstance()->StartAutomaticCapture();
 	}
@@ -77,10 +78,20 @@ public:
 		drive->getCANTalon()->SetEncPosition(0);
 		drive->getCANTalonLeft()->SetEncPosition(0);
 		auton->autoReset();
+		printf("\n\nautoinit done\n\n");
 	}
 
 	void AutonomousPeriodic()
 	{
+		if(!autoini)
+		{
+			nvxDrive->reset();
+			encDrive->reset();
+			lift->reset();
+			auton->autoReset();
+			autoini = true;
+		}
+
 		drive->drive(0,0);
 		SmartDashboard::PutNumber("Encoder", drive->getCANTalon()->GetEncPosition());
 		SmartDashboard::PutNumber("encoder two", drive->getCANTalonLeft()->GetEncPosition());
@@ -102,7 +113,7 @@ public:
 			Wait(1);
 		}*/
 		auton->auto3();
-		gears->trapDoor();
+		//gears->trapDoor();
 		drive->updateAllMotors();
 	}
 
@@ -227,6 +238,7 @@ private:
 	Autonomous* auton;
 
 	PowerDistributionPanel* power;
+	bool autoini;
 };
 
 START_ROBOT_CLASS(Robot)
