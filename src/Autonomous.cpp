@@ -616,7 +616,7 @@ void Autonomous::gearsReset()
 void Autonomous::autoReset()
 {
 	autoSteps = 0;
-	printf("\n\nreset Auto Setps\n\n");
+	printf("\n\nreset Auto Steps\n\n");
 }
 
 #endif /*AUTONOMOUS*/
